@@ -13,6 +13,10 @@ const ProfileCard = props => {
           }}
           style={styles.profilePic}
         />
+        <Image
+          source={require('../public/inset.png')}
+          style={[styles.profilePic, {position: 'absolute', zIndex: 0}]}
+        />
         <View style={styles.profileDescription}>
           <Text style={styles.profilePicTitle}>Taylor</Text>
           <Chip
