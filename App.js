@@ -5,6 +5,7 @@ import Home from './routes/Home';
 import Setup from './routes/Setup';
 import Interests from './routes/Interests';
 import Match from './routes/Match';
+import ProfileSetup from './routes/ProfileSetup';
 
 const Stack = createNativeStackNavigator();
 
@@ -19,6 +20,7 @@ function App() {
         <Stack.Screen name="Setup" component={Setup} />
         <Stack.Screen name="Interests" component={Interests} />
         <Stack.Screen name="Match" component={Match} />
+        <Stack.Screen name="ProfileSetup" component={ProfileSetup} />
       </Stack.Navigator>
     </NavigationContainer>
   );

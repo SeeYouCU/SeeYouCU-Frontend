@@ -59,7 +59,7 @@ export default function ProfileSetup({navigation}) {
 
       <Text>Graduation year</Text>
 
-      <Button title="Next"/>
+      <Button title="Next" />
     </View>
   );
 }
