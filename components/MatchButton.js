@@ -19,18 +19,18 @@ const MatchButton = () => {
     clearTimeout(timeoutRef.current);
     if (isHeld) {
       setIsHeld(false);
-      console.log('rejected!');
+      console.log('rejected');
     } else {
-      console.log('accepted!');
+      console.log('accepted');
     }
     setIsHeld(false);
   };
 
   return (
-    <View style={[{position: 'absolute', zIndex: 1}, styles.buttonArea]}>
+    <View style={[{position: 'absolute', zIndex: 1, right: 0, bottom: 0}, styles.buttonArea]}>
       <TouchableNativeFeedback onPressIn={handlePressIn} onPressOut={handlePressOut} background={
         Platform.OS === 'android'
-          ? TouchableNativeFeedback.Ripple('rgba(140, 140, 140, 0.1)', false)
+          ? TouchableNativeFeedback.Ripple('rgba(140, 140, 140, 0.2)', false)
           : undefined
       }>
         <View
@@ -50,14 +50,21 @@ const MatchButton = () => {
 
 const styles = StyleSheet.create({
   buttonArea: {
-    height: Dimensions.get('window').width * 0.4,
-    width: Dimensions.get('window').width * 0.4,
+    height: Dimensions.get('window').width * 0.3,
+    width: Dimensions.get('window').width * 0.3,
     borderRadius: 100,
     borderWidth: 5,
     borderColor: 'white',
     justifyContent: 'center',
     alignItems: 'center',
-    overflow: 'hidden',
+    overflow: 'hidden',    
+    shadowOffset: {
+      width: 0,
+      height: 10,
+    },
+    shadowRadius: 10,
+    shadowColor: 'black',
+    elevation: 10,
   },
 });
 

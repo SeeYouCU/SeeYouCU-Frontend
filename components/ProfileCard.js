@@ -2,6 +2,7 @@ import * as React from 'react';
 import {StyleSheet, View, Text, Image} from 'react-native';
 import Icon from 'react-native-vector-icons/SimpleLineIcons';
 import Chip from './Chip';
+import MatchButton from './MatchButton';
 
 const ProfileCard = props => {
   return (
@@ -27,18 +28,21 @@ const ProfileCard = props => {
           />
         </View>
       </View>
-      <Text style={styles.profileFont1}>
-        <Icon name="user" size={15} />
-        &nbsp;&nbsp;{props.nickname}, {props.age}
-      </Text>
-      <Text style={styles.profileFont1}>
-        <Icon name="graduation" size={15} style={{marginRight: 20}} />
-        &nbsp;&nbsp;{props.faculty} ({props.major})
-      </Text>
-      <Text style={styles.profileFont1}>
-        <Icon name="info" size={15} />
-        &nbsp;&nbsp;Chula 104
-      </Text>
+      <View style={styles.profileGrid}>
+        <Text style={styles.profileFont1}>
+          <Icon name="user" size={15} />
+          &nbsp;&nbsp;{props.nickname}, {props.age}
+        </Text>
+        <Text style={styles.profileFont1}>
+          <Icon name="graduation" size={15} style={{marginRight: 20}} />
+          &nbsp;&nbsp;{props.faculty} ({props.major})
+        </Text>
+        <Text style={styles.profileFont1}>
+          <Icon name="info" size={15} />
+          &nbsp;&nbsp;Chula 104
+        </Text>
+        <MatchButton />
+      </View>
       <Text style={styles.profileFont2}>Taylor said,</Text>
       <Text style={styles.profileFont3}>"{props.bio}"</Text>
       <Text style={styles.profileFont2}>Interests</Text>

@@ -1,13 +1,14 @@
 import * as React from 'react';
 import {View, StyleSheet, Dimensions, ImageBackground} from 'react-native';
 import ProfileCard from '../components/ProfileCard';
-import MatchButton from '../components/MatchButton';
+import Input from '../components/Input';
 
 export default function Match() {
   return (
     <ImageBackground
       source={require('../public/bg.png')}
       style={styles.container}>
+      <Input isSearch='true' placeholder='Search' style={{margin: '5%'}} />
       <ProfileCard
         src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/191125_Taylor_Swift_at_the_2019_American_Music_Awards.png/440px-191125_Taylor_Swift_at_the_2019_American_Music_Awards.png"
         nickname="Taylor"
@@ -25,9 +26,6 @@ export default function Match() {
           'Science',
         ]}
       />
-      <View style={styles.matchButton}>
-        <MatchButton />
-      </View>
     </ImageBackground>
   );
 }
@@ -38,10 +36,5 @@ const styles = StyleSheet.create({
     height: Dimensions.get('window').height,
     width: Dimensions.get('window').width,
     flex: 1,
-  },
-  matchButton: {
-    position: 'relative',
-    top: '50%', 
-    left: '50%',
   },
 });

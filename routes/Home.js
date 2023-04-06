@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {Button, Dimensions, StyleSheet, ImageBackground} from 'react-native';
-import MatchButton from '../components/MatchButton';
+import Input from '../components/Input';
 
 export default function Home({ navigation }) {
   return (
@@ -9,7 +9,6 @@ export default function Home({ navigation }) {
       style={styles.container}>
       <Button title="Go to Match" onPress={() => navigation.navigate('Match')} />
       <Button title="Go to ProfileSetup" onPress={() => navigation.navigate('ProfileSetup')} />
-      <MatchButton />
     </ImageBackground>
   );
 }
