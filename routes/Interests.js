@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useState} from 'react';
 import {
   Text,
   View,
@@ -8,8 +8,9 @@ import {
   StyleSheet,
   ImageBackground,
   Image,
+  TouchableOpacity,
 } from 'react-native';
-import {useForm, Controller} from 'react-hook-form';
+import {useForm} from 'react-hook-form';
 
 export default function Interests({navigation}) {
   const {
@@ -27,31 +28,50 @@ export default function Interests({navigation}) {
     navigation.navigate('Match');
   };
 
-  const intrArray = [
+  const interests = [
     {
       key: 'AerobicDance',
       title: 'Aerobic Dance',
-      img: '',
+      isSelected: false,
     },
     {
       key: 'Acting',
       title: 'Acting',
-      img: '',
+      isSelected: false,
     },
     {
       key: 'Anime',
       title: 'Anime',
-      img: '',
+      isSelected: false,
     },
   ];
 
+  const [selectedIntr, setSelectedIntr] = useState([]);
+
+  const toggleSelection = key => {
+    const index = interests.findIndex(item => item.key === key);
+    const newInterests = [...interests];
+    newInterests[index].isSelected = !newInterests[index].isSelected;
+    setSelectedIntr(
+      newInterests.filter(item => item.isSelected).map(item => item.key),
+    );
+    if (!newInterests[index].isSelected) {
+      newInterests[index].isSelected = false;
+    }
+  };
+
   const intrList = () => {
-    return intrArray.map(element => {
+    return interests.map((item, index) => {
+      const intrIcon = selectedIntr.includes(item.key)
+        ? require('../public/checked.png')
+        : require('../public/anime.png');
       return (
-        <View key={element.key} style={styles.interest}>
-          <Image source={require('../public/anime.png')} />
-          <Text style={styles.h3}>{element.title}</Text>
-        </View>
+        <TouchableOpacity key={index} onPress={() => toggleSelection(item.key)}>
+          <View style={styles.interest}>
+            <Image source={intrIcon} />
+            <Text style={styles.h3}>{item.title}</Text>
+          </View>
+        </TouchableOpacity>
       );
     });
   };
@@ -60,28 +80,18 @@ export default function Interests({navigation}) {
     <ImageBackground
       source={require('../public/bg.png')}
       style={styles.container}>
-      <View>
-        {/* <Button title="Back" onPress={() => navigation.goBack()} /> */}
-        <Text style={styles.h1}>Pick Your Top 5 Interests</Text>
-        <Text>(Will be search bar)</Text>
-        <View style={styles.content}>{intrList()}</View>
-        <View style={styles.content}>{intrList()}</View>
-        <View style={styles.content}>{intrList()}</View>
-        <View style={styles.content}>{intrList()}</View>
-        <Controller
-          control={control}
-          rules={{
-            required: true,
-          }}
-          render={({field: {onChange, onBlur, value}}) => (
-            <TextInput onBlur={onBlur} onChangeText={onChange} value={value} />
-          )}
-          name="interests"
-        />
-        {errors.firstName && <Text>This is required.</Text>}
-
-        <Button title="Done" onPress={handleSubmit(onSubmit)} />
+      {/* <Button title="Back" onPress={() => navigation.goBack()} /> */}
+      <Text style={styles.h1}>Pick Your Top 5 Interests</Text>
+      <Text style={styles.search}>Search</Text>
+      <View style={styles.interestPan}>
+        <View style={styles.row}>{intrList()}</View>
+        <View style={styles.row}>{intrList()}</View>
+        <View style={styles.row}>{intrList()}</View>
+        <View style={styles.row}>{intrList()}</View>
       </View>
+      <TouchableOpacity onPress={handleSubmit(onSubmit)}>
+        <Text style={styles.btn}>Next {'>'}</Text>
+      </TouchableOpacity>
     </ImageBackground>
   );
 }
@@ -93,6 +103,9 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width,
     flex: 1,
   },
+  interestPan: {
+    alignItems: 'center',
+  },
   h1: {
     paddingTop: 0.08 * Dimensions.get('window').width,
     fontSize: 24,
@@ -100,7 +113,14 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: 700,
   },
-  content: {
+  search: {
+    backgroundColor: '#ffffff',
+    borderRadius: 10,
+    margin: 0.03 * Dimensions.get('window').width,
+    paddingLeft: 0.04 * Dimensions.get('window').width,
+    padding: 0.01 * Dimensions.get('window').width,
+  },
+  row: {
     flexDirection: 'row',
   },
   h3: {
@@ -115,5 +135,12 @@ const styles = StyleSheet.create({
     width: 0.3 * Dimensions.get('window').width,
     margin: 0.01 * Dimensions.get('window').width,
     padding: 0.01 * Dimensions.get('window').width,
+  },
+  btn: {
+    textAlign: 'right',
+    paddingRight: 0.05 * Dimensions.get('window').width,
+    color: '#155E6D',
+    fontSize: 20,
+    fontWeight: 600,
   },
 });
