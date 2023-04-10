@@ -1,8 +1,10 @@
 import * as React from 'react';
 import { Text, View, TextInput, Button } from "react-native";
 import { useForm, Controller } from "react-hook-form";
+import { Picker } from '@react-native-picker/picker';
 
 export default function Setup({navigation}) {
+  const [selectedLanguage, setSelectedLanguage] = React.useState();
   const { control, handleSubmit, formState: { errors } } = useForm({
     defaultValues: {
       firstName: '',
@@ -17,7 +19,7 @@ export default function Setup({navigation}) {
 
   return (
     <View>
-      <Button title="Back" onPress={() => navigation.goBack()} />
+    <Button title="Back" onPress={() => navigation.goBack()} />
       <Text>Set Up Your Profile Page</Text>
       <Text>First Name</Text>
       <Controller
@@ -39,7 +41,7 @@ export default function Setup({navigation}) {
       <Controller
         control={control}
         rules={{
-         maxLength: 100,
+          required: true,
         }}
         render={({ field: { onChange, onBlur, value } }) => (
           <TextInput
@@ -50,8 +52,45 @@ export default function Setup({navigation}) {
         )}
         name="lastName"
       />
+
       <Text>Faculty</Text>
+      <Controller
+        control={control}
+        rules={{
+         required: true,
+        }}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <Picker
+            selectedValue={selectedLanguage}
+            onValueChange={(itemValue, itemIndex) =>
+            setSelectedLanguage(itemValue)
+          }>
+            <Picker.Item label="Java" value="java" />
+            <Picker.Item label="JavaScript" value="js" />
+          </Picker>
+        )}
+        name="faculty"
+      />
+
       <Text>Major</Text>
+      <Controller
+        control={control}
+        rules={{
+         required: true,
+        }}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <Picker
+            selectedValue={selectedLanguage}
+            onValueChange={(itemValue, itemIndex) =>
+            setSelectedLanguage(itemValue)
+          }>
+            <Picker.Item label="Java" value="java" />
+            <Picker.Item label="JavaScript" value="js" />
+          </Picker>
+        )}
+        name="Major"
+      />
+
       <Text>Graduated Year</Text>
 
       <Button title="Next" onPress={handleSubmit(onSubmit)} />
