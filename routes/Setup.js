@@ -25,6 +25,7 @@ export default function Setup({navigation}) {
   return (
     <ImageBackground source={require('../public/bg.png')} style={styles.container}>
     <SafeAreaView style={styles.container}>
+    <Button title="Back" onPress={() => navigation.goBack()} />
     <View>
       <Text>Set Up Your Profile Page</Text>
       <Text>First Name</Text>
@@ -93,8 +94,11 @@ export default function Setup({navigation}) {
             onValueChange={(itemValue, itemIndex) =>
             setSelectedLanguage(itemValue)
           }>
-            <Picker.Item label="Java" value="java" />
-            <Picker.Item label="JavaScript" value="js" />
+            <Picker.Item label="2023" value="2023" />
+            <Picker.Item label="2024" value="2024" />
+            <Picker.Item label="2025" value="2025" />
+            <Picker.Item label="2026" value="2026" />
+            <Picker.Item label="Other" value="9999" />
           </Picker>
         )}
         name="yearGraduated"
@@ -114,8 +118,8 @@ export default function Setup({navigation}) {
             setSelectedLanguage(itemValue)
           }>
             {
-              getFacultyAll().array.forEach(element => {
-                <Picker.Item label={element.name_en} value={element}/>
+              getFacultyAll().map( (ele, i) => {
+                return ( <Picker.Item key={i} label={ele.name_en} value={ele.name_en}/> )
               })
             }
           </Picker>

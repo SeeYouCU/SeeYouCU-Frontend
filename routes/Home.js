@@ -10,7 +10,8 @@ export default function Home({ navigation }) {
       source={require('../public/bg.png')}
       style={styles.container}>
       <Button title="Go to Match" onPress={() => navigation.navigate('Match')} />
-      <Button title="Go to ProfileSetup" onPress={() => navigation.navigate('ProfileSetup')} />
+      <Button title="Go to Setup" onPress={() => navigation.navigate('Setup')} />
+      <Button title="Go to Login" onPress={() => navigation.navigate('Login')} />
     </ImageBackground>
   );
 }

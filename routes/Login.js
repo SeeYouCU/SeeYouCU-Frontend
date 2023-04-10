@@ -53,7 +53,7 @@ React.useEffect(() => {
 
   return (
     <ImageBackground source={require('../public/bg.png')} styles={styles.bg}>
-
+    <Button title="Back" onPress={() => navigation.goBack()} />
     <View style={styles.container}>
       <View style={styles.logoContainer}>
       <Image source={require('../public/logo.png')} styles={styles.logo}/>

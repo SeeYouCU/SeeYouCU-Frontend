@@ -1,12 +1,13 @@
 import * as React from 'react';
-import {StyleSheet, Dimensions, ImageBackground} from 'react-native';
+import {StyleSheet, Dimensions, ImageBackground, Button} from 'react-native';
 import ProfileCard from '../components/ProfileCard';
 
-export default function Match() {
+export default function Match({navigation}) {
   return (
     <ImageBackground
       source={require('../public/bg.png')}
       style={styles.container}>
+      <Button title="Back" onPress={() => navigation.goBack()} />
       <ProfileCard
         src='https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/191125_Taylor_Swift_at_the_2019_American_Music_Awards.png/440px-191125_Taylor_Swift_at_the_2019_American_Music_Awards.png'
         nickname='Taylor'
