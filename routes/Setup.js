@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Text, View, TextInput, Button, ImageBackground, StyleSheet, SafeAreaView } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { Picker } from '@react-native-picker/picker';
+import { getFacultyAll } from '../locales/faculty';
 
 export default function Setup({navigation}) {
   const [selectedLanguage, setSelectedLanguage] = React.useState();
@@ -112,8 +113,11 @@ export default function Setup({navigation}) {
             onValueChange={(itemValue, itemIndex) =>
             setSelectedLanguage(itemValue)
           }>
-            <Picker.Item label="Java" value="java" />
-            <Picker.Item label="JavaScript" value="js" />
+            {
+              getFacultyAll().array.forEach(element => {
+                <Picker.Item label={element.name_en} value={element}/>
+              })
+            }
           </Picker>
         )}
         name="faculty"
