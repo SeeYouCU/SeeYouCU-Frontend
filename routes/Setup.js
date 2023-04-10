@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Text, View, TextInput, Button } from "react-native";
+import { Text, View, TextInput, Button, ImageBackground, StyleSheet, SafeAreaView } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { Picker } from '@react-native-picker/picker';
 
@@ -8,7 +8,11 @@ export default function Setup({navigation}) {
   const { control, handleSubmit, formState: { errors } } = useForm({
     defaultValues: {
       firstName: '',
-      lastName: ''
+      lastName: '',
+      goal: '',
+      yearGraduated: 2023,
+      faculty: '',
+      major: '',
     }
   });
 
@@ -18,8 +22,9 @@ export default function Setup({navigation}) {
   }
 
   return (
+    <ImageBackground source={require('../public/bg.png')} style={styles.container}>
+    <SafeAreaView style={styles.container}>
     <View>
-    <Button title="Back" onPress={() => navigation.goBack()} />
       <Text>Set Up Your Profile Page</Text>
       <Text>First Name</Text>
       <Controller
@@ -29,6 +34,7 @@ export default function Setup({navigation}) {
         }}
         render={({ field: { onChange, onBlur, value } }) => (
           <TextInput
+            style={styles.textInput}
             onBlur={onBlur}
             onChangeText={onChange}
             value={value}
@@ -37,6 +43,7 @@ export default function Setup({navigation}) {
         name="firstName"
       />
       {errors.firstName && <Text>This is required.</Text>}
+
       <Text>Last Name</Text>
       <Controller
         control={control}
@@ -45,6 +52,7 @@ export default function Setup({navigation}) {
         }}
         render={({ field: { onChange, onBlur, value } }) => (
           <TextInput
+            style={styles.textInput}
             onBlur={onBlur}
             onChangeText={onChange}
             value={value}
@@ -52,6 +60,45 @@ export default function Setup({navigation}) {
         )}
         name="lastName"
       />
+      {errors.lastName && <Text>This is required.</Text>}
+
+      <Text>Goal</Text>
+      <Controller
+        control={control}
+        rules={{
+          required: true,
+        }}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <TextInput
+            style={styles.textInput}
+            onBlur={onBlur}
+            onChangeText={onChange}
+            value={value}
+          />
+        )}
+        name="goal"
+      />
+      {errors.goal && <Text>This is required.</Text>}
+
+      <Text>Year Graduated</Text>
+      <Controller
+        control={control}
+        rules={{
+         required: true,
+        }}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <Picker
+            selectedValue={selectedLanguage}
+            onValueChange={(itemValue, itemIndex) =>
+            setSelectedLanguage(itemValue)
+          }>
+            <Picker.Item label="Java" value="java" />
+            <Picker.Item label="JavaScript" value="js" />
+          </Picker>
+        )}
+        name="yearGraduated"
+      />
+      {errors.yearGraduated && <Text>This is required.</Text>}
 
       <Text>Faculty</Text>
       <Controller
@@ -71,6 +118,7 @@ export default function Setup({navigation}) {
         )}
         name="faculty"
       />
+      {errors.faculty && <Text>This is required.</Text>}
 
       <Text>Major</Text>
       <Controller
@@ -88,10 +136,9 @@ export default function Setup({navigation}) {
             <Picker.Item label="JavaScript" value="js" />
           </Picker>
         )}
-        name="Major"
+        name="major"
       />
-
-      <Text>Graduated Year</Text>
+      {errors.major && <Text>This is required.</Text>}
 
       <Button title="Next" onPress={handleSubmit(onSubmit)} />
       {/* <Button
@@ -100,5 +147,21 @@ export default function Setup({navigation}) {
       />
       <Button title="Go to Home" onPress={() => navigation.navigate('Home')} /> */}
     </View>
+    </SafeAreaView>
+    </ImageBackground>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    height: '100%',
+    width: '100%',
+    justifyContent: 'center',
+    alignContent: 'center',
+  },
+  textInput: {
+    borderColor: 'black',
+    borderWidth: 1,
+    borderRadius: 5
+  },
+});

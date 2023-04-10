@@ -54,24 +54,24 @@ React.useEffect(() => {
   return (
     <ImageBackground source={require('../public/bg.png')} styles={styles.bg}>
 
-      <View style={styles.container}>
-        <View style={styles.logoContainer}>
-        <Image source={require('../public/logo.png')} styles={styles.logo}/>
-        </View>
-      
-        <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <View style={styles.logoHandContainerLeft} />
-          <View styles={styles.logoHandContainer}>
-            <Image source={require('../public/logohand.png')} styles={styles.logoHand}/>
-          </View>
-          <View style={styles.logoHandContainerRight}/>
-        </View>
-      
-        <TouchableOpacity style={styles.buttonStyle} onPress={this._signIn} activeOpacity={0.5}>
-          <Image source={require('../public/google.png')} style={styles.buttonImageIconStyle}/>
-          <Text style={styles.buttonTextStyle}>Continue with Google</Text>
-        </TouchableOpacity>
+    <View style={styles.container}>
+      <View style={styles.logoContainer}>
+      <Image source={require('../public/logo.png')} styles={styles.logo}/>
       </View>
+      
+      <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        <View style={styles.logoHandContainerLeft} />
+        <View styles={styles.logoHandContainer}>
+          <Image source={require('../public/logohand.png')} styles={styles.logoHand}/>
+        </View>
+        <View style={styles.logoHandContainerRight}/>
+      </View>
+      
+      <TouchableOpacity style={styles.buttonStyle} onPress={this._signIn} activeOpacity={0.5}>
+        <Image source={require('../public/google.png')} style={styles.buttonImageIconStyle}/>
+        <Text style={styles.buttonTextStyle}>Continue with Google</Text>
+      </TouchableOpacity>
+    </View>
       
     </ImageBackground>
   );
