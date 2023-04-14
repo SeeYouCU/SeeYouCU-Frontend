@@ -18,7 +18,14 @@ export default function Interests({navigation}) {
     handleSubmit,
     formState: {errors},
   } = useForm({
+  const {
+    control,
+    handleSubmit,
+    formState: {errors},
+  } = useForm({
     defaultValues: {
+      interests: '',
+    },
       interests: '',
     },
   });

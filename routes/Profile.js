@@ -1,13 +1,13 @@
 import * as React from 'react';
 import {
   View,
+  Text,
   StyleSheet,
   Dimensions,
   ImageBackground,
   TouchableOpacity,
 } from 'react-native';
 import ProfileCard from '../components/ProfileCard';
-import Input from '../components/Input';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function Match({navigation}) {
@@ -15,26 +15,11 @@ export default function Match({navigation}) {
     <ImageBackground
       source={require('../public/bg.png')} // TODO: vinze - slider button
       style={styles.container}>
-      <View style={styles.header}>
-        <Input isSearch="true" placeholder="Search" style={{flex: 1}} />
-        <TouchableOpacity
-          onPress={() => navigation.navigate('Home')} // TODO: reroute later
-          style={styles.iconButton}>
-          <Icon name="notifications-outline" size={25} color="#155e6d" />
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('Home')} // TODO: reroute later
-          style={styles.iconButton}>
-          <Icon name="chatbox-ellipses-outline" size={25} color="#155e6d" />
-        </TouchableOpacity>
-      </View>
-      <View style={{marginTop: '2%', marginBottom: '2%'}}>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('Home')} // TODO: reroute later
-          style={styles.iconButton2}>
-          <Icon name="people" size={20} color="#155e6d" />
-        </TouchableOpacity>
-      </View>
+      <TouchableOpacity
+        onPress={() => navigation.navigate('Home')} // TODO: reroute later
+        style={styles.iconButton}>
+        <Icon name="chevron-back" size={32} color="#155e6d" />
+      </TouchableOpacity>
       <ProfileCard
         src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/191125_Taylor_Swift_at_the_2019_American_Music_Awards.png/440px-191125_Taylor_Swift_at_the_2019_American_Music_Awards.png"
         nickname="Taylor"
@@ -42,7 +27,9 @@ export default function Match({navigation}) {
         age="22"
         faculty="BALAC"
         major="French"
+        class="Chula 104"
         bio="Hi, I'm the problem it's me"
+        isMatch="false"
         interests={[
           'Basketball',
           'Tennis',
@@ -50,8 +37,20 @@ export default function Match({navigation}) {
           'Comics',
           'Music',
           'Science',
-        ]} // TODO: tata - nav footer below
+        ]}
       />
+      <View
+        style={{
+          width: 'auto',
+          height: '10%',
+        }}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('Home')}
+          style={[styles.button2, {width: '100%', height: '70%'}]} // TODO: reroute later, fix dimensions?
+        >
+          <Text style={styles.buttonText}>Chat</Text>
+        </TouchableOpacity>
+      </View>
     </ImageBackground>
   );
 }
@@ -64,25 +63,28 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: '5%',
   },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: '0%',
-  },
   iconButton: {
     height: 'auto',
-    padding: 0,
-    margin: '1%',
+    marginBottom: '2%',
   },
-  iconButton2: {
-    height: 'auto',
+  button2: {
+    marginTop: '5%',
+    borderColor: 'white',
+    borderRadius: 60,
+    backgroundColor: '#8ddee1',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 0,
-    margin: '1%',
-    borderRadius: 40,
-    width: 30,
-    height: 30,
-    backgroundColor: '#c3eaeb',
+    shadowOffset: {
+      width: 0,
+      height: 20,
+    },
+    shadowRadius: 2,
+    shadowColor: 'black',
+    elevation: 4,
+  },
+  buttonText: {
+    color: 'white',
+    fontWeight: '500',
+    fontSize: 20,
   },
 });
