@@ -1,9 +1,16 @@
 import * as React from 'react';
 import {StyleSheet, View, Text, Image} from 'react-native';
 
-const Chip = (props) => {
+const Chip = props => {
   return (
-    <View style={[{borderColor: props.borderColor, backgroundColor: props.backgroundColor}, styles.chipContainer]}>
+    <View
+      style={[
+        {
+          borderColor: props.borderColor,
+          backgroundColor: props.backgroundColor,
+        },
+        styles.chipContainer,
+      ]}>
       <Text style={{color: props.textColor}}>{props.label}</Text>
     </View>
   );

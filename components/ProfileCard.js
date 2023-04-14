@@ -19,7 +19,7 @@ const ProfileCard = props => {
           style={[styles.profilePic, {position: 'absolute', zIndex: 0}]}
         />
         <View style={styles.profileDescription}>
-          <Text style={styles.profilePicTitle}>Taylor</Text>
+          <Text style={styles.profilePicTitle}>{props.nickname}</Text>
           <Chip
             textColor="#102c3d"
             borderColor="#06bac0"
@@ -39,11 +39,11 @@ const ProfileCard = props => {
         </Text>
         <Text style={styles.profileFont1}>
           <Icon name="info" size={15} />
-          &nbsp;&nbsp;Chula 104
+          &nbsp;&nbsp;{props.class}
         </Text>
-        <MatchButton />
+        {props.isMatch == 'true' ? <MatchButton /> : null}
       </View>
-      <Text style={styles.profileFont2}>Taylor said,</Text>
+      <Text style={styles.profileFont2}>{props.nickname} said,</Text>
       <Text style={styles.profileFont3}>"{props.bio}"</Text>
       <Text style={styles.profileFont2}>Interests</Text>
       <View style={styles.interestMap}>
@@ -70,7 +70,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'white',
     borderRadius: 20,
-    margin: '5%',
     padding: '5%',
   },
   profileFrame: {

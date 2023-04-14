@@ -1,18 +1,22 @@
 import * as React from 'react';
-import { Text, View, TextInput, Button } from "react-native";
-import { useForm, Controller } from "react-hook-form";
+import {Text, View, TextInput, Button} from 'react-native';
+import {useForm, Controller} from 'react-hook-form';
 
 export default function Interests({navigation}) {
-  const { control, handleSubmit, formState: { errors } } = useForm({
+  const {
+    control,
+    handleSubmit,
+    formState: {errors},
+  } = useForm({
     defaultValues: {
-      interests: ''
-    }
+      interests: '',
+    },
   });
 
   const onSubmit = data => {
     console.log(data);
-    navigation.navigate('Match')
-  }
+    navigation.navigate('Match');
+  };
 
   return (
     <View>
@@ -22,14 +26,10 @@ export default function Interests({navigation}) {
       <Controller
         control={control}
         rules={{
-         required: true,
+          required: true,
         }}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput
-            onBlur={onBlur}
-            onChangeText={onChange}
-            value={value}
-          />
+        render={({field: {onChange, onBlur, value}}) => (
+          <TextInput onBlur={onBlur} onChangeText={onChange} value={value} />
         )}
         name="interests"
       />
