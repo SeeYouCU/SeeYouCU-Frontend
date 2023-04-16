@@ -2,10 +2,11 @@ import * as React from 'react';
 import { Text, View, TextInput, Button, ImageBackground, StyleSheet, SafeAreaView } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { Picker } from '@react-native-picker/picker';
+import LinearGradient from 'react-native-linear-gradient';
 import { getFacultyAll } from '../locales/faculty';
 
 export default function Setup({navigation}) {
-  const [selectedLanguage, setSelectedLanguage] = React.useState();
+  const [selectedFaculty, setSelectedFaculty] = React.useState('-');
   const { control, handleSubmit, formState: { errors } } = useForm({
     defaultValues: {
       firstName: '',
@@ -26,9 +27,9 @@ export default function Setup({navigation}) {
     <ImageBackground source={require('../public/bg.png')} style={styles.container}>
     <SafeAreaView style={styles.container}>
     <Button title="Back" onPress={() => navigation.goBack()} />
-    <View>
-      <Text>Set Up Your Profile Page</Text>
-      <Text>First Name</Text>
+    <Text style={styles.titleHeader}>Set Up Your Profile Page</Text>
+    <View style={styles.inputContainer}>
+      <Text style={styles.inputTitle}>First Name</Text>
       <Controller
         control={control}
         rules={{
@@ -46,7 +47,7 @@ export default function Setup({navigation}) {
       />
       {errors.firstName && <Text>This is required.</Text>}
 
-      <Text>Last Name</Text>
+      <Text style={styles.inputTitle}>Last Name</Text>
       <Controller
         control={control}
         rules={{
@@ -64,7 +65,7 @@ export default function Setup({navigation}) {
       />
       {errors.lastName && <Text>This is required.</Text>}
 
-      <Text>Goal</Text>
+      <Text style={styles.inputTitle}>Goal</Text>
       <Controller
         control={control}
         rules={{
@@ -82,53 +83,59 @@ export default function Setup({navigation}) {
       />
       {errors.goal && <Text>This is required.</Text>}
 
-      <Text>Year Graduated</Text>
+      <Text style={styles.inputTitle}>Year Graduated</Text>
       <Controller
         control={control}
         rules={{
          required: true,
         }}
         render={({ field: { onChange, onBlur, value } }) => (
+          <View style={styles.pickerContainer}>
           <Picker
-            selectedValue={selectedLanguage}
+            style={styles.picker}
+            selectedValue={selectedFaculty}
             onValueChange={(itemValue, itemIndex) =>
-            setSelectedLanguage(itemValue)
+            setSelectedFaculty(itemValue)
           }>
-            <Picker.Item label="2023" value="2023" />
-            <Picker.Item label="2024" value="2024" />
-            <Picker.Item label="2025" value="2025" />
-            <Picker.Item label="2026" value="2026" />
-            <Picker.Item label="Other" value="9999" />
+            <Picker.Item style={styles.pickerItem} label="2023" value="2023" />
+            <Picker.Item style={styles.pickerItem} label="2024" value="2024" />
+            <Picker.Item style={styles.pickerItem} label="2025" value="2025" />
+            <Picker.Item style={styles.pickerItem} label="2026" value="2026" />
+            <Picker.Item style={styles.pickerItem} label="Other" value="9999" />
           </Picker>
+          </View>
         )}
         name="yearGraduated"
       />
       {errors.yearGraduated && <Text>This is required.</Text>}
 
-      <Text>Faculty</Text>
+      <Text style={styles.inputTitle}>Faculty</Text>
       <Controller
         control={control}
         rules={{
          required: true,
         }}
         render={({ field: { onChange, onBlur, value } }) => (
+          <View style={styles.pickerContainer}>
           <Picker
-            selectedValue={selectedLanguage}
+            style={styles.picker}
+            selectedValue={selectedFaculty}
             onValueChange={(itemValue, itemIndex) =>
-            setSelectedLanguage(itemValue)
+            setSelectedFaculty(itemValue)
           }>
             {
               getFacultyAll().map( (ele, i) => {
-                return ( <Picker.Item key={i} label={ele.name_en} value={ele.name_en}/> )
+                return ( <Picker.Item style={styles.pickerItem} key={i} label={ele.name_en} value={ele.name_en}/> )
               })
             }
           </Picker>
+          </View>
         )}
         name="faculty"
       />
       {errors.faculty && <Text>This is required.</Text>}
 
-      <Text>Major</Text>
+      <Text style={styles.inputTitle}>Major</Text>
       <Controller
         control={control}
         rules={{
@@ -146,13 +153,13 @@ export default function Setup({navigation}) {
       />
       {errors.major && <Text>This is required.</Text>}
 
-      <Button title="Next" onPress={handleSubmit(onSubmit)} />
       {/* <Button
         title="Go to Setup again"
         onPress={() => navigation.push('Setup')}
       />
       <Button title="Go to Home" onPress={() => navigation.navigate('Home')} /> */}
     </View>
+    <Button title="Next" onPress={handleSubmit(onSubmit)} />
     </SafeAreaView>
     </ImageBackground>
   );
@@ -165,9 +172,59 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignContent: 'center',
   },
+  titleHeader: {
+    color: '#155E6D',
+    fontWeight: 700,
+    fontSize: 20,
+    textAlign: 'center',
+  },
+  inputContainer: {
+    background: 'linear-gradient(113.96deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.5) 100%)',
+    justifyContent: 'center',
+    height: '60%',
+    padding: '10%',
+    margin: '5%',
+    borderColor: 'black',
+    borderWidth: 2,
+    borderRadius: 25
+  },
+  inputTitle: {
+    color: '#155E6D',
+    fontSize: 14,
+    fontWeight: 500,
+    textAlign: 'left',
+    paddingBottom: 3,
+    paddingTop: 5,
+  },
   textInput: {
     borderColor: 'black',
     borderWidth: 1,
-    borderRadius: 5
+    borderRadius: 5,
+    width: '100%',
+    height: 24,
+    color: '#155E6D',
+    paddingLeft: 5,
+    paddingRight: 5,
+    paddingTop: 0,
+    paddingBottom: 0,
+    alignSelf: 'center'
   },
+  pickerContainer: {
+    borderColor: 'black',
+    borderWidth: 1,
+    borderRadius: 5,
+    justifyItems: 'center',
+    alignItems: 'center',
+    width: '40%'
+  },
+  picker: {
+    color: '#155E6D',
+    width: '100%',
+    height: 30,
+    alignItems: 'center'
+  },
+  pickerItem: {
+    fontSize: 14,
+    
+  }
 });
