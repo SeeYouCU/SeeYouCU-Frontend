@@ -10,8 +10,7 @@ import {
 } from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
 import {Picker} from '@react-native-picker/picker';
-import {getFacultyAll} from '../locales/faculty';
-import UploadProfile from '../components/UploadProfile'; 
+import UploadProfile from '../components/UploadProfile';
 
 export default function Setup({navigation}) {
   const {
@@ -28,6 +27,97 @@ export default function Setup({navigation}) {
       major: '',
     },
   });
+
+  const faculty = [
+    {
+      name_en: 'Graduate School',
+    },
+    {
+      name_en: 'Engineering',
+    },
+    {
+      name_en: 'Arts',
+    },
+    {
+      name_en: 'Science',
+    },
+    {
+      name_en: 'Political Science',
+    },
+    {
+      name_en: 'Architecture',
+    },
+    {
+      name_en: 'Commerce And Accountancy',
+    },
+    {
+      name_en: 'Education',
+    },
+    {
+      name_en: 'Communication Arts',
+    },
+    {
+      name_en: 'Economics',
+    },
+    {
+      name_en: 'Medicine',
+    },
+    {
+      name_en: 'Veterinary Science',
+    },
+    {
+      name_en: 'Dentistry',
+    },
+    {
+      name_en: 'Pharmaceutical Sciences',
+    },
+    {
+      name_en: 'Law',
+    },
+    {
+      name_en: 'Fine And Applied Arts',
+    },
+    {
+      name_en: 'Nursing',
+    },
+    {
+      name_en: 'Allied Health Sciences',
+    },
+    {
+      name_en: 'Psychology',
+    },
+    {
+      name_en: 'Sports Science',
+    },
+    {
+      name_en: 'School of Agricultural Resources',
+    },
+    {
+      name_en: 'College of Population Studies',
+    },
+    {
+      name_en: 'College of Public Health Sciences',
+    },
+    {
+      name_en: 'Language Institute',
+    },
+    {
+      name_en: 'School of Integrated Innovation',
+    },
+    {
+      name_en: 'Sasin Graduate Institute of Business Administion',
+    },
+    {
+      name_en: 'The Sirindhorn Thai Language Institute',
+    },
+  ];
+
+  const currentYear = new Date().getFullYear() + 6; // 6 year MDCU program
+
+  const years = [];
+  for (let i = currentYear; i >= 1917; i--) {
+    years.push(i.toString());
+  }
 
   const onSubmit = data => {
     console.log(data);
@@ -94,7 +184,7 @@ export default function Setup({navigation}) {
           name="goal"
         />
         {errors.goal && <Text>This is required.</Text>}
-        <Text style={styles.inputTitle}>Year Graduated</Text>
+        <Text style={styles.inputTitle}>Year of Graduation</Text>
         <Controller
           control={control}
           rules={{
@@ -106,31 +196,16 @@ export default function Setup({navigation}) {
                 style={styles.picker}
                 selectedValue={value}
                 onValueChange={onChange}>
-                <Picker.Item
-                  style={styles.pickerItem}
-                  label="2023"
-                  value="2023"
-                />
-                <Picker.Item
-                  style={styles.pickerItem}
-                  label="2024"
-                  value="2024"
-                />
-                <Picker.Item
-                  style={styles.pickerItem}
-                  label="2025"
-                  value="2025"
-                />
-                <Picker.Item
-                  style={styles.pickerItem}
-                  label="2026"
-                  value="2026"
-                />
-                <Picker.Item
-                  style={styles.pickerItem}
-                  label="Other"
-                  value="9999"
-                />
+                {years.map((item, i) => {
+                  return (
+                    <Picker.Item
+                      style={styles.pickerItem}
+                      key={i}
+                      label={item}
+                      value={item}
+                    />
+                  );
+                })}
               </Picker>
             </View>
           )}
@@ -149,13 +224,13 @@ export default function Setup({navigation}) {
                 style={styles.picker}
                 selectedValue={value}
                 onValueChange={onChange}>
-                {getFacultyAll().map((ele, i) => {
+                {faculty.map((item, i) => {
                   return (
                     <Picker.Item
                       style={styles.pickerItem}
                       key={i}
-                      label={ele.name_en}
-                      value={ele.name_en}
+                      label={item.name_en}
+                      value={item.name_en}
                     />
                   );
                 })}
