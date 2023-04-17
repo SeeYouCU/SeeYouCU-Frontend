@@ -75,7 +75,6 @@ const styles = StyleSheet.create({
     margin: '1%',
   },
   iconButton2: {
-    height: 'auto',
     alignItems: 'center',
     justifyContent: 'center',
     padding: 0,
