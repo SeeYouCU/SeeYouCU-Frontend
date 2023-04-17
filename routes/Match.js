@@ -9,6 +9,7 @@ import {
 import ProfileCard from '../components/ProfileCard';
 import Input from '../components/Input';
 import Icon from 'react-native-vector-icons/Ionicons';
+import NavFooter from '../components/NavFooter';
 
 export default function Match({navigation}) {
   return (
@@ -16,7 +17,7 @@ export default function Match({navigation}) {
       source={require('../public/bg.png')} // TODO: vinze - slider button
       style={styles.container}>
       <View style={styles.header}>
-        <Input isSearch="true" placeholder="Search" style={{flex: 1}} />
+        <Input isSearch="true" placeholder="Search" style={{ flex: 1 }} />
         <TouchableOpacity
           onPress={() => navigation.navigate('Home')} // TODO: reroute later
           style={styles.iconButton}>
@@ -28,7 +29,7 @@ export default function Match({navigation}) {
           <Icon name="chatbox-ellipses-outline" size={25} color="#155e6d" />
         </TouchableOpacity>
       </View>
-      <View style={{marginTop: '2%', marginBottom: '2%'}}>
+      <View style={{ marginTop: '2%', marginBottom: '2%' }}>
         <TouchableOpacity
           onPress={() => navigation.navigate('Home')} // TODO: reroute later
           style={styles.iconButton2}>
@@ -52,6 +53,7 @@ export default function Match({navigation}) {
           'Science',
         ]} // TODO: tata - nav footer below
       />
+      <NavFooter />
     </ImageBackground>
   );
 }
