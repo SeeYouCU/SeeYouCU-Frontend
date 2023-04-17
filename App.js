@@ -4,8 +4,9 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Home from './routes/Home';
 import Interests from './routes/Interests';
 import Match from './routes/Match';
-import ProfileSetup from './routes/ProfileSetup';
+import Login from './routes/Login';
 import Profile from './routes/Profile';
+import Setup from './routes/Setup';
 
 const Stack = createNativeStackNavigator();
 
@@ -19,7 +20,8 @@ function App() {
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Interests" component={Interests} />
         <Stack.Screen name="Match" component={Match} />
-        <Stack.Screen name="ProfileSetup" component={ProfileSetup} />
+        <Stack.Screen name="Setup" component={Setup} />
+        <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Profile" component={Profile} />
       </Stack.Navigator>
     </NavigationContainer>
