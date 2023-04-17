@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
-export default function NavFooter() {
+export default function NavigationFooter() {
   const navigation = useNavigation();
   const icons = [
     {
@@ -20,25 +20,25 @@ export default function NavFooter() {
     {
       key: 1,
       source: require('../public/event.png'),
-      route: 'Interests', //TODO: change route later
+      route: 'Home', //TODO: change route later
       isSelected: false,
     },
     {
       key: 2,
       source: require('../public/item.png'),
-      route: 'Profile', //TODO: change route later
+      route: 'Home', //TODO: change route later
       isSelected: false,
     },
     {
       key: 3,
       source: require('../public/qr.png'),
-      route: 'Interests', //TODO: change route later
+      route: 'Home', //TODO: change route later
       isSelected: false,
     },
     {
       key: 4,
       source: require('../public/settings.png'),
-      route: 'ProfileSetup',
+      route: 'Home', //TODO: change route later
       isSelected: false,
     },
   ];
@@ -85,11 +85,13 @@ export default function NavFooter() {
 
 const styles = StyleSheet.create({
   container: {
+    bottom: 0,
     flexDirection: 'row',
-    backgroundColor: '#ffffff',
-    width: 0.9 * Dimensions.get('window').width, // maybe a bit weird because idk how to fix padding in Match page
-    height: 0.08 * Dimensions.get('window').height,
-    borderRadius: 24,
+    backgroundColor: 'rgba(250, 253, 252, 0.9)',
+    width: Dimensions.get('window').width,
+    height: '10%',
+    borderTopLeftRadius: 40,
+    borderTopRightRadius: 40,
     alignItems: 'center',
     justifyContent: 'center',
   },
