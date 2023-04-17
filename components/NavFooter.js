@@ -1,19 +1,45 @@
 import React, {useState} from 'react';
-import {StyleSheet, View, Dimensions, Image} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Dimensions,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
 
 const NavFooter = props => {
-  const [images, setImages] = useState([
-    {source: require('../public/handshake.png'), key: 'handshake'},
-    {source: require('../public/event.png'), key: 'event'},
-    {source: require('../public/item.png'), key: 'item'},
-    {source: require('../public/qr.png'), key: 'qr'},
-    {source: require('../public/settings.png'), key: 'settings'},
+  const [icons, setIcons] = useState([
+    {source: require('../public/handshake.png'), key: 0},
+    {source: require('../public/event.png'), key: 1},
+    {source: require('../public/item.png'), key: 2},
+    {source: require('../public/qr.png'), key: 3},
+    {source: require('../public/settings.png'), key: 4},
   ]);
 
+  const iconSelected = [
+    require('../public/handshake1.png'),
+    require('../public/event1.png'),
+    require('../public/item1.png'),
+    require('../public/qr1.png'),
+    require('../public/settings1.png'),
+  ];
+
+  const iconList = () => {
+    return icons.map(icon => {
+      return (
+        <TouchableOpacity
+          key={icon.key}
+          onPress={() => handleIconPress(icon.key)}>
+          <Image source={icon.source} style={styles.icon} />
+        </TouchableOpacity>
+      );
+    });
+  };
+
   const handleIconPress = key => {
-    const newImages = [...images];
-    newImages[key].source = require('../public/handshake1.png');
-    setImages(newImages);
+    const newIcons = [...icons];
+    newIcons[key].source = iconSelected[key];
+    setIcons(newIcons);
   };
 
   return (
@@ -23,14 +49,7 @@ const NavFooter = props => {
       <Image source={require('../public/item.png')} style={styles.icon} />
       <Image source={require('../public/qr.png')} style={styles.icon} />
       <Image source={require('../public/settings.png')} style={styles.icon} /> */}
-      {images.map(({source, key}) => (
-        <Image
-          key={key}
-          source={source}
-          style={styles.icon}
-          onPress={() => handleIconPress(key)}
-        />
-      ))}
+      {iconList()}
     </View>
   );
 };
