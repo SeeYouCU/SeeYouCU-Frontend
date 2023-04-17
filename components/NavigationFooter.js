@@ -52,7 +52,7 @@ const NavigationFooter = props => {
   ];
 
   const [selectedIcon, setSelectedIcon] = useState([]);
-  
+
   const handleIconPress = key => {
     const newIcons = [...icons];
     newIcons[key].isSelected = !newIcons[key].isSelected;
@@ -68,7 +68,7 @@ const NavigationFooter = props => {
   var curr = props.currentPage;
 
   useEffect(() => {
-    handleIconPress(curr)
+    handleIconPress(curr);
   }, []);
 
   const iconList = () => {
@@ -87,7 +87,7 @@ const NavigationFooter = props => {
   };
 
   return <View style={styles.container}>{iconList()}</View>;
-}
+};
 
 const styles = StyleSheet.create({
   container: {
