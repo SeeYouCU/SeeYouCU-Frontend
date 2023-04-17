@@ -16,14 +16,6 @@ public class MainApplication extends Application implements ReactApplication {
   private final ReactNativeHost mReactNativeHost =
       new DefaultReactNativeHost(this) {
         @Override
-        protected List<ReactPackage> getPackages() {
-          return Arrays.<ReactPackage>asList(
-            new MainReactPackage(),
-            new LinearGradientPackage()
-          );
-        }
-
-        @Override
         public boolean getUseDeveloperSupport() {
           return BuildConfig.DEBUG;
         }
@@ -34,6 +26,7 @@ public class MainApplication extends Application implements ReactApplication {
           List<ReactPackage> packages = new PackageList(this).getPackages();
           // Packages that cannot be autolinked yet can be added manually here, for example:
           // packages.add(new MyReactNativePackage());
+          packages.add(new LinearGradientPackage());
           return packages;
         }
 
