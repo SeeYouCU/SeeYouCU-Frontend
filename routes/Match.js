@@ -44,6 +44,8 @@ export default function Match({navigation}) {
           age="22"
           faculty="BALAC"
           major="French"
+          class="Chula 104"
+          isMatch="true"
           bio="Hi, I'm the problem it's me"
           interests={[
             'Basketball',
@@ -55,7 +57,7 @@ export default function Match({navigation}) {
           ]}
         />
       </View>
-      <NavigationFooter style={{position: 'relative'}} />
+      <NavigationFooter currentPage="0" style={{position: 'relative'}} />
     </ImageBackground>
   );
 }

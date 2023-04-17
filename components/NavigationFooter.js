@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   View,
@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
-export default function NavigationFooter() {
+const NavigationFooter = props => {
   const navigation = useNavigation();
   const icons = [
     {
@@ -52,7 +52,7 @@ export default function NavigationFooter() {
   ];
 
   const [selectedIcon, setSelectedIcon] = useState([]);
-
+  
   const handleIconPress = key => {
     const newIcons = [...icons];
     newIcons[key].isSelected = !newIcons[key].isSelected;
@@ -64,6 +64,12 @@ export default function NavigationFooter() {
       newIcons[key].isSelected = false;
     }
   };
+
+  var curr = props.currentPage;
+
+  useEffect(() => {
+    handleIconPress(curr)
+  }, []);
 
   const iconList = () => {
     return icons.map(icon => {
@@ -99,3 +105,5 @@ const styles = StyleSheet.create({
     margin: 0.06 * Dimensions.get('window').width,
   },
 });
+
+export default NavigationFooter;
