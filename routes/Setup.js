@@ -13,7 +13,6 @@ import {Picker} from '@react-native-picker/picker';
 import {getFacultyAll} from '../locales/faculty';
 
 export default function Setup({navigation}) {
-  const [selectedFaculty, setSelectedFaculty] = React.useState('-');
   const {
     control,
     handleSubmit,
@@ -23,7 +22,7 @@ export default function Setup({navigation}) {
       firstName: '',
       lastName: '',
       goal: '',
-      yearGraduated: 2023,
+      yearGraduated: '',
       faculty: '',
       major: '',
     },
@@ -97,14 +96,12 @@ export default function Setup({navigation}) {
           rules={{
             required: true,
           }}
-          render={({field: {onChange, onBlur, value}}) => (
+          render={({field: {onChange, value}}) => (
             <View style={styles.pickerContainer}>
               <Picker
                 style={styles.picker}
-                selectedValue={selectedFaculty}
-                onValueChange={(itemValue, itemIndex) =>
-                  setSelectedFaculty(itemValue)
-                }>
+                selectedValue={value}
+                onValueChange={onChange}>
                 <Picker.Item
                   style={styles.pickerItem}
                   label="2023"
@@ -142,14 +139,12 @@ export default function Setup({navigation}) {
           rules={{
             required: true,
           }}
-          render={({field: {onChange, onBlur, value}}) => (
+          render={({field: {onChange, value}}) => (
             <View style={styles.pickerContainer}>
               <Picker
                 style={styles.picker}
-                selectedValue={selectedFaculty}
-                onValueChange={(itemValue, itemIndex) =>
-                  setSelectedFaculty(itemValue)
-                }>
+                selectedValue={value}
+                onValueChange={onChange}>
                 {getFacultyAll().map((ele, i) => {
                   return (
                     <Picker.Item
@@ -190,7 +185,7 @@ export default function Setup({navigation}) {
           height: '10%',
         }}>
         <TouchableOpacity
-          onPress={() => navigation.navigate('Home')}
+          onPress={handleSubmit(onSubmit)}
           style={[styles.button2, {width: '100%', height: '70%'}]} // TODO: reroute later, fix dimensions?
         >
           <Text style={styles.buttonText}>Next</Text>
@@ -220,23 +215,24 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255, 255, 255, 0.4)',
     borderRadius: 20,
     padding: '5%',
+    overflow: 'scroll',
   },
   inputTitle: {
     color: '#155E6D',
     fontSize: 14,
     fontWeight: 500,
     textAlign: 'left',
-    paddingBottom: 3,
-    paddingTop: 5,
+    paddingVertical: 5,
   },
   textInput: {
     borderColor: 'black',
     borderWidth: 1,
     borderRadius: 5,
     width: '100%',
-    height: 24,
+    height: 30,
     color: '#155E6D',
-    alignSelf: 'center',
+    padding: 0, // needed to override default padding
+    paddingHorizontal: 20,
   },
   pickerContainer: {
     borderColor: 'black',
