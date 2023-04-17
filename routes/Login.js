@@ -3,7 +3,6 @@ import * as React from 'react';
 import {
   Text,
   View,
-  Button,
   StyleSheet,
   ImageBackground,
   Image,
@@ -23,12 +22,12 @@ _signIn = async () => {
   } catch (error) {
     if (error.code === statusCodes.SIGN_IN_CANCELLED) {
       // user cancelled the login flow
-      alert('Cancel');
+      alert('Sign in cancelled');
     } else if (error.code === statusCodes.IN_PROGRESS) {
-      alert('Signin in progress');
+      alert('In progress');
       // operation (f.e. sign in) is in progress already
     } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-      alert('PLAY_SERVICES_NOT_AVAILABLE');
+      alert('Play services not available');
       // play services not available or outdated
     } else {
       // some other error happened
@@ -36,43 +35,47 @@ _signIn = async () => {
   }
 };
 
-
 export default function Login({navigation}) {
+  const [loggedIn, setloggedIn] = React.useState(false);
+  const [userInfo, setuserInfo] = React.useState([]);
 
-const [loggedIn, setloggedIn] = React.useState(false);
-const [userInfo, setuserInfo] = React.useState([]);
-
-React.useEffect(() => {
-   GoogleSignin.configure({
-     scopes: ['email'], // what API you want to access on behalf of the user, default is email and profile
-     webClientId:
-       '418977770929-g9ou7r9eva1u78a3anassxxxxxxx.apps.googleusercontent.com', // client ID of type WEB for your server (needed to verify user ID and offline access)
-     offlineAccess: true, // if you want to access Google API on behalf of the user FROM YOUR SERVER
-   });
- }, []);
+  React.useEffect(() => {
+    GoogleSignin.configure({
+      scopes: ['email'], // what API you want to access on behalf of the user, default is email and profile
+      webClientId:
+        '418977770929-g9ou7r9eva1u78a3anassxxxxxxx.apps.googleusercontent.com', // client ID of type WEB for your server (needed to verify user ID and offline access)
+      offlineAccess: true, // if you want to access Google API on behalf of the user FROM YOUR SERVER
+    });
+  }, []);
 
   return (
-    <ImageBackground source={require('../public/bg.png')} styles={styles.bg}>
-    <Button title="Back" onPress={() => navigation.goBack()} />
-    <View style={styles.container}>
-      <View style={styles.logoContainer}>
-      <Image source={require('../public/logo.png')} styles={styles.logo}/>
-      </View>
-      
-      <View style={{flexDirection: 'row', alignItems: 'center'}}>
-        <View style={styles.logoHandContainerLeft} />
-        <View styles={styles.logoHandContainer}>
-          <Image source={require('../public/logohand.png')} styles={styles.logoHand}/>
+    <ImageBackground
+      source={require('../public/bg-home.png')}
+      styles={styles.bg}>
+      <View style={styles.container}>
+        <View style={styles.logoContainer}>
+          <Image source={require('../public/logo.png')} styles={styles.logo} />
         </View>
-        <View style={styles.logoHandContainerRight}/>
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <View style={styles.logoHandContainer} />
+          <Image
+            source={require('../public/logohand.png')}
+            styles={styles.logoHand}
+          />
+          <View style={styles.logoHandContainer} />
+        </View>
+
+        <TouchableOpacity
+          style={styles.buttonStyle}
+          onPress={this._signIn}
+          activeOpacity={0.5}>
+          <Image
+            source={require('../public/google.png')}
+            style={styles.buttonImageIconStyle}
+          />
+          <Text style={styles.buttonTextStyle}>Continue with Google</Text>
+        </TouchableOpacity>
       </View>
-      
-      <TouchableOpacity style={styles.buttonStyle} onPress={this._signIn} activeOpacity={0.5}>
-        <Image source={require('../public/google.png')} style={styles.buttonImageIconStyle}/>
-        <Text style={styles.buttonTextStyle}>Continue with Google</Text>
-      </TouchableOpacity>
-    </View>
-      
     </ImageBackground>
   );
 }
@@ -83,53 +86,47 @@ const styles = StyleSheet.create({
     width: '100%',
     justifyContent: 'center',
     alignContent: 'center',
+    padding: '10%',
   },
   logoContainer: {
     alignSelf: 'center',
-    justifyContent: 'center',
-    alignContent: 'center',
     margin: 15,
   },
   logoHandContainer: {
-
-  },
-  logoHandContainerLeft: {
     flex: 1,
     height: 3,
     backgroundColor: 'white',
-    marginLeft: '10%',
-    marginRight: '2%',
-  },
-  logoHandContainerRight: {
-    flex: 1,
-    height: 3,
-    backgroundColor: 'white',
-    marginLeft:'2%',
-    marginRight: '10%',
+    margin: '2%',
   },
   buttonStyle: {
     flexDirection: 'row',
     alignSelf: 'center',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'transparent',
-    width: '80%',
+    width: '100%',
     borderWidth: 2,
-    borderColor: '#fff',
-    height: 40,
-    borderRadius: 5,
-    margin: 10,
+    borderColor: 'white',
+    borderRadius: 10,
+    height: '5%',
+    margin: '5%',
+    backgroundColor: '#a3e1e3',
+    shadowOffset: {
+      width: 0,
+      height: 20,
+    },
+    shadowRadius: 2,
+    shadowColor: 'black',
+    elevation: 4,
   },
   buttonImageIconStyle: {
-    padding: 10,
-    margin:  0,
     height: 15,
     width: 15,
     resizeMode: 'stretch',
   },
   buttonTextStyle: {
-    color: '#000',
-    marginBottom: 0,
+    color: '#155e6d',
+    fontWeight: '800',
+    fontSize: 13,
     marginLeft: 10,
   },
 });
