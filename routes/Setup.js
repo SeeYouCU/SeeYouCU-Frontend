@@ -11,6 +11,7 @@ import {
 import {useForm, Controller} from 'react-hook-form';
 import {Picker} from '@react-native-picker/picker';
 import {getFacultyAll} from '../locales/faculty';
+import UploadProfile from '../components/UploadProfile'; 
 
 export default function Setup({navigation}) {
   const {
@@ -38,6 +39,9 @@ export default function Setup({navigation}) {
       source={require('../public/bg.png')}
       style={styles.container}>
       <Text style={styles.titleHeader}>Set Up Your Profile Page</Text>
+      <View style={{alignSelf: 'center'}}>
+        <UploadProfile />
+      </View>
       <View style={styles.inputContainer}>
         <Text style={styles.inputTitle}>First Name</Text>
         <Controller
@@ -212,9 +216,11 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     flex: 1,
+    justifyContent: 'space-between',
     backgroundColor: 'rgba(255, 255, 255, 0.4)',
     borderRadius: 20,
     padding: '5%',
+    marginTop: '5%',
     overflow: 'scroll',
   },
   inputTitle: {
