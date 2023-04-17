@@ -6,32 +6,39 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 
-const NavFooter = props => {
+export default function NavFooter() {
+  const navigation = useNavigation();
   const icons = [
     {
       key: 0,
       source: require('../public/handshake.png'),
+      route: 'Match',
       isSelected: false,
     },
     {
       key: 1,
       source: require('../public/event.png'),
+      route: 'Interests', //TODO: change route later
       isSelected: false,
     },
     {
       key: 2,
       source: require('../public/item.png'),
+      route: 'Profile', //TODO: change route later
       isSelected: false,
     },
     {
       key: 3,
       source: require('../public/qr.png'),
+      route: 'Interests', //TODO: change route later
       isSelected: false,
     },
     {
       key: 4,
       source: require('../public/settings.png'),
+      route: 'ProfileSetup',
       isSelected: false,
     },
   ];
@@ -49,6 +56,7 @@ const NavFooter = props => {
   const handleIconPress = key => {
     const newIcons = [...icons];
     newIcons[key].isSelected = !newIcons[key].isSelected;
+    navigation.navigate(newIcons[key].route);
     setSelectedIcon(
       newIcons.filter(icon => icon.isSelected).map(icon => icon.key),
     );
@@ -73,7 +81,7 @@ const NavFooter = props => {
   };
 
   return <View style={styles.container}>{iconList()}</View>;
-};
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -89,5 +97,3 @@ const styles = StyleSheet.create({
     margin: 0.06 * Dimensions.get('window').width,
   },
 });
-
-export default NavFooter;
