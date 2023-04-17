@@ -1,5 +1,6 @@
 import * as React from 'react';
 import {Button, Dimensions, StyleSheet, ImageBackground} from 'react-native';
+import {View, Text} from 'react-native';
 
 export default function Home({navigation}) {
   return (
@@ -15,12 +16,16 @@ export default function Home({navigation}) {
         onPress={() => navigation.navigate('Match')}
       />
       <Button
-        title="Go to ProfileSetup"
-        onPress={() => navigation.navigate('ProfileSetup')}
+        title="Go to Setup"
+        onPress={() => navigation.navigate('Setup')}
       />
       <Button
         title="Go to Profile"
         onPress={() => navigation.navigate('Profile')}
+      />
+      <Button
+        title="Go to Login"
+        onPress={() => navigation.navigate('Login')}
       />
     </ImageBackground>
   );
