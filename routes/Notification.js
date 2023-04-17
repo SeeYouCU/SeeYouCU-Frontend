@@ -1,18 +1,37 @@
 import * as React from 'react';
 import {View, Dimensions, Text, StyleSheet, ImageBackground} from 'react-native';
 
-export default function Home({navigation}) {
+const notiInfo = [
+  {
+  icon: "gift", 
+  title: "exchange request", 
+  description: "fah requested to exchange 'books'",
+  time: "16:57"
+  },
+  {
+    icon: "hands", 
+    title: "new friend", 
+    description: "apple sent a high five", 
+    time: "16:57"
+  },
+];
+
+export default function Notification({navigation}) {
   return (
     <ImageBackground
       source={require('../public/bg.png')}
       style={styles.container}>
         <Text>Notification</Text>
-        <View>
-            <Text>Icon</Text>
-            <Text>Header</Text>
-            <Text>Subheader</Text>
-            <Text>Time</Text>
-        </View>
+        {notiInfo.map((item) => {
+          return (
+            <View>
+              <Text>{item.icon}</Text>
+              <Text>{item.title}</Text>
+              <Text>{item.description}</Text>
+              <Text>{item.time}</Text>
+            </View>
+          )
+        })}
     </ImageBackground>
   );
 }
