@@ -30,6 +30,8 @@ export default function Home({navigation}) {
       <Button
         title="Go to Add Tags"
         onPress={() => navigation.navigate('Tags')}
+        title="Go to Notification"
+        onPress={() => navigation.navigate('Notification')}
       />
     </ImageBackground>
   );
