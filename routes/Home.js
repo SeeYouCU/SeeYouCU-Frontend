@@ -27,6 +27,10 @@ export default function Home({navigation}) {
         title="Go to Login"
         onPress={() => navigation.navigate('Login')}
       />
+      <Button
+        title="Go to Add Tags"
+        onPress={() => navigation.navigate('Tags')}
+      />
     </ImageBackground>
   );
 }

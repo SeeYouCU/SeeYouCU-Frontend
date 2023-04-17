@@ -7,6 +7,7 @@ import Match from './routes/Match';
 import Login from './routes/Login';
 import Profile from './routes/Profile';
 import Setup from './routes/Setup';
+import Tags from './routes/Tags';
 
 const Stack = createNativeStackNavigator();
 
@@ -23,6 +24,7 @@ function App() {
         <Stack.Screen name="Setup" component={Setup} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Profile" component={Profile} />
+        <Stack.Screen name="Tags" component={Tags} />
       </Stack.Navigator>
     </NavigationContainer>
   );
