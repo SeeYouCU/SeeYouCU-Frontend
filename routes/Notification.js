@@ -60,8 +60,7 @@ const styles = StyleSheet.create({
     lineHeight: 28,
   },
   notiContainer: {
-    borderColor: 'black',
-    borderWidth: 1,
+    backgroundColor: 'rgba(255, 255, 255, 0.4)',
     marginTop: '2%',
     marginBottom: '2%',
     padding: '2%',
