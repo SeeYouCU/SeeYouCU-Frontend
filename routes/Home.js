@@ -1,6 +1,5 @@
 import * as React from 'react';
 import {Button, Dimensions, StyleSheet, ImageBackground} from 'react-native';
-import {View, Text} from 'react-native';
 
 export default function Home({navigation}) {
   return (
@@ -8,29 +7,47 @@ export default function Home({navigation}) {
       source={require('../public/bg.png')}
       style={styles.container}>
       <Button
-        title="Go to Interests"
+        title="Interests"
         onPress={() => navigation.navigate('Interests')}
       />
+      <Button title="Match" onPress={() => navigation.navigate('Match')} />
+      <Button title="Setup" onPress={() => navigation.navigate('Setup')} />
+      <Button title="Profile" onPress={() => navigation.navigate('Profile')} />
+      <Button title="Login" onPress={() => navigation.navigate('Login')} />
+      <Button title="Add Tags" onPress={() => navigation.navigate('Tags')} />
       <Button
-        title="Go to Match"
-        onPress={() => navigation.navigate('Match')}
+        title="Event (owner view)"
+        onPress={() => {
+          navigation.navigate('Event', {
+            isOwner: true,
+          });
+        }}
       />
       <Button
-        title="Go to Setup"
-        onPress={() => navigation.navigate('Setup')}
+        title="Event (default view)"
+        onPress={() => {
+          navigation.navigate('Event');
+        }}
       />
       <Button
-        title="Go to Profile"
-        onPress={() => navigation.navigate('Profile')}
+        title="Item (owner view)"
+        onPress={() => {
+          navigation.navigate('Item', {
+            isOwner: true,
+          });
+        }}
       />
       <Button
-        title="Go to Login"
-        onPress={() => navigation.navigate('Login')}
+        title="Item (default view)"
+        onPress={() => {
+          navigation.navigate('Item');
+        }}
       />
       <Button
-        title="Go to Add Tags"
-        onPress={() => navigation.navigate('Tags')}
+        title="Exchange"
+        onPress={() => navigation.navigate('Exchange')}
       />
+      <Button title="Events" onPress={() => navigation.navigate('Events')} />
     </ImageBackground>
   );
 }

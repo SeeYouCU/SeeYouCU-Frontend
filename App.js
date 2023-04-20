@@ -8,6 +8,10 @@ import Login from './routes/Login';
 import Profile from './routes/Profile';
 import Setup from './routes/Setup';
 import Tags from './routes/Tags';
+import Event from './routes/Event';
+import Item from './routes/Item';
+import Exchange from './routes/Exchange';
+import Events from './routes/Events';
 
 const Stack = createNativeStackNavigator();
 
@@ -25,6 +29,18 @@ function App() {
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="Tags" component={Tags} />
+        <Stack.Screen
+          name="Event"
+          component={Event}
+          initialParams={(isOwner = false)}
+        />
+        <Stack.Screen
+          name="Item"
+          component={Item}
+          initialParams={(isOwner = false)}
+        />
+        <Stack.Screen name="Exchange" component={Exchange} />
+        <Stack.Screen name="Events" component={Events} />
       </Stack.Navigator>
     </NavigationContainer>
   );

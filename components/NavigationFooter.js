@@ -20,13 +20,13 @@ const NavigationFooter = props => {
     {
       key: 1,
       source: require('../public/event.png'),
-      route: 'Home', //TODO: change route later
+      route: 'Event',
       isSelected: false,
     },
     {
       key: 2,
       source: require('../public/item.png'),
-      route: 'Home', //TODO: change route later
+      route: 'Item',
       isSelected: false,
     },
     {
@@ -51,31 +51,22 @@ const NavigationFooter = props => {
     require('../public/settings1.png'),
   ];
 
-  const [selectedIcon, setSelectedIcon] = useState([]);
-
   const handleIconPress = key => {
     const newIcons = [...icons];
     newIcons[key].isSelected = !newIcons[key].isSelected;
-    navigation.navigate(newIcons[key].route);
-    setSelectedIcon(
-      newIcons.filter(icon => icon.isSelected).map(icon => icon.key),
-    );
     if (!newIcons[key].isSelected) {
       newIcons[key].isSelected = false;
     }
+    navigation.navigate(newIcons[key].route);
   };
 
+  var iconSrc;
   var curr = props.currentPage;
-
-  useEffect(() => {
-    handleIconPress(curr);
-  }, []);
-
   const iconList = () => {
     return icons.map(icon => {
-      const iconSrc = !selectedIcon.includes(icon.key)
-        ? icon.source
-        : iconSelectedSrc[icon.key];
+      (curr.includes(icon.key))
+        ? iconSrc = iconSelectedSrc[icon.key]
+        : iconSrc = icon.source;
       return (
         <TouchableOpacity
           key={icon.key}
@@ -96,8 +87,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(250, 253, 252, 0.9)',
     width: Dimensions.get('window').width,
     height: '10%',
-    borderTopLeftRadius: 40,
-    borderTopRightRadius: 40,
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
     alignItems: 'center',
     justifyContent: 'center',
   },
