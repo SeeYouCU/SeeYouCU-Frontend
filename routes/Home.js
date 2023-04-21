@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {Button, Dimensions, StyleSheet, ImageBackground} from 'react-native';
 import UploadProfilePic from '../components/UploadProfilePic';
+import ToggleSwitch from '../components/ToggleSwitch';
 
 export default function Home({navigation}) {
   return (
@@ -16,6 +17,7 @@ export default function Home({navigation}) {
         onPress={() => navigation.navigate('ProfileSetup')}
       />
       <UploadProfilePic />
+      <ToggleSwitch rightTitle="Added You" leftTitle="Discover"></ToggleSwitch>
     </ImageBackground>
   );
 }
