@@ -139,7 +139,7 @@ export default function Interests({navigation}) {
       setSelectedInterest({
         data: temp.filter(item => JSON.stringify(item) != JSON.stringify(id)),
       });
-    navigation.navigate('Home') //TODO: remove later
+    navigation.navigate('Home'); //TODO: remove later
   };
 
   console.log(selectedInterest);

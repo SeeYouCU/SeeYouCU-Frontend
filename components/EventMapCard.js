@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {StyleSheet, View, Text, Image} from 'react-native';
+import {StyleSheet, View, Text, Image, Dimensions} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const EventMapCard = ({item, type}) => {
@@ -13,12 +13,12 @@ const EventMapCard = ({item, type}) => {
           style={styles.eventPic}
         />
       </View>
-      {type === 'event' ? (
+      <Text style={styles.eventPicTitle}>{item.title}</Text>
+      <Text style={styles.eventFont1}>
+        "{item.nickname}"&nbsp;{item.fullname}
+      </Text>
+      {type === 'item' ? (
         <View>
-          <Text style={styles.eventPicTitle}>{item.title}</Text>
-          <Text style={styles.eventFont1}>
-            "{item.nickname}"&nbsp;{item.fullname}
-          </Text>
           <Text style={styles.eventFont1}>
             Condition:&nbsp;
             <Text style={[styles.eventFont1, {fontWeight: '600'}]}>
@@ -42,10 +42,6 @@ const EventMapCard = ({item, type}) => {
             <Icon name="alarm" size={15} />
             &nbsp;&nbsp;{item.datetime}
           </Text>
-          <Text style={styles.eventFont1}>
-            <Icon name="map-marker-account-outline" size={15} />
-            &nbsp;&nbsp;{item.meetupLocation}
-          </Text>
         </View>
       )}
     </View>
@@ -60,7 +56,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: '5%',
     marginTop: '5%',
-    height: '35%',
+    height: Dimensions.get('window').height * 0.45,
   },
   eventFrame: {
     flex: 1,

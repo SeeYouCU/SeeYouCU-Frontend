@@ -16,36 +16,54 @@ import EventMapCard from '../components/EventMapCard';
 
 const data = [
   {
-    src: 'https://m.media-amazon.com/images/I/513gBS+AT2L._AC_UF1000,1000_QL80_.jpg',
-    title: 'Serway Physics',
+    src: 'https://cdn.sanity.io/images/rizm0do5/production/192f4adf3e8499902f5cb0d369b5730d7b538165-1440x900.jpg',
+    title: "Girl's Night Out",
     nickname: 'Vinze',
     fullname: 'Siriwat J.',
-    datePosted: '23 March 2023',
-    condition: 'New',
+    currentParticipants: '9',
+    maxParticipants: '12',
+    location: 'BEAM Thonglor',
+    datetime: '22:00 Today',
   },
   {
-    src: 'https://inwfile.com/s-fp/r8f2ig.jpg',
-    title: 'M5Stack',
+    src: 'https://cdn.sanity.io/images/rizm0do5/production/192f4adf3e8499902f5cb0d369b5730d7b538165-1440x900.jpg',
+    title: "Girl's Night Out",
     nickname: 'Vinze',
     fullname: 'Siriwat J.',
-    datePosted: '23 March 2023',
-    condition: 'New',
+    currentParticipants: '9',
+    maxParticipants: '12',
+    location: 'BEAM Thonglor',
+    datetime: '22:00 Today',
   },
   {
-    src: 'https://m.media-amazon.com/images/I/513gBS+AT2L._AC_UF1000,1000_QL80_.jpg',
-    title: 'Serway Physics',
+    src: 'https://cdn.sanity.io/images/rizm0do5/production/192f4adf3e8499902f5cb0d369b5730d7b538165-1440x900.jpg',
+    title: "Girl's Night Out",
     nickname: 'Vinze',
     fullname: 'Siriwat J.',
-    datePosted: '23 March 2023',
-    condition: 'New',
+    currentParticipants: '9',
+    maxParticipants: '12',
+    location: 'BEAM Thonglor',
+    datetime: '22:00 Today',
   },
   {
-    src: 'https://inwfile.com/s-fp/r8f2ig.jpg',
-    title: 'M5Stack',
+    src: 'https://cdn.sanity.io/images/rizm0do5/production/192f4adf3e8499902f5cb0d369b5730d7b538165-1440x900.jpg',
+    title: "Girl's Night Out",
     nickname: 'Vinze',
     fullname: 'Siriwat J.',
-    datePosted: '23 March 2023',
-    condition: 'New',
+    currentParticipants: '9',
+    maxParticipants: '12',
+    location: 'BEAM Thonglor',
+    datetime: '22:00 Today',
+  },
+  {
+    src: 'https://cdn.sanity.io/images/rizm0do5/production/192f4adf3e8499902f5cb0d369b5730d7b538165-1440x900.jpg',
+    title: "Girl's Night Out",
+    nickname: 'Vinze',
+    fullname: 'Siriwat J.',
+    currentParticipants: '9',
+    maxParticipants: '12',
+    location: 'BEAM Thonglor',
+    datetime: '22:00 Today',
   },
 ];
 
@@ -72,10 +90,10 @@ export default function Events({navigation}) {
           <View style={{paddingBottom: 0}}>
             {data.map(
               (
-                event,
+                item,
                 index, //TODO: detect length of padding needed?
               ) => (
-                <EventMapCard key={index} item={event} type={'item'} />
+                <EventMapCard key={index} item={item} type={'event'} />
               ),
             )}
           </View>

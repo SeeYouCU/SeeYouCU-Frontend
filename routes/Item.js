@@ -62,8 +62,7 @@ export default function Item({route, navigation}) {
             />
           </View>
         </ScrollView>
-        <View
-          style={styles.floatingButton}>
+        <View style={styles.floatingButton}>
           <TouchableOpacity
             onPress={() => navigation.navigate('Home')}
             style={[styles.button2, {width: '100%', height: '70%'}]} // TODO: reroute later, fix dimensions?
@@ -141,5 +140,5 @@ const styles = StyleSheet.create({
     marginBottom: '5%',
     justifyContent: 'center',
     paddingHorizontal: '7%',
-  }
+  },
 });

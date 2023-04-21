@@ -48,6 +48,7 @@ export default function Home({navigation}) {
         onPress={() => navigation.navigate('Exchange')}
       />
       <Button title="Events" onPress={() => navigation.navigate('Events')} />
+      <Button title="New Item" onPress={() => navigation.navigate('NewItem')} />
     </ImageBackground>
   );
 }
