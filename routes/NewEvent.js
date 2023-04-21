@@ -14,7 +14,7 @@ import {Picker} from '@react-native-picker/picker';
 import NavigationFooter from '../components/NavigationFooter';
 import Icon from 'react-native-vector-icons/AntDesign';
 
-export default function NewItem({navigation}) {
+export default function NewEvent({navigation}) {
   const {
     control,
     handleSubmit,
@@ -138,7 +138,7 @@ export default function NewItem({navigation}) {
             <Icon name="left" size={25} color="#155e6d" />
           </TouchableOpacity>
           <View style={styles.titleHeader}>
-            <Text style={styles.titleHeader}>New Item</Text>
+            <Text style={styles.titleHeader}>New Event</Text>
           </View>
           <View style={{width: 25}} />
         </View>
@@ -149,7 +149,7 @@ export default function NewItem({navigation}) {
           }}>
           <View style={styles.scroll}>
             <View
-              style={styles.itemCard}>
+              style={styles.eventCard}>
               <View style={{flexDirection: 'row'}}>
                 <Text style={styles.inputTitle}>Name</Text>
                 <Controller
@@ -175,7 +175,7 @@ export default function NewItem({navigation}) {
                   justifyContent: 'space-between',
                   marginVertical: '3%',
                 }}>
-                <Text style={styles.inputTitle}>Return</Text>
+                <Text style={styles.inputTitle}>Max Participants</Text>
                 <Controller
                   control={control}
                   rules={{
@@ -202,7 +202,7 @@ export default function NewItem({navigation}) {
                   )}
                   name="yearGraduated"
                 />
-                <Text style={styles.inputTitle}>Condition</Text>
+                <Text style={styles.inputTitle}>Date</Text>
                 <Controller
                   control={control}
                   rules={{
@@ -233,7 +233,7 @@ export default function NewItem({navigation}) {
                   (errors.yearGraduated && <Text>This is required.</Text>)}
               </View>
               <View style={{flexDirection: 'row'}}>
-                <Text style={styles.inputTitle}>Place of Purchase</Text>
+                <Text style={styles.inputTitle}>Event Location</Text>
                 <Controller
                   control={control}
                   rules={{
@@ -251,7 +251,7 @@ export default function NewItem({navigation}) {
                 />
               </View>
               <View style={{flexDirection: 'row', marginTop: '3%'}}>
-                <Text style={styles.inputTitle}>Date of Purchase</Text>
+                <Text style={styles.inputTitle}>Meet Up Location</Text>
                 <Controller //TODO: component later
                   control={control}
                   rules={{
@@ -367,7 +367,7 @@ export default function NewItem({navigation}) {
           </TouchableOpacity>
         </View>
       </View>
-      <NavigationFooter currentPage="2" />
+      <NavigationFooter currentPage="1" />
     </ImageBackground>
   );
 }
@@ -403,7 +403,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     flex: 1,
   },
-  itemCard: {
+  eventCard: {
     backgroundColor: 'rgba(255, 255, 255, 0.4)',
     borderWidth: 1,
     borderColor: 'white',

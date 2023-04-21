@@ -275,7 +275,8 @@ const styles = StyleSheet.create({
   },
   button2: {
     marginTop: '5%',
-    borderColor: 'white',
+    borderWidth: 1,
+    borderColor: '#ade7e9',
     borderRadius: 60,
     backgroundColor: '#8ddee1',
     alignItems: 'center',

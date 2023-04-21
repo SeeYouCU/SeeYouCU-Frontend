@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {StyleSheet, View, Text, Image, Dimensions} from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 const EventMapCard = ({item, type}) => {
   return (

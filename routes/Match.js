@@ -38,15 +38,15 @@ export default function Match({navigation}) {
           </TouchableOpacity>
         </View>
         <ProfileCard
-          src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/191125_Taylor_Swift_at_the_2019_American_Music_Awards.png/440px-191125_Taylor_Swift_at_the_2019_American_Music_Awards.png"
-          nickname="Taylor"
+          src="https://assets.entrepreneur.com/content/3x2/2000/1396294231-why-college-students-need-entrepreneurial-careers.jpg"
+          nickname="John"
           event="Finding a Friend"
           age="22"
-          faculty="BALAC"
+          faculty="Language Arts"
           major="French"
           class="Chula 104"
           isMatch="true"
-          bio="Hi, I'm the problem it's me"
+          bio="Nice to meet you!"
           interests={[
             'Basketball',
             'Tennis',

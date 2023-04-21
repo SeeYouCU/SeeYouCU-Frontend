@@ -13,6 +13,7 @@ import Item from './routes/Item';
 import Exchange from './routes/Exchange';
 import Events from './routes/Events';
 import NewItem from './routes/NewItem';
+import NewEvent from './routes/NewEvent';
 
 const Stack = createNativeStackNavigator();
 
@@ -43,6 +44,7 @@ function App() {
         <Stack.Screen name="Exchange" component={Exchange} />
         <Stack.Screen name="Events" component={Events} />
         <Stack.Screen name="NewItem" component={NewItem} />
+        <Stack.Screen name="NewEvent" component={NewEvent} />
       </Stack.Navigator>
     </NavigationContainer>
   );

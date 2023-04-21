@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {StyleSheet, View, Text, Image} from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Chip from './Chip';
 
 const EventCard = props => {

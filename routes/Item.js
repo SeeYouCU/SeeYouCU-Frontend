@@ -126,6 +126,8 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     shadowColor: 'black',
     elevation: 4,
+    borderWidth: 1,
+    borderColor: '#ade7e9',
   },
   buttonText: {
     color: 'white',

@@ -67,7 +67,8 @@ export default function Login({navigation}) {
 
         <TouchableOpacity
           style={styles.buttonStyle}
-          onPress={this._signIn}
+          // onPress={this._signIn} TODO
+          onPress={() => navigation.navigate('Setup')}
           activeOpacity={0.5}>
           <Image
             source={require('../public/google.png')}

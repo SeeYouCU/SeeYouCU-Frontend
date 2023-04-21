@@ -49,6 +49,7 @@ export default function Home({navigation}) {
       />
       <Button title="Events" onPress={() => navigation.navigate('Events')} />
       <Button title="New Item" onPress={() => navigation.navigate('NewItem')} />
+      <Button title="New Event" onPress={() => navigation.navigate('NewEvent')} />
     </ImageBackground>
   );
 }

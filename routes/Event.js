@@ -124,6 +124,8 @@ const styles = StyleSheet.create({
   },
   button2: {
     marginTop: '5%',
+    borderWidth: 1,
+    borderColor: '#ade7e9',
     borderColor: 'white',
     borderRadius: 60,
     backgroundColor: '#8ddee1',

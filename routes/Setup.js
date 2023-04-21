@@ -7,6 +7,7 @@ import {
   ImageBackground,
   StyleSheet,
   Dimensions,
+  ScrollView
 } from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
 import {Picker} from '@react-native-picker/picker';
@@ -112,6 +113,8 @@ export default function Setup({navigation}) {
     },
   ];
 
+  const [imageActive, setImageActive] = React.useState(false)
+
   const currentYear = new Date().getFullYear() + 6; // 6 year MDCU program
 
   const years = [];
@@ -130,9 +133,12 @@ export default function Setup({navigation}) {
       style={styles.container}>
       <Text style={styles.titleHeader}>Set Up Your Profile Page</Text>
       <View style={{alignSelf: 'center'}}>
-        <UploadProfile />
+        <TouchableOpacity onPress={() => setImageActive(true)}>
+          <UploadProfile isClicked={imageActive} src="https://img.freepik.com/premium-photo/young-beautiful-asian-college-student-girls-holding-book_102814-1429.jpg" />
+        </TouchableOpacity>
       </View>
-      <View style={styles.inputContainer}>
+      <ScrollView contentContainerStyle={{flexGrow: 1, paddingBottom: 200}}>
+          <View style={styles.inputContainer}>
         <Text style={styles.inputTitle}>First Name</Text>
         <Controller
           control={control}
@@ -258,6 +264,7 @@ export default function Setup({navigation}) {
         />
         {errors.major && <Text>This is required.</Text>}
       </View>
+      </ScrollView>
       <View
         style={{
           width: 'auto',
@@ -296,7 +303,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: '5%',
     marginTop: '5%',
-    overflow: 'scroll',
+    flexDirection: 'column',
   },
   inputTitle: {
     color: '#155E6D',
