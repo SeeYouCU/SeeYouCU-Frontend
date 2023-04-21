@@ -10,11 +10,12 @@ import ProfileCard from '../components/ProfileCard';
 import Input from '../components/Input';
 import Icon from 'react-native-vector-icons/Ionicons';
 import NavigationFooter from '../components/NavigationFooter';
+import TogglePage from '../components/TogglePage';
 
 export default function Match({navigation}) {
   return (
     <ImageBackground
-      source={require('../public/bg.png')} // TODO: vinze - slider button
+      source={require('../public/bg.png')}
       style={styles.container}>
       <View style={styles.content}>
         <View style={styles.header}>
@@ -30,7 +31,16 @@ export default function Match({navigation}) {
             <Icon name="chatbox-ellipses-outline" size={25} color="#155e6d" />
           </TouchableOpacity>
         </View>
-        <View style={{marginTop: '2%', marginBottom: '2%'}}>
+        <View
+          style={{
+            marginVertical: '4%',
+            justifyContent: 'space-between',
+            flexDirection: 'row',
+          }}>
+          <View style={{width: 30}} />
+          <View style={{flex: 1}}>
+            <TogglePage rightTitle="Added You" leftTitle="Discover" leftRoute='Match' rightRoute='Home' />
+          </View>
           <TouchableOpacity
             onPress={() => navigation.navigate('Home')} // TODO: reroute later
             style={styles.iconButton2}>
@@ -90,7 +100,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     padding: 0,
-    margin: '1%',
     borderRadius: 40,
     width: 30,
     height: 30,
