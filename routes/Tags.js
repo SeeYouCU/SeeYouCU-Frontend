@@ -139,20 +139,20 @@ export default function Tags({navigation}) {
       setSelectedInterest({
         data: temp.filter(item => JSON.stringify(item) != JSON.stringify(id)),
       });
-    navigation.navigate('Home') //TODO: remove later
+    console.log('Selected', selectedInterest);
+    navigation.goBack(); //TODO: remove later
   };
 
-  console.log(selectedInterest);
-
   const toggleSelection = key => {
-    const index = tags.findIndex(item => item.key === key);
-    const newInterests = [...tags];
-    newInterests[index].isSelected = !newInterests[index].isSelected;
-    setSelectedInterest(
-      newInterests.filter(item => item.isSelected).map(item => item.key),
-    );
-    if (!newInterests[index].isSelected) {
-      newInterests[index].isSelected = false;
+    const currInterests = selectedInterest;
+    if (selectedInterest.length < 5 && !selectedInterest.includes(key)) {
+      setSelectedInterest([...currInterests, key]);
+    } else if (selectedInterest.includes(key)) {
+      setSelectedInterest(
+        selectedInterest.filter(
+          item => JSON.stringify(item) != JSON.stringify(key),
+        ),
+      );
     }
   };
 
@@ -199,18 +199,32 @@ export default function Tags({navigation}) {
       <ScrollView fadingEdgeLength={180}>
         <View style={styles.interestMap}>{interestList()}</View>
       </ScrollView>
-      <View
-        style={{
-          width: 'auto',
-          height: '10%',
-        }}>
-        <TouchableOpacity
-          onPress={() => navigation.goBack()}
-          style={[styles.button2, {width: '100%', height: '70%'}]} // TODO: reroute later, fix dimensions?
-        >
-          <Text style={styles.buttonText}>Done</Text>
-        </TouchableOpacity>
-      </View>
+      {selectedInterest.length == 5 ? (
+        <View
+          style={{
+            width: 'auto',
+            height: '10%',
+          }}>
+          <TouchableOpacity
+            onPress={handleSelectPill}
+            style={[styles.button2, {width: '100%', height: '70%'}]} // TODO: reroute later, fix dimensions?
+          >
+            <Text style={styles.buttonText}>Done</Text>
+          </TouchableOpacity>
+        </View>
+      ) : (
+        <View
+          style={{
+            width: 'auto',
+            height: '10%',
+          }}>
+          <TouchableOpacity
+            style={[styles.button2, {width: '100%', height: '70%', display: 'none'}]} // TODO: reroute later, fix dimensions?
+          >
+            <Text style={styles.buttonText}>Done</Text>
+          </TouchableOpacity>
+        </View>
+      )}
     </ImageBackground>
   );
 }

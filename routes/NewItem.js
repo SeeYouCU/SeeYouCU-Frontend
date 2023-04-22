@@ -8,7 +8,7 @@ import {
   StyleSheet,
   Dimensions,
   ScrollView,
-  Image
+  Image,
 } from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
 import {Picker} from '@react-native-picker/picker';
@@ -32,7 +32,8 @@ export default function NewItem({navigation}) {
     },
   });
 
-  const faculty = [ //TODO: rename later
+  const faculty = [
+    //TODO: rename later
     {
       name_en: 'Yes',
     },
@@ -41,10 +42,67 @@ export default function NewItem({navigation}) {
     },
   ];
 
+  const [tags, setTags] = React.useState([
+    {
+      key: 'AerobicDance',
+      src: 'https://www.stylecraze.com/wp-content/uploads/2015/01/04.jpg',
+      title: 'Aerobic Dance',
+      isSelected: false,
+    },
+    {
+      key: 'Acting',
+      src: 'https://theatre.ua.edu/wp-content/uploads/2019/10/17-18-Vinegar-Tom-JH-1024x684.jpg',
+      title: 'Acting',
+      isSelected: false,
+    },
+    {
+      key: 'Anime',
+      src: 'https://assets-prd.ignimgs.com/2022/08/17/top25animecharacters-blogroll-1660777571580.jpg',
+      title: 'Anime',
+      isSelected: false,
+    },
+    {
+      key: 'Badminton',
+      src: 'https://ss-i.thgim.com/public/incoming/wf966c/article66364426.ece/alternates/FREE_1200/GettyImages-1409229566.jpg',
+      title: 'Badminton',
+      isSelected: false,
+    },
+    {
+      key: 'Basketball',
+      src: 'https://cdn.nba.com/manage/2023/04/GettyImages-1239701619-scaled.jpg',
+      title: 'Basketball',
+      isSelected: false,
+    },
+  ]);
+
+  const interestList = () => {
+    return tags.map((item, index) => {
+      return (
+        <TouchableOpacity key={index} onPress={() => removeTag(item.key)}>
+          <View key={index} style={styles.interestItem}>
+            <View style={styles.itemImgFrame}>
+              <Image
+                source={{
+                  uri: item.src,
+                }}
+                style={styles.itemImg}
+              />
+            </View>
+            <Text style={styles.itemName}>{item.title}</Text>
+          </View>
+        </TouchableOpacity>
+      );
+    });
+  };
+
+  const removeTag = key => {
+    setTags(tags => tags.filter(tag => tag.key !== key));
+  };
+
   const [imageActive1, setImageActive1] = React.useState(false);
   const [imageActive2, setImageActive2] = React.useState(false);
 
-  const years = ["Brand New", "Like New", "Lightly Used","Well Used"];
+  const years = ['Brand New', 'Like New', 'Lightly Used', 'Well Used'];
 
   const onSubmit = data => {
     console.log(data);
@@ -191,28 +249,37 @@ export default function NewItem({navigation}) {
                   name="dateOfPurchase"
                 />
               </View>
-              <Text
-                style={[
-                  styles.inputTitle,
-                  {marginBottom: '1%', marginTop: '3%'},
-                ]}>
-                Tags
-              </Text>
+              <View style={{flexDirection: 'row', alignItems: 'baseline'}}>
+                <Text
+                  style={[
+                    styles.inputTitle,
+                    {marginBottom: '1%', marginTop: '3%'},
+                  ]}>
+                  Tags
+                </Text>
+                <Text
+                  style={[
+                    styles.exception,
+                    {marginBottom: '1%', marginTop: '3%'},
+                  ]}>
+                  *Tap to remove tag
+                </Text>
+              </View>
               <Controller //component later
                 control={control}
                 rules={{
                   required: false,
                 }}
                 render={({field: {onChange, onBlur, value}}) => (
-                  <TextInput
+                  <View
                     style={[
                       styles.textInput,
-                      {height: '20%', borderRadius: 15},
+                      {height: '15%', borderRadius: 15, paddingHorizontal: 0, overflow: 'hidden', justifyContent: 'center'},
                     ]}
-                    onBlur={onBlur}
-                    onChangeText={onChange}
                     value={value}
-                  />
+                  >
+                    <View style={styles.interestMap}>{interestList()}</View>
+                  </View>
                 )}
                 name="tags"
               />
@@ -362,6 +429,30 @@ const styles = StyleSheet.create({
     padding: '5%',
     paddingBottom: 0,
   },
+  interestItem: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    width: 0.3 * Dimensions.get('window').width,
+  },
+  itemImgFrame: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    overflow: 'hidden',
+    height: 90,
+    width: 90,
+    borderRadius: 70,
+    margin: '3%',
+  },
+  itemImg: {
+    resizeMode: 'cover',
+    height: '100%',
+    width: '100%',
+  },
+  interestMap: {
+    flexDirection: 'row',
+  },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -394,6 +485,14 @@ const styles = StyleSheet.create({
     color: '#155E6D',
     fontSize: 14,
     fontWeight: 500,
+    textAlign: 'left',
+    paddingVertical: 5,
+    marginRight: '2%',
+  },
+  exception: {
+    color: '#ff3d00',
+    fontSize: 10,
+    fontWeight: 300,
     textAlign: 'left',
     paddingVertical: 5,
     marginRight: '2%',
