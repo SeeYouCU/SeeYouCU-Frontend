@@ -205,10 +205,10 @@ export default function Tags({navigation}) {
           height: '10%',
         }}>
         <TouchableOpacity
-          onPress={() => navigation.navigate('Home')}
+          onPress={() => navigation.goBack()}
           style={[styles.button2, {width: '100%', height: '70%'}]} // TODO: reroute later, fix dimensions?
         >
-          <Text style={styles.buttonText}>Chat</Text>
+          <Text style={styles.buttonText}>Done</Text>
         </TouchableOpacity>
       </View>
     </ImageBackground>

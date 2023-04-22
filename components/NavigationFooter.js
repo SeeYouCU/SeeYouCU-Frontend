@@ -20,13 +20,13 @@ const NavigationFooter = props => {
     {
       key: 1,
       source: require('../public/event.png'),
-      route: 'Event',
+      route: 'Events',
       isSelected: false,
     },
     {
       key: 2,
       source: require('../public/item.png'),
-      route: 'Item',
+      route: 'Exchange',
       isSelected: false,
     },
     {

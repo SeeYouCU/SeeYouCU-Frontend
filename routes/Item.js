@@ -21,7 +21,7 @@ export default function Item({route, navigation}) {
       <View style={styles.content}>
         <View style={styles.header}>
           <TouchableOpacity
-            onPress={() => navigation.navigate('Home')} // TODO: reroute later
+            onPress={() => navigation.goBack()} // TODO: reroute later
             style={styles.iconButton}>
             <Icon name="left" size={25} color="#155e6d" />
           </TouchableOpacity>
@@ -58,16 +58,16 @@ export default function Item({route, navigation}) {
                 'Music',
                 'Science',
               ]}
-              description="Hi, I'm the problem it's me"
+              description="See you there!"
             />
           </View>
         </ScrollView>
         <View style={styles.floatingButton}>
           <TouchableOpacity
-            onPress={() => navigation.navigate('Home')}
+            onPress={() => navigation.navigate('Exchange')}
             style={[styles.button2, {width: '100%', height: '70%'}]} // TODO: reroute later, fix dimensions?
           >
-            <Text style={styles.buttonText}>View Request</Text>
+            <Text style={styles.buttonText}>Send Request</Text>
           </TouchableOpacity>
         </View>
       </View>

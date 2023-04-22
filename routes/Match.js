@@ -39,10 +39,10 @@ export default function Match({navigation}) {
           }}>
           <View style={{width: 30}} />
           <View style={{flex: 1}}>
-            <TogglePage rightTitle="Added You" leftTitle="Discover" leftRoute='Match' rightRoute='Home' />
+            <TogglePage rightTitle="Added You" leftTitle="Discover" />
           </View>
           <TouchableOpacity
-            onPress={() => navigation.navigate('Home')} // TODO: reroute later
+            onPress={() => navigation.navigate('Friends')} // TODO: reroute later
             style={styles.iconButton2}>
             <Icon name="people" size={20} color="#155e6d" />
           </TouchableOpacity>
@@ -62,8 +62,7 @@ export default function Match({navigation}) {
             'Tennis',
             'Marvel Movies',
             'Comics',
-            'Music',
-            'Science',
+            'Music'
           ]}
         />
       </View>

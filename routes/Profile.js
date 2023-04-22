@@ -16,7 +16,7 @@ export default function Match({navigation}) {
       source={require('../public/bg.png')} // TODO: vinze - slider button
       style={styles.container}>
       <TouchableOpacity
-        onPress={() => navigation.navigate('Home')} // TODO: reroute later
+        onPress={() => navigation.goBack()} // TODO: reroute later
         style={styles.iconButton}>
         <Icon name="chevron-back" size={32} color="#155e6d" />
       </TouchableOpacity>
@@ -35,8 +35,7 @@ export default function Match({navigation}) {
           'Tennis',
           'Marvel Movies',
           'Comics',
-          'Music',
-          'Science',
+          'Music'
         ]}
       />
       <View

@@ -21,7 +21,7 @@ export default function Event({route, navigation}) {
       <View style={styles.content}>
         <View style={styles.header}>
           <TouchableOpacity
-            onPress={() => navigation.navigate('Home')} // TODO: reroute later
+            onPress={() => navigation.goBack()} // TODO: reroute later
             style={styles.iconButton}>
             <Icon name="left" size={25} color="#155e6d" />
           </TouchableOpacity>
@@ -56,28 +56,18 @@ export default function Event({route, navigation}) {
                 'Tennis',
                 'Marvel Movies',
                 'Comics',
-                'Music',
-                'Science',
+                'Music'
               ]}
-              description="Hi, I'm the problem it's me"
+              description="See you there!"
             />
           </View>
         </ScrollView>
-        <View
-          style={{
-            width: Dimensions.get('window').width,
-            height: '12%',
-            position: 'absolute',
-            bottom: 0,
-            marginBottom: '5%',
-            justifyContent: 'center',
-            paddingHorizontal: '7%',
-          }}>
+        <View style={styles.floatingButton}>
           <TouchableOpacity
-            onPress={() => navigation.navigate('Home')}
+            onPress={() => navigation.navigate('Events')}
             style={[styles.button2, {width: '100%', height: '70%'}]} // TODO: reroute later, fix dimensions?
           >
-            <Text style={styles.buttonText}>View Participants</Text>
+            <Text style={styles.buttonText}>Join Event</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -126,7 +116,6 @@ const styles = StyleSheet.create({
     marginTop: '5%',
     borderWidth: 1,
     borderColor: '#ade7e9',
-    borderColor: 'white',
     borderRadius: 60,
     backgroundColor: '#8ddee1',
     alignItems: 'center',
@@ -138,6 +127,15 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     shadowColor: 'black',
     elevation: 4,
+  },
+  floatingButton: {
+    width: Dimensions.get('window').width,
+    height: '12%',
+    position: 'absolute',
+    bottom: 0,
+    marginBottom: '5%',
+    justifyContent: 'center',
+    paddingHorizontal: '7%',
   },
   buttonText: {
     color: 'white',

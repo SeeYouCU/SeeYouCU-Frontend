@@ -13,6 +13,7 @@ import Input from '../components/Input';
 import Icon from 'react-native-vector-icons/Ionicons';
 import NavigationFooter from '../components/NavigationFooter';
 import EventMapCard from '../components/EventMapCard';
+import TogglePage from '../components/TogglePage';
 
 const data = [
   {
@@ -86,28 +87,44 @@ export default function Events({navigation}) {
             <Icon name="chatbox-ellipses-outline" size={25} color="#155e6d" />
           </TouchableOpacity>
         </View>
-        <ScrollView contentContainerStyle={{flexGrow: 1, paddingBottom: 1040}}>
-          <View style={{paddingBottom: 0}}>
-            {data.map(
-              (
-                item,
-                index, //TODO: detect length of padding needed?
-              ) => (
-                <EventMapCard key={index} item={item} type={'event'} />
-              ),
-            )}
-          </View>
-        </ScrollView>
+        <View
+          style={{
+            flex: 1,
+            marginTop: '4%',
+            marginBottom: '8%',
+          }}>
+          <TogglePage rightTitle="Added You" leftTitle="Discover" />
+        </View>
+        <View style={{marginTop: '5%'}}>
+          <ScrollView contentContainerStyle={{flexGrow: 1, paddingBottom: 180}}>
+            <View style={{paddingBottom: 0}}>
+              {data.map(
+                //TODO: what is this padding
+                (
+                  item,
+                  index, //TODO: detect length of padding needed?
+                ) => (
+                  <TouchableOpacity
+                    key={index}
+                    onPress={() => navigation.navigate('Event')} //TODO: reroute later
+                  >
+                    <EventMapCard key={index} item={item} type={'event'} />
+                  </TouchableOpacity>
+                ),
+              )}
+            </View>
+          </ScrollView>
+        </View>
         <View style={styles.floatingButton}>
           <TouchableOpacity
-            onPress={() => navigation.navigate('Home')}
+            onPress={() => navigation.navigate('NewEvent')}
             style={[styles.button2, {width: '100%', height: '70%'}]} // TODO: reroute later, fix dimensions?
           >
-            <Text style={styles.buttonText}>New event</Text>
+            <Text style={styles.buttonText}>New Event</Text>
           </TouchableOpacity>
         </View>
       </View>
-      <NavigationFooter currentPage="2" />
+      <NavigationFooter currentPage="1" />
     </ImageBackground>
   );
 }

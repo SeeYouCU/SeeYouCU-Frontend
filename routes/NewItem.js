@@ -8,6 +8,7 @@ import {
   StyleSheet,
   Dimensions,
   ScrollView,
+  Image
 } from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
 import {Picker} from '@react-native-picker/picker';
@@ -18,112 +19,36 @@ export default function NewItem({navigation}) {
   const {
     control,
     handleSubmit,
-    formState: {errors},
+    // formState: {errors},
   } = useForm({
     defaultValues: {
-      firstName: '',
-      lastName: '',
-      goal: '',
-      yearGraduated: '',
-      faculty: '',
-      major: '',
+      name: '',
+      return: '',
+      condition: '',
+      placeOfPurchase: '',
+      dateOfPurchase: '',
+      tags: '',
+      description: '',
     },
   });
 
-  const faculty = [
+  const faculty = [ //TODO: rename later
     {
-      name_en: 'Graduate School',
+      name_en: 'Yes',
     },
     {
-      name_en: 'Engineering',
-    },
-    {
-      name_en: 'Arts',
-    },
-    {
-      name_en: 'Science',
-    },
-    {
-      name_en: 'Political Science',
-    },
-    {
-      name_en: 'Architecture',
-    },
-    {
-      name_en: 'Commerce And Accountancy',
-    },
-    {
-      name_en: 'Education',
-    },
-    {
-      name_en: 'Communication Arts',
-    },
-    {
-      name_en: 'Economics',
-    },
-    {
-      name_en: 'Medicine',
-    },
-    {
-      name_en: 'Veterinary Science',
-    },
-    {
-      name_en: 'Dentistry',
-    },
-    {
-      name_en: 'Pharmaceutical Sciences',
-    },
-    {
-      name_en: 'Law',
-    },
-    {
-      name_en: 'Fine And Applied Arts',
-    },
-    {
-      name_en: 'Nursing',
-    },
-    {
-      name_en: 'Allied Health Sciences',
-    },
-    {
-      name_en: 'Psychology',
-    },
-    {
-      name_en: 'Sports Science',
-    },
-    {
-      name_en: 'School of Agricultural Resources',
-    },
-    {
-      name_en: 'College of Population Studies',
-    },
-    {
-      name_en: 'College of Public Health Sciences',
-    },
-    {
-      name_en: 'Language Institute',
-    },
-    {
-      name_en: 'School of Integrated Innovation',
-    },
-    {
-      name_en: 'Sasin Graduate Institute of Business Administion',
-    },
-    {
-      name_en: 'The Sirindhorn Thai Language Institute',
+      name_en: 'No',
     },
   ];
 
-  const currentYear = new Date().getFullYear() + 6; // 6 year MDCU program
+  const [imageActive1, setImageActive1] = React.useState(false);
+  const [imageActive2, setImageActive2] = React.useState(false);
 
-  const years = [];
-  for (let i = currentYear; i >= 1917; i--) {
-    years.push(i.toString());
-  }
+  const years = ["Brand New", "Like New", "Lightly Used","Well Used"];
 
   const onSubmit = data => {
     console.log(data);
-    navigation.navigate('Interests');
+    navigation.navigate('Exchange');
   };
 
   return (
@@ -133,7 +58,7 @@ export default function NewItem({navigation}) {
       <View style={styles.content}>
         <View style={styles.header}>
           <TouchableOpacity
-            onPress={() => navigation.navigate('Home')} // TODO: reroute later
+            onPress={() => navigation.navigate('Exchange')} // TODO: reroute later
             style={styles.iconButton}>
             <Icon name="left" size={25} color="#155e6d" />
           </TouchableOpacity>
@@ -148,14 +73,13 @@ export default function NewItem({navigation}) {
             paddingBottom: 400,
           }}>
           <View style={styles.scroll}>
-            <View
-              style={styles.itemCard}>
+            <View style={styles.itemCard}>
               <View style={{flexDirection: 'row'}}>
                 <Text style={styles.inputTitle}>Name</Text>
                 <Controller
                   control={control}
                   rules={{
-                    required: true,
+                    required: false, //TODO change to true
                   }}
                   render={({field: {onChange, onBlur, value}}) => (
                     <TextInput
@@ -165,21 +89,21 @@ export default function NewItem({navigation}) {
                       value={value}
                     />
                   )}
-                  name="firstName"
+                  name="name"
                 />
               </View>
-              {errors.firstName && <Text>This is required.</Text>}
+              {/* {errors.name && <Text>This is required.</Text>} */}
               <View
                 style={{
                   flexDirection: 'row',
                   justifyContent: 'space-between',
                   marginVertical: '3%',
                 }}>
-                <Text style={styles.inputTitle}>Return</Text>
-                <Controller
+                <Text style={styles.inputTitle}>Condition</Text>
+                <Controller //TODO swap later
                   control={control}
                   rules={{
-                    required: true,
+                    required: false,
                   }}
                   render={({field: {onChange, value}}) => (
                     <View style={styles.pickerContainer}>
@@ -200,13 +124,13 @@ export default function NewItem({navigation}) {
                       </Picker>
                     </View>
                   )}
-                  name="yearGraduated"
+                  name="return"
                 />
-                <Text style={styles.inputTitle}>Condition</Text>
+                <Text style={styles.inputTitle}>Return</Text>
                 <Controller
                   control={control}
                   rules={{
-                    required: true,
+                    required: false,
                   }}
                   render={({field: {onChange, value}}) => (
                     <View style={styles.pickerContainer}>
@@ -227,17 +151,16 @@ export default function NewItem({navigation}) {
                       </Picker>
                     </View>
                   )}
-                  name="faculty"
+                  name="condition"
                 />
-                {errors.faculty ||
-                  (errors.yearGraduated && <Text>This is required.</Text>)}
+                {/* {errors.condition || errors.return && <Text>This is required.</Text>} */}
               </View>
               <View style={{flexDirection: 'row'}}>
                 <Text style={styles.inputTitle}>Place of Purchase</Text>
                 <Controller
                   control={control}
                   rules={{
-                    required: true,
+                    required: false,
                   }}
                   render={({field: {onChange, onBlur, value}}) => (
                     <TextInput
@@ -247,7 +170,7 @@ export default function NewItem({navigation}) {
                       value={value}
                     />
                   )}
-                  name="firstName"
+                  name="placeOfPurchase"
                 />
               </View>
               <View style={{flexDirection: 'row', marginTop: '3%'}}>
@@ -255,7 +178,7 @@ export default function NewItem({navigation}) {
                 <Controller //TODO: component later
                   control={control}
                   rules={{
-                    required: true,
+                    required: false,
                   }}
                   render={({field: {onChange, onBlur, value}}) => (
                     <TextInput
@@ -265,7 +188,7 @@ export default function NewItem({navigation}) {
                       value={value}
                     />
                   )}
-                  name="firstName"
+                  name="dateOfPurchase"
                 />
               </View>
               <Text
@@ -278,7 +201,7 @@ export default function NewItem({navigation}) {
               <Controller //component later
                 control={control}
                 rules={{
-                  required: true,
+                  required: false,
                 }}
                 render={({field: {onChange, onBlur, value}}) => (
                   <TextInput
@@ -291,12 +214,11 @@ export default function NewItem({navigation}) {
                     value={value}
                   />
                 )}
-                name="major"
+                name="tags"
               />
-              {errors.major && <Text>This is required.</Text>}
               <View style={{alignItems: 'center'}}>
                 <TouchableOpacity
-                  onPress={() => handleSubmit(onsubmit)}
+                  onPress={() => navigation.navigate('Tags')}
                   style={styles.button1} // TODO: reroute later, fix dimensions?
                 >
                   <Text style={styles.buttonText2}>Add Tags</Text>
@@ -312,7 +234,7 @@ export default function NewItem({navigation}) {
               <Controller
                 control={control}
                 rules={{
-                  required: true,
+                  required: false,
                 }}
                 render={({field: {onChange, onBlur, value}}) => (
                   <TextInput
@@ -325,9 +247,9 @@ export default function NewItem({navigation}) {
                     value={value}
                   />
                 )}
-                name="major"
+                name="description"
               />
-              {errors.major && <Text>This is required.</Text>}
+              {/* {errors.description && <Text>This is required.</Text>} */}
               <Text
                 style={[
                   styles.inputTitle,
@@ -336,31 +258,84 @@ export default function NewItem({navigation}) {
                 Image
               </Text>
               <View
-                style={{flexDirection: 'row', justifyContent: 'space-between', height: '50%'}}>
-                <View
-                  style={{
-                    width: Dimensions.get('window').width * 0.37,
-                    height: Dimensions.get('window').width * 0.37,
-                    backgroundColor: '#d9d9d9',
-                    borderRadius: 15,
-                  }} //TODO: can upload pic
-                ></View>
-                <View
-                  style={{
-                    width: Dimensions.get('window').width * 0.37,
-                    height: Dimensions.get('window').width * 0.37,
-                    backgroundColor: '#d9d9d9',
-                    borderRadius: 15,
-                  }} //TODO: can upload pic
-                ></View>
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  height: '50%',
+                }}>
+                <TouchableOpacity onPress={() => setImageActive1(true)}>
+                  <View
+                    style={{
+                      width: Dimensions.get('window').width * 0.37,
+                      height: Dimensions.get('window').width * 0.37,
+                      backgroundColor: '#d9d9d9',
+                      borderRadius: 15,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }} //TODO: can upload pic
+                  >
+                    {imageActive1 == false ? (
+                      <Icon
+                        name="camerao"
+                        size={40}
+                        color="#155E6D"
+                        style={{position: 'absolute', zIndex: 0}}
+                      />
+                    ) : (
+                      <Image
+                        source={{
+                          uri: 'https://ae01.alicdn.com/kf/Hc55cf4a8d3d14d0e8ffe178da4a39703N.jpg',
+                        }}
+                        style={{
+                          resizeMode: 'cover',
+                          width: '100%',
+                          height: '100%',
+                          borderRadius: 15,
+                        }}
+                      />
+                    )}
+                  </View>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => setImageActive2(true)}>
+                  <View
+                    style={{
+                      width: Dimensions.get('window').width * 0.37,
+                      height: Dimensions.get('window').width * 0.37,
+                      backgroundColor: '#d9d9d9',
+                      borderRadius: 15,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }} //TODO: can upload pic
+                  >
+                    {imageActive2 == false ? (
+                      <Icon
+                        name="camerao"
+                        size={40}
+                        color="#155E6D"
+                        style={{position: 'absolute', zIndex: 0}}
+                      />
+                    ) : (
+                      <Image
+                        source={{
+                          uri: 'https://ambidata.io/wp/wp-content/uploads/2018/03/M5Stack_BME280.jpg',
+                        }}
+                        style={{
+                          resizeMode: 'cover',
+                          width: '100%',
+                          height: '100%',
+                          borderRadius: 15,
+                        }}
+                      />
+                    )}
+                  </View>
+                </TouchableOpacity>
               </View>
-              {errors.major && <Text>This is required.</Text>}
             </View>
           </View>
         </ScrollView>
         <View style={styles.floatingButton}>
           <TouchableOpacity
-            onPress={() => handleSubmit(onsubmit)}
+            onPress={handleSubmit(onSubmit)}
             style={[styles.button2, {width: '100%', height: '70%'}]} // TODO: reroute later, fix dimensions?
           >
             <Text style={styles.buttonText}>Done</Text>

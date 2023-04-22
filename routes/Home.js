@@ -1,5 +1,6 @@
 import * as React from 'react';
 import {Button, Dimensions, StyleSheet, ImageBackground} from 'react-native';
+import UserMatch from '../components/UserMatch';
 
 export default function Home({navigation}) {
   return (
@@ -7,14 +8,21 @@ export default function Home({navigation}) {
       source={require('../public/bg.png')}
       style={styles.container}>
       <Button
+        title="Registration"
+        onPress={() => navigation.navigate('Login')}
+      />
+      {/* <Button title="Setup" onPress={() => navigation.navigate('Setup')} />
+      <Button
         title="Interests"
         onPress={() => navigation.navigate('Interests')}
+      /> */}
+      <Button title="Matching" onPress={() => navigation.navigate('Match')} />
+      {/* <Button title="Profile" onPress={() => navigation.navigate('Profile')} /> */}
+      <Button
+        title="Exchange"
+        onPress={() => navigation.navigate('Exchange')}
       />
-      <Button title="Match" onPress={() => navigation.navigate('Match')} />
-      <Button title="Setup" onPress={() => navigation.navigate('Setup')} />
-      <Button title="Profile" onPress={() => navigation.navigate('Profile')} />
-      <Button title="Login" onPress={() => navigation.navigate('Login')} />
-      <Button title="Add Tags" onPress={() => navigation.navigate('Tags')} />
+      {/* <Button title="Add Tags" onPress={() => navigation.navigate('Tags')} />
       <Button
         title="Event (owner view)"
         onPress={() => {
@@ -46,10 +54,14 @@ export default function Home({navigation}) {
       <Button
         title="Exchange"
         onPress={() => navigation.navigate('Exchange')}
-      />
+      /> */}
       <Button title="Events" onPress={() => navigation.navigate('Events')} />
-      <Button title="New Item" onPress={() => navigation.navigate('NewItem')} />
-      <Button title="New Event" onPress={() => navigation.navigate('NewEvent')} />
+      {/* <Button title="New Item" onPress={() => navigation.navigate('NewItem')} />
+      <Button
+        title="New Event"
+        onPress={() => navigation.navigate('NewEvent')}
+      />
+      <Button title="Friends List" onPress={() => navigation.navigate('Friends')} /> */}
     </ImageBackground>
   );
 }

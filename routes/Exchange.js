@@ -12,6 +12,7 @@ import {
 import Input from '../components/Input';
 import Icon from 'react-native-vector-icons/Ionicons';
 import NavigationFooter from '../components/NavigationFooter';
+import TogglePage from '../components/TogglePage';
 
 const data = [
   {
@@ -23,8 +24,8 @@ const data = [
     condition: 'New',
   },
   {
-    src: 'https://inwfile.com/s-fp/r8f2ig.jpg',
-    title: 'M5Stack',
+    src: 'https://m.media-amazon.com/images/I/513gBS+AT2L._AC_UF1000,1000_QL80_.jpg',
+    title: 'Serway Physics',
     nickname: 'Vinze',
     fullname: 'Siriwat J.',
     datePosted: '23 March 2023',
@@ -38,14 +39,14 @@ const data = [
     datePosted: '23 March 2023',
     condition: 'New',
   },
-  {
-    src: 'https://inwfile.com/s-fp/r8f2ig.jpg',
-    title: 'M5Stack',
-    nickname: 'Vinze',
-    fullname: 'Siriwat J.',
-    datePosted: '23 March 2023',
-    condition: 'New',
-  },
+  // {
+  //   src: 'https://inwfile.com/s-fp/r8f2ig.jpg',
+  //   title: 'M5Stack',
+  //   nickname: 'Vinze',
+  //   fullname: 'Siriwat J.',
+  //   datePosted: '23 March 2023',
+  //   condition: 'New',
+  // },
 ];
 
 const ItemMapCard = ({item}) => {
@@ -93,21 +94,37 @@ export default function Exchange({navigation}) {
             <Icon name="chatbox-ellipses-outline" size={25} color="#155e6d" />
           </TouchableOpacity>
         </View>
-        <ScrollView contentContainerStyle={{flexGrow: 1, paddingBottom: 1040}}>
-          <View style={{paddingBottom: 0}}>
-            {data.map(
-              (
-                item,
-                index, //TODO: detect length of padding needed?
-              ) => (
-                <ItemMapCard key={index} item={item} />
-              ),
-            )}
-          </View>
-        </ScrollView>
+        <View
+          style={{
+            flex: 1,
+            marginTop: '4%',
+            marginBottom: '8%',
+          }}>
+          <TogglePage rightTitle="Added You" leftTitle="Discover" />
+        </View>
+        <View style={{marginTop: '5%'}}>
+          <ScrollView contentContainerStyle={{flexGrow: 1, paddingBottom: 180}}>
+            <View style={{paddingBottom: 0}}>
+              {data.map(
+                //TODO: what is this padding
+                (
+                  item,
+                  index, //TODO: detect length of padding needed?
+                ) => (
+                  <TouchableOpacity
+                    key={index}
+                    onPress={() => navigation.navigate('Item')} //TODO: reroute later
+                  >
+                    <ItemMapCard item={item} />
+                  </TouchableOpacity>
+                ),
+              )}
+            </View>
+          </ScrollView>
+        </View>
         <View style={styles.floatingButton}>
           <TouchableOpacity
-            onPress={() => navigation.navigate('Home')}
+            onPress={() => navigation.navigate('NewItem')}
             style={[styles.button2, {width: '100%', height: '70%'}]} // TODO: reroute later, fix dimensions?
           >
             <Text style={styles.buttonText}>New Item</Text>
@@ -144,7 +161,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: '5%',
     marginTop: '5%',
-    height: '35%',
+    height: Dimensions.get('window').height * 0.35,
   },
   itemFrame: {
     flex: 1,
