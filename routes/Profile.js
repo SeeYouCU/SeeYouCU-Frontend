@@ -13,30 +13,29 @@ import Icon from 'react-native-vector-icons/Ionicons';
 export default function Match({navigation}) {
   return (
     <ImageBackground
-      source={require('../public/bg.png')} // TODO: vinze - slider button
+      source={require('../public/bg.png')}
       style={styles.container}>
       <TouchableOpacity
-        onPress={() => navigation.navigate('Home')} // TODO: reroute later
+        onPress={() => navigation.goBack()}
         style={styles.iconButton}>
         <Icon name="chevron-back" size={32} color="#155e6d" />
       </TouchableOpacity>
       <ProfileCard
-        src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/191125_Taylor_Swift_at_the_2019_American_Music_Awards.png/440px-191125_Taylor_Swift_at_the_2019_American_Music_Awards.png"
-        nickname="Taylor"
+        src="https://assets.entrepreneur.com/content/3x2/2000/1396294231-why-college-students-need-entrepreneurial-careers.jpg"
+        nickname="John"
         event="Finding a Friend"
         age="22"
-        faculty="BALAC"
+        faculty="Language Arts"
         major="French"
         class="Chula 104"
-        bio="Hi, I'm the problem it's me"
+        bio="Nice to meet you!"
         isMatch="false"
         interests={[
           'Basketball',
           'Tennis',
           'Marvel Movies',
           'Comics',
-          'Music',
-          'Science',
+          'Music'
         ]}
       />
       <View
@@ -69,7 +68,8 @@ const styles = StyleSheet.create({
   },
   button2: {
     marginTop: '5%',
-    borderColor: 'white',
+    borderWidth: 1,
+    borderColor: '#ade7e9',
     borderRadius: 60,
     backgroundColor: '#8ddee1',
     alignItems: 'center',

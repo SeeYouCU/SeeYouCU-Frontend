@@ -10,11 +10,12 @@ import ProfileCard from '../components/ProfileCard';
 import Input from '../components/Input';
 import Icon from 'react-native-vector-icons/Ionicons';
 import NavigationFooter from '../components/NavigationFooter';
+import TogglePage from '../components/TogglePage';
 
 export default function Match({navigation}) {
   return (
     <ImageBackground
-      source={require('../public/bg.png')} // TODO: vinze - slider button
+      source={require('../public/bg.png')}
       style={styles.container}>
       <View style={styles.content}>
         <View style={styles.header}>
@@ -30,30 +31,38 @@ export default function Match({navigation}) {
             <Icon name="chatbox-ellipses-outline" size={25} color="#155e6d" />
           </TouchableOpacity>
         </View>
-        <View style={{marginTop: '2%', marginBottom: '2%'}}>
+        <View
+          style={{
+            marginVertical: '4%',
+            justifyContent: 'space-between',
+            flexDirection: 'row',
+          }}>
+          <View style={{width: 30}} />
+          <View style={{flex: 1}}>
+            <TogglePage rightTitle="Added You" leftTitle="Discover" />
+          </View>
           <TouchableOpacity
-            onPress={() => navigation.navigate('Home')} // TODO: reroute later
+            onPress={() => navigation.navigate('Friends')} // TODO: reroute later
             style={styles.iconButton2}>
             <Icon name="people" size={20} color="#155e6d" />
           </TouchableOpacity>
         </View>
         <ProfileCard
-          src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/191125_Taylor_Swift_at_the_2019_American_Music_Awards.png/440px-191125_Taylor_Swift_at_the_2019_American_Music_Awards.png"
-          nickname="Taylor"
+          src="https://assets.entrepreneur.com/content/3x2/2000/1396294231-why-college-students-need-entrepreneurial-careers.jpg"
+          nickname="John"
           event="Finding a Friend"
           age="22"
-          faculty="BALAC"
+          faculty="Language Arts"
           major="French"
           class="Chula 104"
           isMatch="true"
-          bio="Hi, I'm the problem it's me"
+          bio="Nice to meet you!"
           interests={[
             'Basketball',
             'Tennis',
             'Marvel Movies',
             'Comics',
-            'Music',
-            'Science',
+            'Music'
           ]}
         />
       </View>
@@ -90,7 +99,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     padding: 0,
-    margin: '1%',
     borderRadius: 40,
     width: 30,
     height: 30,

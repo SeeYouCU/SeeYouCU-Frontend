@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {Button, Dimensions, StyleSheet, ImageBackground} from 'react-native';
-import {View, Text} from 'react-native';
+import UserMatch from '../components/UserMatch';
 
 export default function Home({navigation}) {
   return (
@@ -8,33 +8,60 @@ export default function Home({navigation}) {
       source={require('../public/bg.png')}
       style={styles.container}>
       <Button
-        title="Go to Interests"
-        onPress={() => navigation.navigate('Interests')}
-      />
-      <Button
-        title="Go to Match"
-        onPress={() => navigation.navigate('Match')}
-      />
-      <Button
-        title="Go to Setup"
-        onPress={() => navigation.navigate('Setup')}
-      />
-      <Button
-        title="Go to Profile"
-        onPress={() => navigation.navigate('Profile')}
-      />
-      <Button
-        title="Go to Login"
+        title="Registration"
         onPress={() => navigation.navigate('Login')}
       />
+      {/* <Button title="Setup" onPress={() => navigation.navigate('Setup')} />
       <Button
-        title="Go to Add Tags"
-        onPress={() => navigation.navigate('Tags')}
+        title="Interests"
+        onPress={() => navigation.navigate('Interests')}
+      /> */}
+      <Button title="Matching" onPress={() => navigation.navigate('Match')} />
+      {/* <Button title="Profile" onPress={() => navigation.navigate('Profile')} /> */}
+      <Button
+        title="Exchange"
+        onPress={() => navigation.navigate('Exchange')}
+      />
+      {/* <Button title="Add Tags" onPress={() => navigation.navigate('Tags')} />
+      <Button
+        title="Event (owner view)"
+        onPress={() => {
+          navigation.navigate('Event', {
+            isOwner: true,
+          });
+        }}
       />
       <Button
-        title="Go to Notification"
-        onPress={() => navigation.navigate('Notification')}
+        title="Event (default view)"
+        onPress={() => {
+          navigation.navigate('Event');
+        }}
       />
+      <Button
+        title="Item (owner view)"
+        onPress={() => {
+          navigation.navigate('Item', {
+            isOwner: true,
+          });
+        }}
+      />
+      <Button
+        title="Item (default view)"
+        onPress={() => {
+          navigation.navigate('Item');
+        }}
+      />
+      <Button
+        title="Exchange"
+        onPress={() => navigation.navigate('Exchange')}
+      /> */}
+      <Button title="Events" onPress={() => navigation.navigate('Events')} />
+      {/* <Button title="New Item" onPress={() => navigation.navigate('NewItem')} />
+      <Button
+        title="New Event"
+        onPress={() => navigation.navigate('NewEvent')}
+      />
+      <Button title="Friends List" onPress={() => navigation.navigate('Friends')} /> */}
     </ImageBackground>
   );
 }

@@ -13,7 +13,7 @@ import Input from '../components/Input';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function Interests({navigation}) {
-  const [getInterests, setInterests] = React.useState([]); //TODO: allow 5 values later -- flatlist?
+  const [getInterests, setInterests] = React.useState([]);
 
   const onSubmit = () => {
     console.log(getInterests);
@@ -53,79 +53,79 @@ export default function Interests({navigation}) {
     {
       key: 'Baking',
       src: 'https://static.toiimg.com/photo/75536288.cms',
-      title: 'Anime',
+      title: 'Baking',
       isSelected: false,
     },
     {
-      key: 'AerobicDance1',
+      key: 'Coding',
       src: 'https://www.stylecraze.com/wp-content/uploads/2015/01/04.jpg',
-      title: 'Aerobic Dance',
+      title: 'Coding',
       isSelected: false,
     },
     {
-      key: 'Acting1',
+      key: 'Coffee',
       src: 'https://theatre.ua.edu/wp-content/uploads/2019/10/17-18-Vinegar-Tom-JH-1024x684.jpg',
-      title: 'Acting',
+      title: 'Coffee',
       isSelected: false,
     },
     {
-      key: 'Anime1',
+      key: 'Cosplay',
       src: 'https://assets-prd.ignimgs.com/2022/08/17/top25animecharacters-blogroll-1660777571580.jpg',
-      title: 'Anime',
+      title: 'Cosplay',
       isSelected: false,
     },
     {
-      key: 'Badminton1',
+      key: 'Crafting',
       src: 'https://ss-i.thgim.com/public/incoming/wf966c/article66364426.ece/alternates/FREE_1200/GettyImages-1409229566.jpg',
-      title: 'Badminton',
+      title: 'Crafting',
       isSelected: false,
     },
     {
-      key: 'Basketball1',
+      key: 'Cycling',
       src: 'https://cdn.nba.com/manage/2023/04/GettyImages-1239701619-scaled.jpg',
-      title: 'Basketball',
+      title: 'Cycling',
       isSelected: false,
     },
     {
-      key: 'Baking1',
+      key: 'Camping',
       src: 'https://static.toiimg.com/photo/75536288.cms',
-      title: 'Anime',
+      title: 'Camping',
       isSelected: false,
     },
     {
-      key: 'AerobicDance2',
+      key: 'Drawing',
       src: 'https://www.stylecraze.com/wp-content/uploads/2015/01/04.jpg',
-      title: 'Aerobic Dance',
+      title: 'Drawing',
       isSelected: false,
     },
     {
-      key: 'Acting2',
+      key: 'Dancing',
       src: 'https://theatre.ua.edu/wp-content/uploads/2019/10/17-18-Vinegar-Tom-JH-1024x684.jpg',
-      title: 'Acting',
+      title: 'Dancing',
       isSelected: false,
     },
     {
-      key: 'Anime2',
+      key: 'Dodgeball',
       src: 'https://assets-prd.ignimgs.com/2022/08/17/top25animecharacters-blogroll-1660777571580.jpg',
-      title: 'Anime',
+      title: 'Dodgeball',
       isSelected: false,
     },
     {
-      key: 'Badminton2',
+      key: 'Esports',
       src: 'https://ss-i.thgim.com/public/incoming/wf966c/article66364426.ece/alternates/FREE_1200/GettyImages-1409229566.jpg',
-      title: 'Badminton',
+      title: 'E-Sports',
       isSelected: false,
     },
     {
-      key: 'Basketball2',
+      key: 'Eshopping',
       src: 'https://cdn.nba.com/manage/2023/04/GettyImages-1239701619-scaled.jpg',
-      title: 'Basketball',
+      title: 'E-Shopping',
       isSelected: false,
     },
     {
-      key: 'Baking2',
+      key: 'Eating',
       src: 'https://static.toiimg.com/photo/75536288.cms',
-      title: 'Anime',
+      title: 'Eating',
       isSelected: false,
     },
   ];
@@ -139,20 +139,20 @@ export default function Interests({navigation}) {
       setSelectedInterest({
         data: temp.filter(item => JSON.stringify(item) != JSON.stringify(id)),
       });
-    navigation.navigate('Home') //TODO: remove later
+    console.log('Selected', selectedInterest);
+    navigation.navigate('Match');
   };
 
-  console.log(selectedInterest);
-
   const toggleSelection = key => {
-    const index = interests.findIndex(item => item.key === key);
-    const newInterests = [...interests];
-    newInterests[index].isSelected = !newInterests[index].isSelected;
-    setSelectedInterest(
-      newInterests.filter(item => item.isSelected).map(item => item.key),
-    );
-    if (!newInterests[index].isSelected) {
-      newInterests[index].isSelected = false;
+    const currInterests = selectedInterest;
+    if (selectedInterest.length < 5 && !selectedInterest.includes(key)) {
+      setSelectedInterest([...currInterests, key]);
+    } else if (selectedInterest.includes(key)) {
+      setSelectedInterest(
+        selectedInterest.filter(
+          item => JSON.stringify(item) != JSON.stringify(key),
+        ),
+      );
     }
   };
 
@@ -199,9 +199,13 @@ export default function Interests({navigation}) {
       <ScrollView fadingEdgeLength={100}>
         <View style={styles.interestMap}>{interestList()}</View>
       </ScrollView>
-      <TouchableOpacity onPress={handleSelectPill}>
-        <Text style={styles.nextBtn}>Next {'>'}</Text>
-      </TouchableOpacity>
+      {selectedInterest.length == 5 ? (
+        <TouchableOpacity onPress={handleSelectPill}>
+          <Text style={styles.nextBtn}>Next {'>'}</Text>
+        </TouchableOpacity>
+      ) : (
+        <Text style={[styles.nextBtn, {color: '#8daeb5'}]}>Next {'>'}</Text>
+      )}
     </ImageBackground>
   );
 }
