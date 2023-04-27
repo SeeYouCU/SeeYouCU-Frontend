@@ -13,7 +13,7 @@ import Input from '../components/Input';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function Tags({navigation}) {
-  const [getInterests, setInterests] = React.useState([]); //TODO: allow 5 values later -- flatlist?
+  const [getInterests, setInterests] = React.useState([]);
 
   const onSubmit = () => {
     console.log(getInterests);

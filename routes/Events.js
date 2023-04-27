@@ -71,7 +71,7 @@ const data = [
 export default function Events({navigation}) {
   return (
     <ImageBackground
-      source={require('../public/bg.png')} // TODO: vinze - slider button
+      source={require('../public/bg.png')}
       style={styles.container}>
       <View style={styles.content}>
         <View style={styles.header}>
