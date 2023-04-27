@@ -32,15 +32,7 @@ export default function NewItem({navigation}) {
     },
   });
 
-  const faculty = [
-    //TODO: rename later
-    {
-      name_en: 'Yes',
-    },
-    {
-      name_en: 'No',
-    },
-  ];
+  const returnOptions = ['Yes', 'No'];
 
   const [tags, setTags] = React.useState([
     {
@@ -102,7 +94,7 @@ export default function NewItem({navigation}) {
   const [imageActive1, setImageActive1] = React.useState(false);
   const [imageActive2, setImageActive2] = React.useState(false);
 
-  const years = ['Brand New', 'Like New', 'Lightly Used', 'Well Used'];
+  const conditionOptions = ['Brand New', 'Like New', 'Lightly Used', 'Well Used'];
 
   const onSubmit = data => {
     console.log(data);
@@ -137,7 +129,7 @@ export default function NewItem({navigation}) {
                 <Controller
                   control={control}
                   rules={{
-                    required: false, //TODO change to true
+                    required: false,
                   }}
                   render={({field: {onChange, onBlur, value}}) => (
                     <TextInput
@@ -169,7 +161,7 @@ export default function NewItem({navigation}) {
                         style={styles.picker}
                         selectedValue={value}
                         onValueChange={onChange}>
-                        {years.map((item, i) => {
+                        {conditionOptions.map((item, i) => {
                           return (
                             <Picker.Item
                               style={styles.pickerItem}
@@ -196,13 +188,13 @@ export default function NewItem({navigation}) {
                         style={styles.picker}
                         selectedValue={value}
                         onValueChange={onChange}>
-                        {faculty.map((item, i) => {
+                        {returnOptions.map((item, i) => {
                           return (
                             <Picker.Item
                               style={styles.pickerItem}
                               key={i}
-                              label={item.name_en}
-                              value={item.name_en}
+                              label={item}
+                              value={item}
                             />
                           );
                         })}
@@ -233,7 +225,7 @@ export default function NewItem({navigation}) {
               </View>
               <View style={{flexDirection: 'row', marginTop: '3%'}}>
                 <Text style={styles.inputTitle}>Date of Purchase</Text>
-                <Controller //TODO: component later
+                <Controller
                   control={control}
                   rules={{
                     required: false,

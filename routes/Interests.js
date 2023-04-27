@@ -13,7 +13,7 @@ import Input from '../components/Input';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function Interests({navigation}) {
-  const [getInterests, setInterests] = React.useState([]); //TODO: allow 5 values later -- flatlist?
+  const [getInterests, setInterests] = React.useState([]);
 
   const onSubmit = () => {
     console.log(getInterests);
@@ -140,7 +140,7 @@ export default function Interests({navigation}) {
         data: temp.filter(item => JSON.stringify(item) != JSON.stringify(id)),
       });
     console.log('Selected', selectedInterest);
-    navigation.navigate('Match'); //TODO: remove later
+    navigation.navigate('Match');
   };
 
   const toggleSelection = key => {

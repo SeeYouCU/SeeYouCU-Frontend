@@ -13,10 +13,10 @@ import Icon from 'react-native-vector-icons/Ionicons';
 export default function Match({navigation}) {
   return (
     <ImageBackground
-      source={require('../public/bg.png')} // TODO: vinze - slider button
+      source={require('../public/bg.png')}
       style={styles.container}>
       <TouchableOpacity
-        onPress={() => navigation.goBack()} // TODO: reroute later
+        onPress={() => navigation.goBack()}
         style={styles.iconButton}>
         <Icon name="chevron-back" size={32} color="#155e6d" />
       </TouchableOpacity>

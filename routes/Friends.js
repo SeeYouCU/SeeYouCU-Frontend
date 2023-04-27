@@ -64,7 +64,7 @@ export default function Friends({navigation}) {
       <View style={styles.content}>
         <View style={styles.header}>
           <TouchableOpacity
-            onPress={() => navigation.navigate('Match')} // TODO: reroute later
+            onPress={() => navigation.navigate('Match')}
             style={styles.iconButton}>
             <Icon name="left" size={25} color="#155e6d" />
           </TouchableOpacity>

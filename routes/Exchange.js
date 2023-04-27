@@ -106,7 +106,6 @@ export default function Exchange({navigation}) {
           <ScrollView contentContainerStyle={{flexGrow: 1, paddingBottom: 180}}>
             <View style={{paddingBottom: 0}}>
               {data.map(
-                //TODO: what is this padding
                 (
                   item,
                   index, //TODO: detect length of padding needed?
@@ -125,7 +124,7 @@ export default function Exchange({navigation}) {
         <View style={styles.floatingButton}>
           <TouchableOpacity
             onPress={() => navigation.navigate('NewItem')}
-            style={[styles.button2, {width: '100%', height: '70%'}]} // TODO: reroute later, fix dimensions?
+            style={[styles.button2, {width: '100%', height: '70%'}]} // TODO: fix dimensions?
           >
             <Text style={styles.buttonText}>New Item</Text>
           </TouchableOpacity>
