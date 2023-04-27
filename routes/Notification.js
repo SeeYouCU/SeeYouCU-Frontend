@@ -1,43 +1,130 @@
 import * as React from 'react';
-import {View, Dimensions, Text, StyleSheet, ImageBackground, Image} from 'react-native';
+import {
+  View,
+  Dimensions,
+  Text,
+  StyleSheet,
+  ImageBackground,
+  Image,
+  ScrollView,
+} from 'react-native';
+import NavigationFooter from '../components/NavigationFooter';
 
 const notiInfo = [
   {
-  icon: "gift", 
-  title: "Exchange request", 
-  description: "fah requested to exchange 'books'",
-  time: "16:57"
+    type: 'item',
+    title: 'Exchange Request',
+    description: "Fah requested to exchange 'Serway Physics'",
+    time: '16:57',
   },
   {
-    icon: "hands", 
-    title: "New friend", 
-    description: "apple sent a high five", 
-    time: "16:57"
+    type: 'friend',
+    title: 'New Friend',
+    description: 'Fah sent a high five!',
+    time: '17:05',
+  },
+  {
+    type: 'event',
+    title: 'Upcoming Event',
+    description: "'To the top!' will be held tomorrow.'",
+    time: '17:34',
+  },
+  {
+    type: 'participant',
+    title: 'New Participant',
+    description: "Fah joined 'TGIF'",
+    time: '17:37',
+  },
+  {
+    type: 'event',
+    title: 'Event Updates',
+    description: "'TGIF' is now cancelled.",
+    time: '17:58',
+  },
+  {
+    type: 'item',
+    title: 'Exchange Request',
+    description: "Fah requested to exchange 'M5Stack'",
+    time: '18:19',
+  },
+  {
+    type: 'event',
+    title: 'Upcoming Event',
+    description: "'TGIF' will be held tomorrow.'",
+    time: '18:32',
+  },
+  {
+    type: 'friend',
+    title: 'New Friend',
+    description: 'Apple sent a high five!',
+    time: '17:05',
   },
 ];
+
+function iconReturn(type) {
+  let icon;
+
+  if (type === 'item') {
+    icon = (
+      <Image source={require('../public/gift.png')} style={styles.notiIcon} />
+    );
+  } else if (type === 'event') {
+    icon = (
+      <Image
+        source={require('../public/calendar.png')}
+        style={styles.notiIcon}
+      />
+    );
+  } else if (type === 'friend') {
+    icon = (
+      <Image
+        source={require('../public/add-friend.png')}
+        style={styles.notiIcon}
+      />
+    );
+  } else if (type === 'participant') {
+    icon = (
+      <Image
+        source={require('../public/calendar.png')}
+        style={styles.notiIcon}
+      />
+    );
+  } else {
+    icon = null;
+  }
+
+  return icon;
+}
 
 export default function Notification({navigation}) {
   return (
     <ImageBackground
       source={require('../public/bg.png')}
       style={styles.container}>
-        <Text style={styles.header}>Notification</Text>
-        {notiInfo.map((item) => {
-          return (
-            <View style={styles.notiContainer}>
-              <View style={styles.notiIconContainer}>
-                <Image source={require('../public/notification/calendar.png')} style={styles.notiIcon}></Image>
-              </View>
+      <View style={styles.content}>
+        <Text style={styles.header}>Notifications</Text>
+        <ScrollView contentContainerStyle={{flexGrow: 1, paddingBottom: 0}}>
+        <View style={styles.scroll}>
+          {notiInfo.map((item, index) => {
+            return (
+              <View style={styles.notiContainer} key={index}>
+                <View style={styles.notiIconContainer}>
+                  {iconReturn(item.type)}
+                </View>
                 <View style={styles.notiTitleContainer}>
                   <Text style={styles.notiTitle}>{item.title}</Text>
                   <Text style={styles.notiDescription}>{item.description}</Text>
                 </View>
-              <View style={styles.timeContainer}>
-                <Text style={styles.notiTime}>{item.time}</Text>
+                <View style={styles.timeContainer}>
+                  <Text style={styles.notiTime}>{item.time}</Text>
+                </View>
               </View>
-            </View>
-          )
-        })}
+            );
+          })}
+          </View>
+        </ScrollView>
+      </View>
+      <NavigationFooter currentPage="0" style={{position: 'relative'}} />
     </ImageBackground>
   );
 }
@@ -48,7 +135,25 @@ const styles = StyleSheet.create({
     height: Dimensions.get('window').height,
     width: Dimensions.get('window').width,
     flex: 1,
-    paddingTop: '15%'
+  },
+  content: {
+    marginTop: '10%',
+    resizeMode: 'cover',
+    height: Dimensions.get('window').height,
+    width: Dimensions.get('window').width,
+    flex: 1,
+    paddingVertical: '5%',
+    paddingBottom: 0,
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: '5%',
+  },
+  scroll: {
+    flex: 1,
+    flexDirection: 'column',
   },
   header: {
     color: '#155E6D',
@@ -75,24 +180,24 @@ const styles = StyleSheet.create({
   notiIcon: {
     width: 25,
     height: 25,
-    resizeMode: 'contain'
+    resizeMode: 'contain',
   },
-  notiIconContainer:{
+  notiIconContainer: {
     width: 55,
     height: 55,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   notiTitleContainer: {
     justifyContent: 'center',
-    padding: '3%'
+    padding: '3%',
   },
   notiTitle: {
     color: '#434542',
     fontWeight: 600,
     fontSize: 16,
     lineHeight: 22,
-    marginBottom: '5%'
+    marginBottom: '5%',
   },
   notiDescription: {
     color: '#414141',
@@ -105,11 +210,11 @@ const styles = StyleSheet.create({
     fontWeight: 400,
     fontSize: 12,
     lineHeight: 14,
-    marginLeft: 'auto'
+    marginLeft: 'auto',
   },
   timeContainer: {
     position: 'absolute',
     right: '10%',
     height: '60%',
-  }
+  },
 });

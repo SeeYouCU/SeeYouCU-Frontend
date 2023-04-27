@@ -21,7 +21,7 @@ export default function Match({navigation}) {
         <View style={styles.header}>
           <Input isSearch="true" placeholder="Search" style={{flex: 1}} />
           <TouchableOpacity
-            onPress={() => navigation.navigate('Home')} // TODO: reroute later
+            onPress={() => navigation.navigate('Notification')}
             style={styles.iconButton}>
             <Icon name="notifications-outline" size={25} color="#155e6d" />
           </TouchableOpacity>
