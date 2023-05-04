@@ -31,14 +31,8 @@ const NavigationFooter = props => {
     },
     {
       key: 3,
-      source: require('../public/qr.png'),
-      route: 'Home', //TODO: change route later
-      isSelected: false,
-    },
-    {
-      key: 4,
       source: require('../public/settings.png'),
-      route: 'Home', //TODO: change route later
+      route: 'Settings',
       isSelected: false,
     },
   ];
@@ -47,7 +41,6 @@ const NavigationFooter = props => {
     require('../public/handshake1.png'),
     require('../public/event1.png'),
     require('../public/item1.png'),
-    require('../public/qr1.png'),
     require('../public/settings1.png'),
   ];
 
@@ -84,7 +77,7 @@ const styles = StyleSheet.create({
   container: {
     bottom: 0,
     flexDirection: 'row',
-    backgroundColor: 'rgba(250, 253, 252, 0.9)',
+    backgroundColor: 'rgb(250, 253, 252)',
     width: Dimensions.get('window').width,
     height: '10%',
     borderTopLeftRadius: 25,
@@ -93,7 +86,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   icon: {
-    margin: 0.06 * Dimensions.get('window').width,
+    margin: 0.08 * Dimensions.get('window').width,
   },
 });
 

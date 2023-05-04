@@ -7,7 +7,7 @@ import {
   ImageBackground,
   StyleSheet,
   Dimensions,
-  ScrollView
+  ScrollView,
 } from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
 import {Picker} from '@react-native-picker/picker';
@@ -20,6 +20,7 @@ export default function Setup({navigation}) {
     formState: {errors},
   } = useForm({
     defaultValues: {
+      nickname: '',
       firstName: '',
       lastName: '',
       goal: '',
@@ -113,7 +114,7 @@ export default function Setup({navigation}) {
     },
   ];
 
-  const [imageActive, setImageActive] = React.useState(false)
+  const [imageActive, setImageActive] = React.useState(false);
 
   const currentYear = new Date().getFullYear() + 6; // 6 year MDCU program
 
@@ -134,136 +135,156 @@ export default function Setup({navigation}) {
       <Text style={styles.titleHeader}>Set Up Your Profile Page</Text>
       <View style={{alignSelf: 'center'}}>
         <TouchableOpacity onPress={() => setImageActive(true)}>
-          <UploadProfile isClicked={imageActive} src="https://img.freepik.com/premium-photo/young-beautiful-asian-college-student-girls-holding-book_102814-1429.jpg" />
+          <UploadProfile
+            isClicked={imageActive}
+            src="https://cdn.discordapp.com/attachments/1102280430293618789/1102281644397826068/4877415126921268548.503FA07FE94C48BDB94D4B10F02379FE.23043021.jpg"
+          />
         </TouchableOpacity>
       </View>
       <ScrollView contentContainerStyle={{flexGrow: 1, paddingBottom: 200}}>
-          <View style={styles.inputContainer}>
-        <Text style={styles.inputTitle}>First Name</Text>
-        <Controller
-          control={control}
-          rules={{
-            required: true,
-          }}
-          render={({field: {onChange, onBlur, value}}) => (
-            <TextInput
-              style={styles.textInput}
-              onBlur={onBlur}
-              onChangeText={onChange}
-              value={value}
-            />
-          )}
-          name="firstName"
-        />
-        {errors.firstName && <Text>This is required.</Text>}
-        <Text style={styles.inputTitle}>Last Name</Text>
-        <Controller
-          control={control}
-          rules={{
-            required: true,
-          }}
-          render={({field: {onChange, onBlur, value}}) => (
-            <TextInput
-              style={styles.textInput}
-              onBlur={onBlur}
-              onChangeText={onChange}
-              value={value}
-            />
-          )}
-          name="lastName"
-        />
-        {errors.lastName && <Text>This is required.</Text>}
-        <Text style={styles.inputTitle}>Goal</Text>
-        <Controller
-          control={control}
-          rules={{
-            required: true,
-          }}
-          render={({field: {onChange, onBlur, value}}) => (
-            <TextInput
-              style={styles.textInput}
-              onBlur={onBlur}
-              onChangeText={onChange}
-              value={value}
-            />
-          )}
-          name="goal"
-        />
-        {errors.goal && <Text>This is required.</Text>}
-        <Text style={styles.inputTitle}>Year of Graduation</Text>
-        <Controller
-          control={control}
-          rules={{
-            required: true,
-          }}
-          render={({field: {onChange, value}}) => (
-            <View style={styles.pickerContainer}>
-              <Picker
-                style={styles.picker}
-                selectedValue={value}
-                onValueChange={onChange}>
-                {years.map((item, i) => {
-                  return (
-                    <Picker.Item
-                      style={styles.pickerItem}
-                      key={i}
-                      label={item}
-                      value={item}
-                    />
-                  );
-                })}
-              </Picker>
-            </View>
-          )}
-          name="yearGraduated"
-        />
-        {errors.yearGraduated && <Text>This is required.</Text>}
-        <Text style={styles.inputTitle}>Faculty</Text>
-        <Controller
-          control={control}
-          rules={{
-            required: true,
-          }}
-          render={({field: {onChange, value}}) => (
-            <View style={styles.pickerContainer}>
-              <Picker
-                style={styles.picker}
-                selectedValue={value}
-                onValueChange={onChange}>
-                {faculty.map((item, i) => {
-                  return (
-                    <Picker.Item
-                      style={styles.pickerItem}
-                      key={i}
-                      label={item.name_en}
-                      value={item.name_en}
-                    />
-                  );
-                })}
-              </Picker>
-            </View>
-          )}
-          name="faculty"
-        />
-        {errors.faculty && <Text>This is required.</Text>}
-        <Text style={styles.inputTitle}>Major</Text>
-        <Controller
-          control={control}
-          rules={{
-            required: true,
-          }}
-          render={({field: {onChange, onBlur, value}}) => (
-            <TextInput
-              style={styles.textInput}
-              onBlur={onBlur}
-              onChangeText={onChange}
-              value={value}
-            />
-          )}
-          name="major"
-        />
-        {errors.major && <Text>This is required.</Text>}
-      </View>
+        <View style={styles.inputContainer}>
+          <Text style={styles.inputTitle}>Nickname</Text>
+          <Controller
+            control={control}
+            rules={{
+              required: true,
+            }}
+            render={({field: {onChange, onBlur, value}}) => (
+              <TextInput
+                style={styles.textInput}
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+              />
+            )}
+            name="nickname"
+          />
+          {errors.nickname && <Text>This is required.</Text>}
+          <Text style={styles.inputTitle}>First Name</Text>
+          <Controller
+            control={control}
+            rules={{
+              required: true,
+            }}
+            render={({field: {onChange, onBlur, value}}) => (
+              <TextInput
+                style={styles.textInput}
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+              />
+            )}
+            name="firstName"
+          />
+          {errors.firstName && <Text>This is required.</Text>}
+          <Text style={styles.inputTitle}>Last Name</Text>
+          <Controller
+            control={control}
+            rules={{
+              required: true,
+            }}
+            render={({field: {onChange, onBlur, value}}) => (
+              <TextInput
+                style={styles.textInput}
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+              />
+            )}
+            name="lastName"
+          />
+          {errors.lastName && <Text>This is required.</Text>}
+          <Text style={styles.inputTitle}>Goal</Text>
+          <Controller
+            control={control}
+            rules={{
+              required: true,
+            }}
+            render={({field: {onChange, onBlur, value}}) => (
+              <TextInput
+                style={styles.textInput}
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+              />
+            )}
+            name="goal"
+          />
+          {errors.goal && <Text>This is required.</Text>}
+          <Text style={styles.inputTitle}>Year of Graduation</Text>
+          <Controller
+            control={control}
+            rules={{
+              required: true,
+            }}
+            render={({field: {onChange, value}}) => (
+              <View style={styles.pickerContainer}>
+                <Picker
+                  style={styles.picker}
+                  selectedValue={value}
+                  onValueChange={onChange}>
+                  {years.map((item, i) => {
+                    return (
+                      <Picker.Item
+                        style={styles.pickerItem}
+                        key={i}
+                        label={item}
+                        value={item}
+                      />
+                    );
+                  })}
+                </Picker>
+              </View>
+            )}
+            name="yearGraduated"
+          />
+          {errors.yearGraduated && <Text>This is required.</Text>}
+          <Text style={styles.inputTitle}>Faculty</Text>
+          <Controller
+            control={control}
+            rules={{
+              required: true,
+            }}
+            render={({field: {onChange, value}}) => (
+              <View style={styles.pickerContainer}>
+                <Picker
+                  style={styles.picker}
+                  selectedValue={value}
+                  onValueChange={onChange}>
+                  {faculty.map((item, i) => {
+                    return (
+                      <Picker.Item
+                        style={styles.pickerItem}
+                        key={i}
+                        label={item.name_en}
+                        value={item.name_en}
+                      />
+                    );
+                  })}
+                </Picker>
+              </View>
+            )}
+            name="faculty"
+          />
+          {errors.faculty && <Text>This is required.</Text>}
+          <Text style={styles.inputTitle}>Major</Text>
+          <Controller
+            control={control}
+            rules={{
+              required: true,
+            }}
+            render={({field: {onChange, onBlur, value}}) => (
+              <TextInput
+                style={styles.textInput}
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+              />
+            )}
+            name="major"
+          />
+          {errors.major && <Text>This is required.</Text>}
+        </View>
       </ScrollView>
       <View
         style={{

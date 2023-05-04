@@ -19,7 +19,7 @@ export default function NewEvent({navigation}) {
   const {
     control,
     handleSubmit,
-    // formState: {errors},
+    formState: {errors},
   } = useForm({
     defaultValues: {
       name: '',
@@ -32,25 +32,25 @@ export default function NewEvent({navigation}) {
     },
   });
 
-  const faculty = [];
+  const dates = [];
   for (let i = 1; i <= 30; i++) {
-    faculty.push(i.toString() + ' April 2023');
+    dates.push(i.toString() + ' April 2023');
   }
   for (let i = 1; i <= 31; i++) {
-    faculty.push(i.toString() + ' May 2023');
+    dates.push(i.toString() + ' May 2023');
   }
 
   const [imageActive1, setImageActive1] = React.useState(false);
   const [imageActive2, setImageActive2] = React.useState(false);
 
-  const years = [];
+  const participantNo = [];
   for (let i = 2; i <= 20; i++) {
-    years.push(i.toString());
+    participantNo.push(i.toString());
   }
 
   const onSubmit = data => {
     console.log(data);
-    navigation.navigate('Events');
+    //navigation.navigate('Events');
   };
 
   const [tags, setTags] = React.useState([
@@ -117,7 +117,7 @@ export default function NewEvent({navigation}) {
       <View style={styles.content}>
         <View style={styles.header}>
           <TouchableOpacity
-            onPress={() => navigation.navigate('Events')} // TODO: reroute later
+            onPress={() => navigation.navigate('Events')}
             style={styles.iconButton}>
             <Icon name="left" size={25} color="#155e6d" />
           </TouchableOpacity>
@@ -138,7 +138,7 @@ export default function NewEvent({navigation}) {
                 <Controller
                   control={control}
                   rules={{
-                    required: false,
+                    required: true,
                   }}
                   render={({field: {onChange, onBlur, value}}) => (
                     <TextInput
@@ -151,7 +151,7 @@ export default function NewEvent({navigation}) {
                   name="name"
                 />
               </View>
-              {/* {errors.firstName && <Text>This is required.</Text>} */}
+              {errors.name && <Text>This is required.</Text>}
               <View
                 style={{
                   flexDirection: 'row',
@@ -162,7 +162,7 @@ export default function NewEvent({navigation}) {
                 <Controller
                   control={control}
                   rules={{
-                    required: false,
+                    required: true,
                   }}
                   render={({field: {onChange, value}}) => (
                     <View style={styles.pickerContainer}>
@@ -170,7 +170,7 @@ export default function NewEvent({navigation}) {
                         style={styles.picker}
                         selectedValue={value}
                         onValueChange={onChange}>
-                        {years.map((item, i) => {
+                        {participantNo.map((item, i) => {
                           return (
                             <Picker.Item
                               style={styles.pickerItem}
@@ -189,7 +189,7 @@ export default function NewEvent({navigation}) {
                 <Controller
                   control={control}
                   rules={{
-                    required: false,
+                    required: true,
                   }}
                   render={({field: {onChange, value}}) => (
                     <View style={styles.pickerContainer}>
@@ -197,7 +197,7 @@ export default function NewEvent({navigation}) {
                         style={styles.picker}
                         selectedValue={value}
                         onValueChange={onChange}>
-                        {faculty.map((item, i) => {
+                        {dates.map((item, i) => {
                           return (
                             <Picker.Item
                               style={styles.pickerItem}
@@ -212,15 +212,14 @@ export default function NewEvent({navigation}) {
                   )}
                   name="date"
                 />
-                {/* {errors.faculty ||
-                  (errors.yearGraduated && <Text>This is required.</Text>)} */}
               </View>
+              {(errors.date || errors.maxParticipants) && <Text>This is required.</Text>}
               <View style={{flexDirection: 'row'}}>
                 <Text style={styles.inputTitle}>Event Location</Text>
                 <Controller
                   control={control}
                   rules={{
-                    required: false,
+                    required: true,
                   }}
                   render={({field: {onChange, onBlur, value}}) => (
                     <TextInput
@@ -233,12 +232,13 @@ export default function NewEvent({navigation}) {
                   name="eventLocation"
                 />
               </View>
+              {errors.eventLocation && <Text>This is required.</Text>}
               <View style={{flexDirection: 'row', marginTop: '3%'}}>
                 <Text style={styles.inputTitle}>Meet Up Location</Text>
-                <Controller //TODO: component later
+                <Controller
                   control={control}
                   rules={{
-                    required: false,
+                    required: true,
                   }}
                   render={({field: {onChange, onBlur, value}}) => (
                     <TextInput
@@ -251,6 +251,7 @@ export default function NewEvent({navigation}) {
                   name="meetupLocation"
                 />
               </View>
+              {errors.meetupLocation && <Text>This is required.</Text>}
               <View style={{flexDirection: 'row', alignItems: 'baseline'}}>
                 <Text
                   style={[
@@ -267,7 +268,7 @@ export default function NewEvent({navigation}) {
                   *Tap to remove tag
                 </Text>
               </View>
-              <Controller //component later
+              <Controller
                 control={control}
                 rules={{
                   required: false,
@@ -276,16 +277,20 @@ export default function NewEvent({navigation}) {
                   <View
                     style={[
                       styles.textInput,
-                      {height: '15%', borderRadius: 15, paddingHorizontal: 0, overflow: 'hidden', justifyContent: 'center'},
+                      {
+                        height: '15%',
+                        borderRadius: 15,
+                        paddingHorizontal: 0,
+                        overflow: 'hidden',
+                        justifyContent: 'center',
+                      },
                     ]}
-                    value={value}
-                  >
+                    value={value}>
                     <View style={styles.interestMap}>{interestList()}</View>
                   </View>
                 )}
                 name="tags"
               />
-              {/* {errors.major && <Text>This is required.</Text>} */}
               <View style={{alignItems: 'center'}}>
                 <TouchableOpacity
                   onPress={() => navigation.navigate('Tags')}
@@ -304,7 +309,7 @@ export default function NewEvent({navigation}) {
               <Controller
                 control={control}
                 rules={{
-                  required: false,
+                  required: true,
                 }}
                 render={({field: {onChange, onBlur, value}}) => (
                   <TextInput
@@ -319,7 +324,7 @@ export default function NewEvent({navigation}) {
                 )}
                 name="description"
               />
-              {/* {errors.major && <Text>This is required.</Text>} */}
+              {errors.description && <Text>This is required.</Text>}
               <Text
                 style={[
                   styles.inputTitle,
@@ -400,7 +405,6 @@ export default function NewEvent({navigation}) {
                   </View>
                 </TouchableOpacity>
               </View>
-              {/* {errors.major && <Text>This is required.</Text>} */}
             </View>
           </View>
         </ScrollView>
@@ -490,7 +494,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: 500,
     textAlign: 'left',
-    paddingVertical: 5,
+    paddingVertical: 0,
     marginRight: '2%',
   },
   exception: {

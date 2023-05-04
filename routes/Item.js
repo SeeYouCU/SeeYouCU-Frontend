@@ -13,7 +13,7 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import NavigationFooter from '../components/NavigationFooter';
 
 export default function Item({route, navigation}) {
-  const {isOwner} = route.params;
+  const {isOwner, src, title, nickname, fullname, datePosted, condition, location, date, needReturn, interests, description} = route.params;
   return (
     <ImageBackground
       source={require('../public/bg.png')}
@@ -26,7 +26,7 @@ export default function Item({route, navigation}) {
             <Icon name="left" size={25} color="#155e6d" />
           </TouchableOpacity>
           <View style={styles.titleHeader}>
-            <Text style={styles.titleHeader}>Serway Physics</Text>
+            <Text style={styles.titleHeader}>{nickname}</Text>
           </View>
           {isOwner == true ? (
             <TouchableOpacity
@@ -41,24 +41,17 @@ export default function Item({route, navigation}) {
         <ScrollView contentContainerStyle={{flexGrow: 1, paddingBottom: 440}}>
           <View style={styles.scroll}>
             <ItemCard //TODO: detect length of padding needed?
-              src="https://m.media-amazon.com/images/I/513gBS+AT2L._AC_UF1000,1000_QL80_.jpg" //TODO: swipe src
-              title="Serway Physics"
-              nickname="Vinze"
-              fullname="Siriwat J."
-              datePosted="23 March 2023"
-              condition="New"
-              location="Chula Book Center"
-              date="20 August 2020"
-              return="Not Required"
-              interests={[
-                'Basketball',
-                'Tennis',
-                'Marvel Movies',
-                'Comics',
-                'Music',
-                'Science',
-              ]}
-              description="See you there!"
+              src={src}
+              title={title}
+              nickname={nickname}
+              fullname={fullname}
+              datePosted={datePosted}
+              condition={condition}
+              location={location}
+              date={date}
+              return={needReturn}
+              interests={interests}
+              description={description}
             />
           </View>
         </ScrollView>

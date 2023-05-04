@@ -13,7 +13,21 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import NavigationFooter from '../components/NavigationFooter';
 
 export default function Event({route, navigation}) {
-  const {isOwner} = route.params;
+  const {
+    isOwner,
+    src,
+    title,
+    nickname,
+    fullname,
+    datePosted,
+    currentParticipants,
+    maxParticipants,
+    location,
+    datetime,
+    meetupLocation,
+    interests,
+    description,
+  } = route.params;
   return (
     <ImageBackground
       source={require('../public/bg.png')}
@@ -26,7 +40,7 @@ export default function Event({route, navigation}) {
             <Icon name="left" size={25} color="#155e6d" />
           </TouchableOpacity>
           <View style={styles.titleHeader}>
-            <Text style={styles.titleHeader}>Girl's Night Out</Text>
+            <Text style={styles.titleHeader}>{title}</Text>
           </View>
           {isOwner == true ? (
             <TouchableOpacity
@@ -41,24 +55,18 @@ export default function Event({route, navigation}) {
         <ScrollView contentContainerStyle={{flexGrow: 1, paddingBottom: 440}}>
           <View style={styles.scroll}>
             <EventCard //TODO: detect length of padding needed?
-              src="https://cdn.sanity.io/images/rizm0do5/production/192f4adf3e8499902f5cb0d369b5730d7b538165-1440x900.jpg" //TODO: swipe src
-              title="Girl's Night Out"
-              nickname="Vinze"
-              fullname="Siriwat J."
-              datePosted="23 March 2023"
-              currentParticipants="9"
-              maxParticipants="12"
-              location="BEAM Thonglor"
-              datetime="22:00 Today"
-              meetupLocation="Icon Siam"
-              interests={[
-                'Basketball',
-                'Tennis',
-                'Marvel Movies',
-                'Comics',
-                'Music'
-              ]}
-              description="See you there!"
+              src={src}
+              title={title}
+              nickname={nickname}
+              fullname={fullname}
+              datePosted={datePosted}
+              currentParticipants={currentParticipants}
+              maxParticipants={maxParticipants}
+              location={location}
+              datetime={datetime}
+              meetupLocation={meetupLocation}
+              interests={interests}
+              description={description}
             />
           </View>
         </ScrollView>

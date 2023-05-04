@@ -8,7 +8,7 @@ const ProfileCard = props => {
   return (
     <View style={styles.profileCard}>
       <View style={styles.profileFrame}>
-        <Image
+        <Image //TODO: uncomment later
           source={{
             uri: props.src,
           }}
@@ -31,7 +31,7 @@ const ProfileCard = props => {
       <View style={styles.profileGrid}>
         <Text style={styles.profileFont1}>
           <Icon name="user" size={15} />
-          &nbsp;&nbsp;{props.nickname}, {props.age}
+          &nbsp;&nbsp;{props.name}, {props.age}
         </Text>
         <Text style={styles.profileFont1}>
           <Icon name="graduation" size={15} style={{marginRight: 20}} />

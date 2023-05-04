@@ -10,7 +10,20 @@ import {
 import ProfileCard from '../components/ProfileCard';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-export default function Match({navigation}) {
+export default function Match({route, navigation}) {
+  const {
+    src,
+    nickname,
+    name,
+    event,
+    age,
+    faculty,
+    major,
+    batch,
+    bio,
+    interests,
+  } = route.params;
+
   return (
     <ImageBackground
       source={require('../public/bg.png')}
@@ -21,35 +34,18 @@ export default function Match({navigation}) {
         <Icon name="chevron-back" size={32} color="#155e6d" />
       </TouchableOpacity>
       <ProfileCard
-        src="https://assets.entrepreneur.com/content/3x2/2000/1396294231-why-college-students-need-entrepreneurial-careers.jpg"
-        nickname="John"
-        event="Finding a Friend"
-        age="22"
-        faculty="Language Arts"
-        major="French"
-        class="Chula 104"
-        bio="Nice to meet you!"
+        src={src}
+        nickname={nickname}
+        name={name}
+        event={event}
+        age={age}
+        faculty={faculty}
+        major={major}
+        class={batch}
         isMatch="false"
-        interests={[
-          'Basketball',
-          'Tennis',
-          'Marvel Movies',
-          'Comics',
-          'Music'
-        ]}
+        bio={bio}
+        interests={interests}
       />
-      <View
-        style={{
-          width: 'auto',
-          height: '10%',
-        }}>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('Home')}
-          style={[styles.button2, {width: '100%', height: '70%'}]} // TODO: reroute later, fix dimensions?
-        >
-          <Text style={styles.buttonText}>Chat</Text>
-        </TouchableOpacity>
-      </View>
     </ImageBackground>
   );
 }

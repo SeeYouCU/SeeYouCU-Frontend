@@ -22,31 +22,39 @@ const data = [
     fullname: 'Siriwat J.',
     datePosted: '23 March 2023',
     condition: 'New',
+    location: "Chula Book Center",
+    date: "20 August 2020",
+    needReturn: "Not Required",
+    interests: [
+      'Basketball',
+      'Tennis',
+      'Marvel Movies',
+      'Comics',
+      'Music',
+      'Science',
+    ],
+    description: "See you there!"
   },
   {
-    src: 'https://m.media-amazon.com/images/I/513gBS+AT2L._AC_UF1000,1000_QL80_.jpg',
-    title: 'Serway Physics',
+    src: 'https://inwfile.com/s-fp/r8f2ig.jpg',
+    title: 'M5Stack',
     nickname: 'Vinze',
     fullname: 'Siriwat J.',
     datePosted: '23 March 2023',
     condition: 'New',
+    location: "Chula Book Center",
+    date: "20 August 2020",
+    needReturn: "Not Required",
+    interests: [
+      'Basketball',
+      'Tennis',
+      'Marvel Movies',
+      'Comics',
+      'Music',
+      'Science',
+    ],
+    description: "See you there!"
   },
-  {
-    src: 'https://m.media-amazon.com/images/I/513gBS+AT2L._AC_UF1000,1000_QL80_.jpg',
-    title: 'Serway Physics',
-    nickname: 'Vinze',
-    fullname: 'Siriwat J.',
-    datePosted: '23 March 2023',
-    condition: 'New',
-  },
-  // {
-  //   src: 'https://inwfile.com/s-fp/r8f2ig.jpg',
-  //   title: 'M5Stack',
-  //   nickname: 'Vinze',
-  //   fullname: 'Siriwat J.',
-  //   datePosted: '23 March 2023',
-  //   condition: 'New',
-  // },
 ];
 
 const ItemMapCard = ({item}) => {
@@ -88,11 +96,6 @@ export default function Exchange({navigation}) {
             style={styles.iconButton}>
             <Icon name="notifications-outline" size={25} color="#155e6d" />
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('Home')} // TODO: reroute later
-            style={styles.iconButton}>
-            <Icon name="chatbox-ellipses-outline" size={25} color="#155e6d" />
-          </TouchableOpacity>
         </View>
         <View
           style={{
@@ -112,7 +115,7 @@ export default function Exchange({navigation}) {
                 ) => (
                   <TouchableOpacity
                     key={index}
-                    onPress={() => navigation.navigate('Item')} //TODO: reroute later
+                    onPress={() => navigation.navigate('Item', item)} //TODO: reroute later
                   >
                     <ItemMapCard item={item} />
                   </TouchableOpacity>

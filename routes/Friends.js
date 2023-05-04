@@ -11,52 +11,82 @@ import {
 import UserMatch from '../components/UserMatch';
 import Icon from 'react-native-vector-icons/AntDesign';
 
-const data = [
-  {
-    src: 'https://assets.entrepreneur.com/content/3x2/2000/1396294231-why-college-students-need-entrepreneurial-careers.jpg',
-    nickname: 'John',
+const data = [{
+    src: 'https://cdn.discordapp.com/attachments/1102280430293618789/1102281844004761731/4877415126921268548.9540010e62a7ceefefcd3d60c7ef651a.23043014.jpg',
+    nickname: 'Tem',
+    name: 'Natchuda Somboonviboon',
     event: 'Finding a Friend',
-    interests: ['Basketball', 'Tennis'],
+    age: '20',
+    faculty: 'ISE',
+    major: 'ICE',
+    batch: 'Chula 104',
+    bio: 'See you!',
+    interests: ['Debate', 'Cafe', 'Makeup', 'Skincare', 'Music'],
   },
   {
-    src: 'https://assets.entrepreneur.com/content/3x2/2000/1396294231-why-college-students-need-entrepreneurial-careers.jpg',
-    nickname: 'John',
+    src: 'https://cdn.discordapp.com/attachments/1102280430293618789/1102284453746843759/image.png',
+    nickname: 'Chaba',
+    name: 'Chaba Jumsai Na Ayudhya',
     event: 'Finding a Friend',
-    interests: ['Basketball', 'Tennis'],
+    age: '20',
+    faculty: 'ISE',
+    major: 'ICE',
+    batch: 'Chula 104',
+    bio: 'See you!',
+    interests: ['Skincare', 'Exercise', 'Makeup', 'Math', 'Music'],
   },
   {
-    src: 'https://assets.entrepreneur.com/content/3x2/2000/1396294231-why-college-students-need-entrepreneurial-careers.jpg',
-    nickname: 'John',
+    src: 'https://cdn.discordapp.com/attachments/1102280430293618789/1102281945234280499/4877415126921268548.3e09fdbb5bdf7601f73464551641cb81.23043015.jpg',
+    nickname: 'Ploy',
+    name: 'Bantarawan Chinchai',
     event: 'Finding a Friend',
-    interests: ['Basketball', 'Tennis'],
+    age: '20',
+    faculty: 'ISE',
+    major: 'ICE',
+    batch: 'Chula 104',
+    bio: 'See you!',
+    interests: ['Basketball', 'Singing', 'Makeup', 'Skincare', 'Music'],
   },
   {
-    src: 'https://assets.entrepreneur.com/content/3x2/2000/1396294231-why-college-students-need-entrepreneurial-careers.jpg',
-    nickname: 'John',
+    src: 'https://cdn.discordapp.com/attachments/1102280430293618789/1102281644083249162/4877415126921268548.f380451f921a47ddb713700a9952291f.23043022.jpg',
+    nickname: 'Tata',
+    name: 'Penpim Jirajarus',
     event: 'Finding a Friend',
-    interests: ['Basketball', 'Tennis'],
+    age: '20',
+    faculty: 'ISE',
+    major: 'ICE',
+    batch: 'Chula 104',
+    bio: 'See you!',
+    interests: ['Coffee', 'Movie', 'Makeup', 'Skincare', 'Music'],
   },
   {
-    src: 'https://assets.entrepreneur.com/content/3x2/2000/1396294231-why-college-students-need-entrepreneurial-careers.jpg',
-    nickname: 'John',
+    src: 'https://cdn.discordapp.com/attachments/1102280430293618789/1102285756959043614/4877415126921268548.10b459bb1c82dca52b66ec869088c848.23043014.JPG',
+    nickname: 'Franc',
+    name: 'Franc Witsathon',
     event: 'Finding a Friend',
-    interests: ['Basketball', 'Tennis'],
+    age: '20',
+    faculty: 'ISE',
+    major: 'ICE',
+    batch: 'Chula 104',
+    bio: 'See you!',
+    interests: ['Football', 'Business', 'Makeup', 'Skincare', 'Music'],
   },
   {
-    src: 'https://assets.entrepreneur.com/content/3x2/2000/1396294231-why-college-students-need-entrepreneurial-careers.jpg',
-    nickname: 'John',
+    src: 'https://cdn.discordapp.com/attachments/1102280430293618789/1102283966700081234/IMG_6771.jpg',
+    nickname: 'Leila',
+    name: 'Leila Sagad Iglesias',
     event: 'Finding a Friend',
-    interests: ['Basketball', 'Tennis'],
-  },
-  {
-    src: 'https://assets.entrepreneur.com/content/3x2/2000/1396294231-why-college-students-need-entrepreneurial-careers.jpg',
-    nickname: 'John',
-    event: 'Finding a Friend',
-    interests: ['Basketball', 'Tennis'],
+    age: '20',
+    faculty: 'ISE',
+    major: 'ICE',
+    batch: 'Chula 104',
+    bio: 'See you!',
+    interests: ['Gaming', 'Fashion', 'Makeup', 'Skincare', 'Music'],
   },
 ];
 
 export default function Friends({navigation}) {
+
   return (
     <ImageBackground
       source={require('../public/bg.png')}
@@ -73,14 +103,14 @@ export default function Friends({navigation}) {
           </View>
           <View style={{width: 25}} />
         </View>
-        <ScrollView fadingEdgeLength={100}>
+        <ScrollView fadingEdgeLength={100} persistentScrollbar={true}>
           {data.map((item, index) => (
-            <TouchableOpacity key={index} onPress={() => navigation.navigate('Profile')}>
+            <TouchableOpacity key={index} onPress={() => navigation.navigate('Profile', item)}>
               <UserMatch
                 src={item.src}
                 nickname={item.nickname}
                 event={item.event}
-                interests={item.interests}
+                interests={item.interests.slice(0, 2)}
               />
             </TouchableOpacity>
           ))}

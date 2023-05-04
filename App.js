@@ -16,6 +16,8 @@ import NewItem from './routes/NewItem';
 import NewEvent from './routes/NewEvent';
 import Friends from './routes/Friends';
 import Notification from './routes/Notification'
+import Settings from './routes/Settings'
+import Account from './routes/Account'
 
 const Stack = createNativeStackNavigator();
 
@@ -27,28 +29,31 @@ function App() {
           headerShown: false,
         }}>
         <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="Setup" component={Setup} />
         <Stack.Screen name="Interests" component={Interests} />
         <Stack.Screen name="Match" component={Match} />
-        <Stack.Screen name="Setup" component={Setup} />
-        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="Friends" component={Friends} />
+        <Stack.Screen name="Notification" component={Notification} />
         <Stack.Screen name="Profile" component={Profile} />
-        <Stack.Screen name="Tags" component={Tags} />
+        
+        <Stack.Screen name="Events" component={Events} />
         <Stack.Screen
           name="Event"
           component={Event}
           initialParams={(isOwner = false)}
         />
+        <Stack.Screen name="NewEvent" component={NewEvent} />
+        <Stack.Screen name="Tags" component={Tags} />
+        <Stack.Screen name="Exchange" component={Exchange} />
         <Stack.Screen
           name="Item"
           component={Item}
           initialParams={(isOwner = false)}
         />
-        <Stack.Screen name="Exchange" component={Exchange} />
-        <Stack.Screen name="Events" component={Events} />
         <Stack.Screen name="NewItem" component={NewItem} />
-        <Stack.Screen name="NewEvent" component={NewEvent} />
-        <Stack.Screen name="Friends" component={Friends} />
-        <Stack.Screen name="Notification" component={Notification} />
+        <Stack.Screen name="Settings" component={Settings} />
+        <Stack.Screen name="Account" component={Account} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -58,77 +58,91 @@ export default function Interests({navigation}) {
     },
     {
       key: 'Coding',
-      src: 'https://www.stylecraze.com/wp-content/uploads/2015/01/04.jpg',
+      src: 'https://woz-u.com/wp-content/uploads/2022/06/Evolution-of-Coding-scaled.jpg',
       title: 'Coding',
       isSelected: false,
     },
     {
       key: 'Coffee',
-      src: 'https://theatre.ua.edu/wp-content/uploads/2019/10/17-18-Vinegar-Tom-JH-1024x684.jpg',
+      src: 'https://vaya.in/recipes/wp-content/uploads/2018/05/Coffee.jpg',
       title: 'Coffee',
       isSelected: false,
     },
     {
       key: 'Cosplay',
-      src: 'https://assets-prd.ignimgs.com/2022/08/17/top25animecharacters-blogroll-1660777571580.jpg',
+      src: 'https://ae01.alicdn.com/kf/Hf430a3e9595c4c46a8f3e8b7544b2fb1J/Keqing-Genshin-Impact-Cosplay.jpg',
       title: 'Cosplay',
       isSelected: false,
     },
     {
       key: 'Crafting',
-      src: 'https://ss-i.thgim.com/public/incoming/wf966c/article66364426.ece/alternates/FREE_1200/GettyImages-1409229566.jpg',
+      src: 'https://media.timeout.com/images/103873538/750/422/image.jpg',
       title: 'Crafting',
       isSelected: false,
     },
     {
       key: 'Cycling',
-      src: 'https://cdn.nba.com/manage/2023/04/GettyImages-1239701619-scaled.jpg',
+      src: 'https://cdn.mos.cms.futurecdn.net/4qrW9mHjeDWK5hSFuTMkk3.jpg',
       title: 'Cycling',
       isSelected: false,
     },
     {
       key: 'Camping',
-      src: 'https://static.toiimg.com/photo/75536288.cms',
+      src: 'https://media.cntraveler.com/photos/607313c3d1058698d13c31b5/1:1/w_1636,h_1636,c_limit/FamilyCamping-2021-GettyImages-948512452-2.jpg',
       title: 'Camping',
       isSelected: false,
     },
     {
       key: 'Drawing',
-      src: 'https://www.stylecraze.com/wp-content/uploads/2015/01/04.jpg',
+      src: 'https://i.pinimg.com/originals/a0/f8/87/a0f887e171ba2a0566f5045c4d84c7d0.jpg',
       title: 'Drawing',
       isSelected: false,
     },
     {
       key: 'Dancing',
-      src: 'https://theatre.ua.edu/wp-content/uploads/2019/10/17-18-Vinegar-Tom-JH-1024x684.jpg',
+      src: 'https://cdn.vox-cdn.com/thumbor/LSPYbV0vDNujEoAbzFaVZf_PPI0=/1400x1050/filters:format(jpeg)/cdn.vox-cdn.com/uploads/chorus_asset/file/24038406/165303_6322_3955ffea.jpeg',
       title: 'Dancing',
       isSelected: false,
     },
     {
       key: 'Dodgeball',
-      src: 'https://assets-prd.ignimgs.com/2022/08/17/top25animecharacters-blogroll-1660777571580.jpg',
+      src: 'https://upload.wikimedia.org/wikipedia/commons/b/bf/Algeria_and_Japan_women%27s_national_volleyball_team_at_the_2012_Summer_Olympics_%287913959028%29.jpg',
       title: 'Dodgeball',
       isSelected: false,
     },
     {
       key: 'Esports',
-      src: 'https://ss-i.thgim.com/public/incoming/wf966c/article66364426.ece/alternates/FREE_1200/GettyImages-1409229566.jpg',
+      src: 'https://cdn.mos.cms.futurecdn.net/3UrmuKyTpK8TavGvEajuGP.jpg',
       title: 'E-Sports',
       isSelected: false,
     },
     {
       key: 'Eshopping',
-      src: 'https://cdn.nba.com/manage/2023/04/GettyImages-1239701619-scaled.jpg',
+      src: 'https://www.hostbooks.com/in/wp-content/uploads/2017/07/eshopping-1.jpg',
       title: 'E-Shopping',
       isSelected: false,
     },
     {
       key: 'Eating',
-      src: 'https://static.toiimg.com/photo/75536288.cms',
+      src: 'https://media-cldnry.s-nbcnews.com/image/upload/rockcms/2022-03/plant-based-food-mc-220323-02-273c7b.jpg',
       title: 'Eating',
       isSelected: false,
     },
   ];
+
+  
+  const PopupScreen = () => {
+    return (
+      <View style={styles.popupContainer}>
+        <View style={styles.popupContent}>
+          <Image style={styles.popupImage} source={require('../public/success.png')} />
+          <Text style={styles.popupText}>Successful!</Text>
+        </View>
+      </View>
+    );
+  };
+
+  const [showPopup, setShowPopup] = useState(false);
 
   const [selectedInterest, setSelectedInterest] = useState([]);
 
@@ -140,7 +154,11 @@ export default function Interests({navigation}) {
         data: temp.filter(item => JSON.stringify(item) != JSON.stringify(id)),
       });
     console.log('Selected', selectedInterest);
-    navigation.navigate('Match');
+    setShowPopup(true);
+    setTimeout(() => {
+      setShowPopup(false);
+      navigation.navigate('Match');
+    }, 3000);
   };
 
   const toggleSelection = key => {
@@ -206,6 +224,7 @@ export default function Interests({navigation}) {
       ) : (
         <Text style={[styles.nextBtn, {color: '#8daeb5'}]}>Next {'>'}</Text>
       )}
+      {showPopup && <PopupScreen />}
     </ImageBackground>
   );
 }
@@ -276,4 +295,33 @@ const styles = StyleSheet.create({
     fontWeight: 600,
     marginTop: '5%',
   },
+  popupContainer: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  popupContent: {
+    backgroundColor: 'rgba(255,255,255,0.9)',
+    height: 250,
+    width: 250,
+    borderRadius: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  popupText: {
+    marginTop: '5%',
+    fontSize: 20,
+    color: '#155E6D',
+    textAlign: 'center',
+    fontWeight: 600,
+  },
+  popupImage: {
+    height: '40%',
+    width: '40%',
+    resizeMode: 'contain',
+  }
 });

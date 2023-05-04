@@ -19,7 +19,7 @@ export default function NewItem({navigation}) {
   const {
     control,
     handleSubmit,
-    // formState: {errors},
+    formState: {errors},
   } = useForm({
     defaultValues: {
       name: '',
@@ -98,7 +98,7 @@ export default function NewItem({navigation}) {
 
   const onSubmit = data => {
     console.log(data);
-    navigation.navigate('Exchange');
+    //navigation.navigate('Exchange');
   };
 
   return (
@@ -129,7 +129,7 @@ export default function NewItem({navigation}) {
                 <Controller
                   control={control}
                   rules={{
-                    required: false,
+                    required: true,
                   }}
                   render={({field: {onChange, onBlur, value}}) => (
                     <TextInput
@@ -142,7 +142,7 @@ export default function NewItem({navigation}) {
                   name="name"
                 />
               </View>
-              {/* {errors.name && <Text>This is required.</Text>} */}
+              {errors.name && <Text>This is required.</Text>}
               <View
                 style={{
                   flexDirection: 'row',
@@ -153,7 +153,7 @@ export default function NewItem({navigation}) {
                 <Controller //TODO swap later
                   control={control}
                   rules={{
-                    required: false,
+                    required: true,
                   }}
                   render={({field: {onChange, value}}) => (
                     <View style={styles.pickerContainer}>
@@ -174,13 +174,13 @@ export default function NewItem({navigation}) {
                       </Picker>
                     </View>
                   )}
-                  name="return"
+                  name="condition"
                 />
                 <Text style={styles.inputTitle}>Return</Text>
                 <Controller
                   control={control}
                   rules={{
-                    required: false,
+                    required: true,
                   }}
                   render={({field: {onChange, value}}) => (
                     <View style={styles.pickerContainer}>
@@ -201,16 +201,16 @@ export default function NewItem({navigation}) {
                       </Picker>
                     </View>
                   )}
-                  name="condition"
+                  name="return"
                 />
-                {/* {errors.condition || errors.return && <Text>This is required.</Text>} */}
               </View>
+              {(errors.condition || errors.return) && <Text>This is required.</Text>}
               <View style={{flexDirection: 'row'}}>
                 <Text style={styles.inputTitle}>Place of Purchase</Text>
                 <Controller
                   control={control}
                   rules={{
-                    required: false,
+                    required: true,
                   }}
                   render={({field: {onChange, onBlur, value}}) => (
                     <TextInput
@@ -223,12 +223,13 @@ export default function NewItem({navigation}) {
                   name="placeOfPurchase"
                 />
               </View>
+              {errors.placeOfPurchase && <Text>This is required.</Text>}
               <View style={{flexDirection: 'row', marginTop: '3%'}}>
                 <Text style={styles.inputTitle}>Date of Purchase</Text>
                 <Controller
                   control={control}
                   rules={{
-                    required: false,
+                    required: true,
                   }}
                   render={({field: {onChange, onBlur, value}}) => (
                     <TextInput
@@ -241,6 +242,7 @@ export default function NewItem({navigation}) {
                   name="dateOfPurchase"
                 />
               </View>
+              {errors.dateOfPurchase && <Text>This is required.</Text>}
               <View style={{flexDirection: 'row', alignItems: 'baseline'}}>
                 <Text
                   style={[
@@ -293,7 +295,7 @@ export default function NewItem({navigation}) {
               <Controller
                 control={control}
                 rules={{
-                  required: false,
+                  required: true,
                 }}
                 render={({field: {onChange, onBlur, value}}) => (
                   <TextInput
@@ -308,7 +310,7 @@ export default function NewItem({navigation}) {
                 )}
                 name="description"
               />
-              {/* {errors.description && <Text>This is required.</Text>} */}
+              {errors.description && <Text>This is required.</Text>}
               <Text
                 style={[
                   styles.inputTitle,
