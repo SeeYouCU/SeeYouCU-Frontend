@@ -1,7 +1,6 @@
 import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import Home from './routes/Home';
 import Interests from './routes/Interests';
 import Match from './routes/Match';
 import Login from './routes/Login';
@@ -15,13 +14,26 @@ import Events from './routes/Events';
 import NewItem from './routes/NewItem';
 import NewEvent from './routes/NewEvent';
 import Friends from './routes/Friends';
-import Notification from './routes/Notification'
-import Settings from './routes/Settings'
-import Account from './routes/Account'
+import Notification from './routes/Notification';
+import Settings from './routes/Settings';
+import Account from './routes/Account';
+import Home from './routes/Home';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
 
 const Stack = createNativeStackNavigator();
 
 function App() {
+  const [signedIn, getSignedIn] = React.useState(false);
+
+  getIsSignedIn = async () => {
+    const isSignedIn = await GoogleSignin.isSignedIn();
+    console.log('sign in?', isSignedIn);
+    getSignedIn(isSignedIn);
+    return isSignedIn;
+    //this.setState({ isLoginScreenPresented: !isSignedIn });
+  };
+
+  const isSignedIn = getIsSignedIn();
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -36,7 +48,6 @@ function App() {
         <Stack.Screen name="Friends" component={Friends} />
         <Stack.Screen name="Notification" component={Notification} />
         <Stack.Screen name="Profile" component={Profile} />
-        
         <Stack.Screen name="Events" component={Events} />
         <Stack.Screen
           name="Event"

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import {React, useEffect} from 'react';
 import {
   Text,
   View,
@@ -6,20 +6,29 @@ import {
   ImageBackground,
   TouchableOpacity,
   Dimensions,
-  Linking
+  Linking,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import NavigationFooter from '../components/NavigationFooter';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
 
 export default function Settings({navigation}) {
-  const handlePress = async () => {
-    const url = 'https://drive.google.com/file/d/1smMqvGLNFEUS4aWRL8S9a7_EnNYNhU2w/view?usp=sharing'; // Replace with your Google Drive link
-    const supported = await Linking.canOpenURL(url);
-  
-    if (supported) {
-      await Linking.openURL(url);
-    } else {
-      console.log(`Unable to open ${url}`);
+
+  useEffect(() => {
+    GoogleSignin.configure({
+      webClientId:
+        '175282312397-s2jkpdm3rd5qqaieh03q5aq4cgl9phol.apps.googleusercontent.com',
+      offlineAccess: true,
+      forceCodeForRefreshToken: true,
+    });
+  });
+
+  signOut = async () => {
+    try {
+      await GoogleSignin.signOut();
+      navigation.navigate('Login')
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -32,24 +41,35 @@ export default function Settings({navigation}) {
       </View>
       <View style={styles.content}>
         <Text style={styles.settingsHeader}>Account</Text>
-        <TouchableOpacity onPress={() => navigation.navigate('Account')}
-        > 
+        <TouchableOpacity onPress={() => navigation.navigate('Account')}>
           <View style={styles.settingsRow}>
             <Icon name="person-outline" size={25} color="black" />
-            <Text style={styles.settingsText}>Personal and account information</Text>
+            <Text style={styles.settingsText}>
+              Personal and account information
+            </Text>
           </View>
         </TouchableOpacity>
-        <View style={{height: 1, backgroundColor: 'black', width: Dimensions.get('window').width}} />
-        <TouchableOpacity onPress={()=>{ Linking.openURL('https://drive.google.com/file/d/1smMqvGLNFEUS4aWRL8S9a7_EnNYNhU2w/view?usp=sharing')}} //TODO: reroute later
-        > 
+        <View
+          style={{
+            height: 1,
+            backgroundColor: 'black',
+            width: Dimensions.get('window').width,
+          }}
+        />
+        <TouchableOpacity
+          onPress={() => {
+            Linking.openURL(
+              'https://drive.google.com/file/d/1smMqvGLNFEUS4aWRL8S9a7_EnNYNhU2w/view?usp=sharing',
+            );
+          }} //TODO: reroute later
+        >
           <View style={styles.settingsRow}>
             <Icon name="help-outline" size={25} color="black" />
             <Text style={styles.settingsText}>User Manual</Text>
           </View>
         </TouchableOpacity>
         <Text style={styles.settingsHeader}>Login</Text>
-        <TouchableOpacity onPress={() => navigation.navigate('Login')} //TODO: reroute later
-        > 
+        <TouchableOpacity onPress={signOut}>
           <View style={styles.settingsRow}>
             <Icon name="logout" size={25} color="black" />
             <Text style={styles.settingsText}>Log out</Text>
@@ -89,12 +109,12 @@ const styles = StyleSheet.create({
     color: '#434542',
     fontWeight: 700,
     fontSize: 20,
-    marginTop: '3%'
+    marginTop: '3%',
   },
   settingsRow: {
     marginVertical: '2%',
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   settingsText: {
     color: 'black',

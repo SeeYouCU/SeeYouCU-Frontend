@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   Text,
   View,
@@ -8,16 +8,18 @@ import {
   Image,
   TouchableOpacity,
   ScrollView,
+  TextInput,
 } from 'react-native';
 import Input from '../components/Input';
 import Icon from 'react-native-vector-icons/Ionicons';
+import axios from 'axios';
 
-export default function Interests({navigation}) {
-  const [getInterests, setInterests] = React.useState([]);
+export default function Interests({route, navigation}) {
+  const [searchText, setSearchText] = React.useState('');
 
-  const onSubmit = () => {
-    console.log(getInterests);
-  };
+  // const onSubmit = () => {
+  //   console.log(route.params.caption, getInterests);
+  // };
 
   const interests = [
     {
@@ -129,13 +131,31 @@ export default function Interests({navigation}) {
       isSelected: false,
     },
   ];
+  const [filteredData, setFilteredData] = React.useState(interests);
 
-  
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      const filtered = interests.filter(item =>
+        item.key.toLowerCase().includes(searchText.toLowerCase()),
+      );
+      setFilteredData(filtered);
+    }, 1000);
+    return () => clearTimeout(timeoutId);
+  }, [searchText]);
+
+  const handleInputChange = e => {
+    console.log(e);
+    setSearchText(e);
+  };
+
   const PopupScreen = () => {
     return (
       <View style={styles.popupContainer}>
         <View style={styles.popupContent}>
-          <Image style={styles.popupImage} source={require('../public/success.png')} />
+          <Image
+            style={styles.popupImage}
+            source={require('../public/success.png')}
+          />
           <Text style={styles.popupText}>Successful!</Text>
         </View>
       </View>
@@ -146,19 +166,31 @@ export default function Interests({navigation}) {
 
   const [selectedInterest, setSelectedInterest] = useState([]);
 
-  const handleSelectPill = (id, select) => {
+  const handleSelectPill = async (id, select) => {
     const temp = selectedInterest;
     if (select == true) setSelectedInterest({data: [...temp, id]});
     if (select == false)
       setSelectedInterest({
         data: temp.filter(item => JSON.stringify(item) != JSON.stringify(id)),
       });
-    console.log('Selected', selectedInterest);
-    setShowPopup(true);
-    setTimeout(() => {
-      setShowPopup(false);
-      navigation.navigate('Match');
-    }, 3000);
+      var tagsStr = '[' + selectedInterest.map(s => '"' + s + '"').join(',') + ']';
+      var res =
+        '{' + JSON.stringify(route.params.data).slice(0, -1).slice(1) + ',"tags":"' +
+        tagsStr.replace(/"/g, '\\"') + '"}';
+      console.log(res);
+      await axios
+        .post('http://localhost:8080/api/auth/registerGoogle', JSON.parse(res))
+        .then(response => {
+          console.log('response', response);
+          setShowPopup(true);
+          setTimeout(() => {
+            setShowPopup(false);
+            navigation.navigate('Match');
+          }, 2000);
+        })
+        .catch(error => {
+          console.log('error', error);
+        });
   };
 
   const toggleSelection = key => {
@@ -175,7 +207,9 @@ export default function Interests({navigation}) {
   };
 
   const interestList = () => {
-    return interests.map((item, index) => {
+    const dataToRender = filteredData.length > 0 ? filteredData : interests;
+
+    return dataToRender.map((item, index) => {
       const imageBlur = selectedInterest.includes(item.key) ? 30 : 0;
       return (
         <TouchableOpacity key={index} onPress={() => toggleSelection(item.key)}>
@@ -209,11 +243,21 @@ export default function Interests({navigation}) {
       source={require('../public/bg.png')}
       style={styles.container}>
       <Text style={styles.title}>Pick Your Top 5 Interests</Text>
-      <Input
-        isSearch="true"
-        placeholder="Search"
-        style={{marginTop: '5%', marginBottom: '5%'}}
-      />
+      <View style={styles.inputContainer}>
+        <Icon
+          name="search"
+          size={15}
+          color="#155e6d"
+          style={styles.searchIcon}
+        />
+        <TextInput
+          style={styles.textInput}
+          placeholder="Search"
+          placeholderTextColor="#155e6d"
+          value={searchText}
+          onChangeText={handleInputChange}
+        />
+      </View>
       <ScrollView fadingEdgeLength={100}>
         <View style={styles.interestMap}>{interestList()}</View>
       </ScrollView>
@@ -287,6 +331,25 @@ const styles = StyleSheet.create({
     width: 0.3 * Dimensions.get('window').width,
     marginBottom: '20%',
   },
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderColor: '#155e6d',
+    backgroundColor: 'rgba(255, 255, 255, 0.3)',
+    borderWidth: 1,
+    borderRadius: 12,
+    paddingHorizontal: 10,
+    marginVertical: '5%',
+  },
+  searchIcon: {
+    marginLeft: 3,
+    marginRight: 6,
+  },
+  textInput: {
+    height: 'auto',
+    padding: 0,
+    margin: 0,
+  },
   nextBtn: {
     textAlign: 'right',
     paddingRight: 0.05 * Dimensions.get('window').width,
@@ -323,5 +386,5 @@ const styles = StyleSheet.create({
     height: '40%',
     width: '40%',
     resizeMode: 'contain',
-  }
+  },
 });

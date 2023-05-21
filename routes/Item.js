@@ -11,9 +11,14 @@ import {
 import ItemCard from '../components/ItemCard';
 import Icon from 'react-native-vector-icons/AntDesign';
 import NavigationFooter from '../components/NavigationFooter';
+import { create } from 'react-test-renderer';
 
 export default function Item({route, navigation}) {
-  const {isOwner, src, title, nickname, fullname, datePosted, condition, location, date, needReturn, interests, description} = route.params;
+  const formatDate = (date) => {
+    const rawDate = new Date(date);
+    return rawDate.toLocaleString([], { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+  };
+  const {id,userid,desc,tag,img,createAt,PlaceOfPurchase,DateOfPurchase,Condition,userId,firstName,LastName} = route.params;
   return (
     <ImageBackground
       source={require('../public/bg.png')}
@@ -26,7 +31,7 @@ export default function Item({route, navigation}) {
             <Icon name="left" size={25} color="#155e6d" />
           </TouchableOpacity>
           <View style={styles.titleHeader}>
-            <Text style={styles.titleHeader}>{nickname}</Text>
+            <Text style={styles.titleHeader}>{firstName}</Text>
           </View>
           {isOwner == true ? (
             <TouchableOpacity
@@ -41,17 +46,17 @@ export default function Item({route, navigation}) {
         <ScrollView contentContainerStyle={{flexGrow: 1, paddingBottom: 440}}>
           <View style={styles.scroll}>
             <ItemCard //TODO: detect length of padding needed?
-              src={src}
-              title={title}
-              nickname={nickname}
-              fullname={fullname}
-              datePosted={datePosted}
-              condition={condition}
-              location={location}
-              date={date}
-              return={needReturn}
-              interests={interests}
-              description={description}
+              src={img}
+              title={desc}
+              nickname={firstName}
+              fullname={LastName}
+              datePosted={formatDate(createAt)}
+              condition={Condition}
+              location={PlaceOfPurchase}
+              date={DateOfPurchase}
+              return={Condition}
+              interests={['aerob']}
+              description={desc}
             />
           </View>
         </ScrollView>

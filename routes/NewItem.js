@@ -14,6 +14,7 @@ import {useForm, Controller} from 'react-hook-form';
 import {Picker} from '@react-native-picker/picker';
 import NavigationFooter from '../components/NavigationFooter';
 import Icon from 'react-native-vector-icons/AntDesign';
+import axios from 'axios';
 
 export default function NewItem({navigation}) {
   const {
@@ -22,13 +23,12 @@ export default function NewItem({navigation}) {
     formState: {errors},
   } = useForm({
     defaultValues: {
-      name: '',
       return: '',
       condition: '',
-      placeOfPurchase: '',
-      dateOfPurchase: '',
-      tags: '',
-      description: '',
+      PlaceOfPurchase: '',
+      DateOfPurchase: '',
+      desc: '',
+      tag: '"["sport","game"]"',
     },
   });
 
@@ -96,9 +96,16 @@ export default function NewItem({navigation}) {
 
   const conditionOptions = ['Brand New', 'Like New', 'Lightly Used', 'Well Used'];
 
-  const onSubmit = data => {
+  const onSubmit = async(data) => {
     console.log(data);
-    //navigation.navigate('Exchange');
+    await axios
+    .post(`http://localhost:8080/api/posts/addItem`, data)
+    .then(response => {
+      navigation.navigate('Exchange');
+    })
+    .catch(error => {
+      console.error(error);
+    });
   };
 
   return (
@@ -220,10 +227,10 @@ export default function NewItem({navigation}) {
                       value={value}
                     />
                   )}
-                  name="placeOfPurchase"
+                  name="PlaceOfPurchase"
                 />
               </View>
-              {errors.placeOfPurchase && <Text>This is required.</Text>}
+              {errors.PlaceOfPurchase && <Text>This is required.</Text>}
               <View style={{flexDirection: 'row', marginTop: '3%'}}>
                 <Text style={styles.inputTitle}>Date of Purchase</Text>
                 <Controller
@@ -239,10 +246,10 @@ export default function NewItem({navigation}) {
                       value={value}
                     />
                   )}
-                  name="dateOfPurchase"
+                  name="DateOfPurchase"
                 />
               </View>
-              {errors.dateOfPurchase && <Text>This is required.</Text>}
+              {errors.DateOfPurchase && <Text>This is required.</Text>}
               <View style={{flexDirection: 'row', alignItems: 'baseline'}}>
                 <Text
                   style={[
@@ -275,7 +282,7 @@ export default function NewItem({navigation}) {
                     <View style={styles.interestMap}>{interestList()}</View>
                   </View>
                 )}
-                name="tags"
+                name="tag"
               />
               <View style={{alignItems: 'center'}}>
                 <TouchableOpacity
@@ -308,9 +315,9 @@ export default function NewItem({navigation}) {
                     value={value}
                   />
                 )}
-                name="description"
+                name="desc"
               />
-              {errors.description && <Text>This is required.</Text>}
+              {errors.desc && <Text>This is required.</Text>}
               <Text
                 style={[
                   styles.inputTitle,

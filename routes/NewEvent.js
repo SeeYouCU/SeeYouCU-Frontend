@@ -14,21 +14,25 @@ import {useForm, Controller} from 'react-hook-form';
 import {Picker} from '@react-native-picker/picker';
 import NavigationFooter from '../components/NavigationFooter';
 import Icon from 'react-native-vector-icons/AntDesign';
+import Chip from '../components/Chip';
+import axios from 'axios';
 
-export default function NewEvent({navigation}) {
+export default function NewEvent({route, navigation}) {
   const {
     control,
     handleSubmit,
     formState: {errors},
   } = useForm({
     defaultValues: {
-      name: '',
-      maxParticipants: '',
+      Ename: '',
+      MaxP: '',
       date: '',
-      eventLocation: '',
-      meetupLocation: '',
-      tags: '',
-      description: '',
+      location: '',
+      meetUp: '',
+      tag: '"["sport","game"]"',
+      desc: '',
+      img: 'null',
+      userid: '3',
     },
   });
 
@@ -48,66 +52,103 @@ export default function NewEvent({navigation}) {
     participantNo.push(i.toString());
   }
 
-  const onSubmit = data => {
+  const onSubmit = async(data) => {
     console.log(data);
-    //navigation.navigate('Events');
-  };
-
-  const [tags, setTags] = React.useState([
-    {
-      key: 'AerobicDance',
-      src: 'https://www.stylecraze.com/wp-content/uploads/2015/01/04.jpg',
-      title: 'Aerobic Dance',
-      isSelected: false,
-    },
-    {
-      key: 'Acting',
-      src: 'https://theatre.ua.edu/wp-content/uploads/2019/10/17-18-Vinegar-Tom-JH-1024x684.jpg',
-      title: 'Acting',
-      isSelected: false,
-    },
-    {
-      key: 'Anime',
-      src: 'https://assets-prd.ignimgs.com/2022/08/17/top25animecharacters-blogroll-1660777571580.jpg',
-      title: 'Anime',
-      isSelected: false,
-    },
-    {
-      key: 'Badminton',
-      src: 'https://ss-i.thgim.com/public/incoming/wf966c/article66364426.ece/alternates/FREE_1200/GettyImages-1409229566.jpg',
-      title: 'Badminton',
-      isSelected: false,
-    },
-    {
-      key: 'Basketball',
-      src: 'https://cdn.nba.com/manage/2023/04/GettyImages-1239701619-scaled.jpg',
-      title: 'Basketball',
-      isSelected: false,
-    },
-  ]);
-
-  const interestList = () => {
-    return tags.map((item, index) => {
-      return (
-        <TouchableOpacity key={index} onPress={() => removeTag(item.key)}>
-          <View key={index} style={styles.interestItem}>
-            <View style={styles.itemImgFrame}>
-              <Image
-                source={{
-                  uri: item.src,
-                }}
-                style={styles.itemImg}
-              />
-            </View>
-            <Text style={styles.itemName}>{item.title}</Text>
-          </View>
-        </TouchableOpacity>
-      );
+    await axios
+    .post(`http://localhost:8080/api/posts/addPost`, data)
+    .then(response => {
+      console.log(data);
+      navigation.navigate('Events');
+    })
+    .catch(error => {
+      console.error(error);
     });
   };
 
-  const removeTag = key => {
-    setTags(tags => tags.filter(tag => tag.key !== key));
+  // const [tags, setTags] = React.useState([
+  //   {
+  //     key: 'AerobicDance',
+  //     src: 'https://www.stylecraze.com/wp-content/uploads/2015/01/04.jpg',
+  //     title: 'Aerobic Dance',
+  //     isSelected: false,
+  //   },
+  //   {
+  //     key: 'Acting',
+  //     src: 'https://theatre.ua.edu/wp-content/uploads/2019/10/17-18-Vinegar-Tom-JH-1024x684.jpg',
+  //     title: 'Acting',
+  //     isSelected: false,
+  //   },
+  //   {
+  //     key: 'Anime',
+  //     src: 'https://assets-prd.ignimgs.com/2022/08/17/top25animecharacters-blogroll-1660777571580.jpg',
+  //     title: 'Anime',
+  //     isSelected: false,
+  //   },
+  //   {
+  //     key: 'Badminton',
+  //     src: 'https://ss-i.thgim.com/public/incoming/wf966c/article66364426.ece/alternates/FREE_1200/GettyImages-1409229566.jpg',
+  //     title: 'Badminton',
+  //     isSelected: false,
+  //   },
+  //   {
+  //     key: 'Basketball',
+  //     src: 'https://cdn.nba.com/manage/2023/04/GettyImages-1239701619-scaled.jpg',
+  //     title: 'Basketball',
+  //     isSelected: false,
+  //   },
+  // ]);
+
+  const [getTags, setTags] = React.useState([]);
+  var tags = [];
+  var tagsList = [];
+  const [loadingState, setLoadingState] = React.useState('not_loaded');
+  const {currTags} = route.params;
+  const [item, setItem] = React.useState(currTags);
+
+  React.useEffect(() => {
+    setLoadingState('loading');
+    axios
+      .post(`http://localhost:8080/api/users/getUser`, {
+        email: 'test11@gmail.com',
+      })
+      .then(response => {
+        setItem(response.data);
+        tags = response.data[0].tags.slice(1).slice(0, -1).split(',');
+        if (currTags !== []) setTags(tags);
+        setLoadingState('loaded');
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }, []);
+
+  const interestList = () => {
+    return getTags.map((i, index) => {
+      console.log("gettags",getTags);
+      tagsList.push(i.slice(1).slice(0, -1));
+      return (
+        // <TouchableOpacity key={index} onPress={() => removeTag(item.key)}>
+        //   <View key={index} style={styles.interestItem}>
+        //     <View style={styles.itemImgFrame}>
+        //       <Image
+        //         source={{
+        //           uri: item.src,
+        //         }}
+        //         style={styles.itemImg}
+        //       />
+        //     </View>
+        //     <Text style={styles.itemName}>{item.title}</Text>
+        //   </View>
+        // </TouchableOpacity>
+        <Chip
+          key={index}
+          textColor="#102c3d"
+          borderColor="white"
+          backgroundColor="#ebf5f6"
+          label={i.slice(1).slice(0, -1)}
+        />
+      );
+    });
   };
 
   return (
@@ -148,10 +189,10 @@ export default function NewEvent({navigation}) {
                       value={value}
                     />
                   )}
-                  name="name"
+                  name="Ename"
                 />
               </View>
-              {errors.name && <Text>This is required.</Text>}
+              {errors.Ename && <Text>This is required.</Text>}
               <View
                 style={{
                   flexDirection: 'row',
@@ -183,7 +224,7 @@ export default function NewEvent({navigation}) {
                       </Picker>
                     </View>
                   )}
-                  name="maxParticipants"
+                  name="MaxP"
                 />
                 <Text style={styles.inputTitle}>Date</Text>
                 <Controller
@@ -213,7 +254,9 @@ export default function NewEvent({navigation}) {
                   name="date"
                 />
               </View>
-              {(errors.date || errors.maxParticipants) && <Text>This is required.</Text>}
+              {(errors.date || errors.MaxP) && (
+                <Text>This is required.</Text>
+              )}
               <View style={{flexDirection: 'row'}}>
                 <Text style={styles.inputTitle}>Event Location</Text>
                 <Controller
@@ -229,10 +272,10 @@ export default function NewEvent({navigation}) {
                       value={value}
                     />
                   )}
-                  name="eventLocation"
+                  name="location"
                 />
               </View>
-              {errors.eventLocation && <Text>This is required.</Text>}
+              {errors.location && <Text>This is required.</Text>}
               <View style={{flexDirection: 'row', marginTop: '3%'}}>
                 <Text style={styles.inputTitle}>Meet Up Location</Text>
                 <Controller
@@ -248,10 +291,10 @@ export default function NewEvent({navigation}) {
                       value={value}
                     />
                   )}
-                  name="meetupLocation"
+                  name="meetUp"
                 />
               </View>
-              {errors.meetupLocation && <Text>This is required.</Text>}
+              {errors.meetUp && <Text>This is required.</Text>}
               <View style={{flexDirection: 'row', alignItems: 'baseline'}}>
                 <Text
                   style={[
@@ -260,45 +303,51 @@ export default function NewEvent({navigation}) {
                   ]}>
                   Tags
                 </Text>
-                <Text
+                {/* <Text
                   style={[
                     styles.exception,
                     {marginBottom: '1%', marginTop: '3%'},
                   ]}>
                   *Tap to remove tag
-                </Text>
+                </Text> */}
               </View>
-              <Controller
-                control={control}
-                rules={{
-                  required: false,
-                }}
-                render={({field: {onChange, onBlur, value}}) => (
-                  <View
-                    style={[
-                      styles.textInput,
-                      {
-                        height: '15%',
-                        borderRadius: 15,
-                        paddingHorizontal: 0,
-                        overflow: 'hidden',
-                        justifyContent: 'center',
-                      },
-                    ]}
-                    value={value}>
-                    <View style={styles.interestMap}>{interestList()}</View>
-                  </View>
-                )}
-                name="tags"
-              />
-              <View style={{alignItems: 'center'}}>
+              {loadingState === 'loaded' && (
+                <View style={styles.tagsMap}>{interestList()}</View>
+                // <View>
+                // <Controller
+                //   control={control}
+                //   rules={{
+                //     required: false,
+                //   }}
+                //   render={({field: {onChange, onBlur, value}}) => (
+                //     // <View
+                //     //   style={[
+                //     //     styles.textInput,
+                //     //     {
+                //     //       height: '15%',
+                //     //       borderRadius: 15,
+                //     //       paddingHorizontal: 0,
+                //     //       overflow: 'hidden',
+                //     //       justifyContent: 'center',
+                //     //     },
+                //     //   ]}
+                //     //   value={value}>
+                    
+
+                //     // </View>
+                //   )}
+                //   name="tags"
+                // />
+                // </View>
+              )}
+              {/* <View style={{alignItems: 'center'}}>
                 <TouchableOpacity
-                  onPress={() => navigation.navigate('Tags')}
+                  onPress={() => navigation.navigate('Tags', {'initialTags': tagsList, 'page': 'NewEvent'})}
                   style={styles.button1} // TODO: reroute later, fix dimensions?
                 >
-                  <Text style={styles.buttonText2}>Add Tags</Text>
+                  <Text style={styles.buttonText2}>Edit Tags</Text>
                 </TouchableOpacity>
-              </View>
+              </View> */}
               <Text
                 style={[
                   styles.inputTitle,
@@ -322,9 +371,9 @@ export default function NewEvent({navigation}) {
                     value={value}
                   />
                 )}
-                name="description"
+                name="desc"
               />
-              {errors.description && <Text>This is required.</Text>}
+              {errors.desc && <Text>This is required.</Text>}
               <Text
                 style={[
                   styles.inputTitle,
@@ -458,8 +507,10 @@ const styles = StyleSheet.create({
     height: '100%',
     width: '100%',
   },
-  interestMap: {
+  tagsMap: {
     flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 10,
   },
   header: {
     flexDirection: 'row',

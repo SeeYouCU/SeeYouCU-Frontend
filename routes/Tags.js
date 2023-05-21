@@ -12,7 +12,7 @@ import {
 import Input from '../components/Input';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-export default function Tags({navigation}) {
+export default function Tags({route, navigation}) {
   const tags = [
     {
       key: 'AerobicDance',
@@ -124,6 +124,12 @@ export default function Tags({navigation}) {
     },
   ];
 
+  const { initialTags, page } = route.params;
+
+  useEffect(() => {
+    if (initialTags !== []) setSelectedInterest(initialTags);
+  },[])
+
   const [selectedInterest, setSelectedInterest] = useState([
     'AerobicDance',
     'Acting',
@@ -140,7 +146,7 @@ export default function Tags({navigation}) {
         data: temp.filter(item => JSON.stringify(item) != JSON.stringify(id)),
       });
     console.log('Selected', selectedInterest);
-    navigation.goBack(); //TODO: remove later
+    navigation.navigate({page}, {'currTags': selectedInterest}); //TODO: remove later
   };
 
   const toggleSelection = key => {

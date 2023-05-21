@@ -12,19 +12,22 @@ import {
 import {useForm, Controller} from 'react-hook-form';
 import {Picker} from '@react-native-picker/picker';
 import UploadProfile from '../components/UploadProfile';
+import axios from 'axios';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
-export default function Setup({navigation}) {
+export default function Setup({navigation, route}) {
+  const {email} = route.params;
   const {
     control,
     handleSubmit,
     formState: {errors},
   } = useForm({
     defaultValues: {
-      nickname: '',
+      email: email,
       firstName: '',
       lastName: '',
       goal: '',
-      yearGraduated: '',
+      yearGrad: '',
       faculty: '',
       major: '',
     },
@@ -123,9 +126,11 @@ export default function Setup({navigation}) {
     years.push(i.toString());
   }
 
-  const onSubmit = data => {
+  const onSubmit = async (data) => {
+    const userInfo = await GoogleSignin.getCurrentUser();
+    console.log(userInfo);
     console.log(data);
-    navigation.navigate('Interests');
+    navigation.navigate('Interests', { data: data, email: userInfo.user.email });
   };
 
   return (
@@ -143,7 +148,7 @@ export default function Setup({navigation}) {
       </View>
       <ScrollView contentContainerStyle={{flexGrow: 1, paddingBottom: 200}}>
         <View style={styles.inputContainer}>
-          <Text style={styles.inputTitle}>Nickname</Text>
+          {/* <Text style={styles.inputTitle}>Nickname</Text>
           <Controller
             control={control}
             rules={{
@@ -159,7 +164,7 @@ export default function Setup({navigation}) {
             )}
             name="nickname"
           />
-          {errors.nickname && <Text>This is required.</Text>}
+          {errors.nickname && <Text>This is required.</Text>} */}
           <Text style={styles.inputTitle}>First Name</Text>
           <Controller
             control={control}
@@ -236,9 +241,9 @@ export default function Setup({navigation}) {
                 </Picker>
               </View>
             )}
-            name="yearGraduated"
+            name="yearGrad"
           />
-          {errors.yearGraduated && <Text>This is required.</Text>}
+          {errors.yearGrad && <Text>This is required.</Text>}
           <Text style={styles.inputTitle}>Faculty</Text>
           <Controller
             control={control}

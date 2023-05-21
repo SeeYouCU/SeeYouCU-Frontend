@@ -8,7 +8,7 @@ const ItemCard = props => {
       <View style={styles.itemFrame}>
         <Image
           source={{
-            uri: props.src,
+            uri: props.img,
           }}
           style={styles.itemPic} //TODO: horizontal scrollable
         />
@@ -16,7 +16,7 @@ const ItemCard = props => {
       <View style={styles.itemCard}>
         <Text style={styles.itemPicTitle}>{props.title}</Text>
         <Text style={styles.itemFont3}>
-          "{props.nickname}"&nbsp;{props.fullname}&nbsp;·&nbsp;Posted&nbsp;
+          {props.nickname}&nbsp;{props.fullname}&nbsp;·&nbsp;Posted&nbsp;
           {props.datePosted}
         </Text>
         <Text style={styles.itemFont1}>

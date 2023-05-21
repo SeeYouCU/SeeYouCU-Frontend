@@ -4,6 +4,11 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Chip from './Chip';
 
 const EventCard = props => {
+  const formatDate = (date) => {
+    const rawDate = new Date(date);
+    return rawDate.toLocaleString([], { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+  };
+
   return (
     <View>
       <View style={styles.eventFrame}>
@@ -17,8 +22,8 @@ const EventCard = props => {
       <View style={styles.eventCard}>
         <Text style={styles.eventPicTitle}>{props.title}</Text>
         <Text style={styles.eventFont3}>
-          "{props.nickname}"&nbsp;{props.fullname}&nbsp;·&nbsp;Posted&nbsp;
-          {props.datePosted}
+          {props.nickname}&nbsp;{props.fullname}&nbsp;·&nbsp;Posted&nbsp;
+          {formatDate(props.datePosted)}
         </Text>
         <Text style={styles.eventFont1}>
           <Icon name="account-outline" size={15} />

@@ -1,10 +1,12 @@
-import * as React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   StyleSheet,
   Dimensions,
   ImageBackground,
   TouchableOpacity,
+  Text,
+  Image
 } from 'react-native';
 import ProfileCard from '../components/ProfileCard';
 import Input from '../components/Input';
@@ -13,9 +15,59 @@ import NavigationFooter from '../components/NavigationFooter';
 import TogglePage from '../components/TogglePage';
 
 export default function Match({navigation}) {
-  const [is1, makeIs1] = React.useState(true)
-  const [is2, makeIs2] = React.useState(false)
-  const [is3, makeIs3] = React.useState(false)
+  React.useEffect(() => {
+    isSignedIn = async () => {
+      const isSignedIn = await GoogleSignin.isSignedIn();
+      if (isSignedIn == false) navigation.navigate('Setup');
+    };
+  }, []);
+
+  const [cards, setCards] = useState([
+    {
+      id: 1,
+      src: 'https://cdn.discordapp.com/attachments/1102280430293618789/1102281844004761731/4877415126921268548.9540010e62a7ceefefcd3d60c7ef651a.23043014.jpg',
+      nickname: 'Tem',
+      name: 'Natchuda Somboonviboon',
+      event: 'Finding a Friend',
+      age: '20',
+      faculty: 'ISE',
+      major: 'ICE',
+      batch: 'Chula 104',
+      bio: 'See you!',
+      interests: ['Debate', 'Cafe', 'Makeup', 'Skincare', 'Music'],
+    },
+    {
+      id: 2,
+      src: 'https://cdn.discordapp.com/attachments/1102280430293618789/1102284453746843759/image.png',
+      nickname: 'Chaba',
+      name: 'Chaba Jumsai Na Ayudhya',
+      event: 'Finding a Friend',
+      age: '20',
+      faculty: 'ISE',
+      major: 'ICE',
+      batch: 'Chula 104',
+      bio: 'See you!',
+      interests: ['Skincare', 'Exercise', 'Makeup', 'Math', 'Music'],
+    },
+    {
+      id: 3,
+      src: 'https://cdn.discordapp.com/attachments/1102280430293618789/1102281945234280499/4877415126921268548.3e09fdbb5bdf7601f73464551641cb81.23043015.jpg',
+      nickname: 'Ploy',
+      name: 'Bantarawan Chinchai',
+      event: 'Finding a Friend',
+      age: '20',
+      faculty: 'ISE',
+      major: 'ICE',
+      batch: 'Chula 104',
+      bio: 'See you!',
+      interests: ['Basketball', 'Singing', 'Makeup', 'Skincare', 'Music'],
+    },
+  ]);
+
+  const removeCard = id => {
+    setCards(cards.filter(card => card.id !== id));
+  };
+
   return (
     <ImageBackground
       source={require('../public/bg.png')}
@@ -36,73 +88,37 @@ export default function Match({navigation}) {
             flexDirection: 'row',
           }}>
           <View style={{width: 30}} />
-          <View style={{flex: 1}}>
+          {/* <View style={{flex: 1}}>
             <TogglePage rightTitle="Added You" leftTitle="Discover" />
-          </View>
+          </View> */}
           <TouchableOpacity
-            onPress={() => navigation.navigate('Friends')} // TODO: reroute later
+            onPress={() => navigation.navigate('Friends')}
             style={styles.iconButton2}>
             <Icon name="people" size={20} color="#155e6d" />
           </TouchableOpacity>
         </View>
-        <TouchableOpacity onPressOut={() => {
-          if (is1 == true) {makeIs1(false); makeIs2(true)}
-          if (is2 == true) {makeIs2(false); makeIs3(true)}
-        }}
-        style={{flex: 1}}
-        >
-          {is1 == true && (
-            <ProfileCard
-              src="https://cdn.discordapp.com/attachments/1102280430293618789/1102284453746843759/image.png"
-              nickname="Chaba"
-              name="Chaba Jumsai"
-              event="Finding a Friend"
-              age="22"
-              faculty="Engineering"
-              major="ICE"
-              class="Chula 104"
-              isMatch="true"
-              bio="Looking forward to meeting you!"
-              interests={['Skincare', 'Exercise', 'Makeup', 'Movies', 'Music']}
-            />
-          )}
-          {is2 == true && (
-            <ProfileCard
-              src="https://cdn.discordapp.com/attachments/1102280430293618789/1102283966700081234/IMG_6771.jpg"
-              nickname="Leila"
-              name="Leila Iglesias"
-              event="Finding a Friend"
-              age="20"
-              faculty="Engineering"
-              major="ICE"
-              class="Chula 104"
-              isMatch="true"
-              bio="Let's have a good lunch together!"
-              interests={['Gaming', 'Basketball', 'Makeup', 'Comics', 'Music']}
-            />
-          )}
-          {is3 == true && (
-            <ProfileCard
-              src="https://cdn.discordapp.com/attachments/1102280430293618789/1102281844004761731/4877415126921268548.9540010e62a7ceefefcd3d60c7ef651a.23043014.jpg"
-              nickname="Tem"
-              name="Natchuda Somboonviboon"
-              event="Finding a Friend"
-              age="21"
-              faculty="Engineering"
-              major="ICE"
-              class="Chula 104"
-              isMatch="true"
-              bio="I'll be your project manager!"
-              interests={[
-                'Business',
-                'Reading',
-                'Harry Potter',
-                'Dramas',
-                'Music',
-              ]}
-            />
-          )}
-        </TouchableOpacity>
+        {cards.length !== 0 ? (
+          <ProfileCard
+            key={cards[0].id}
+            src={cards[0].src}
+            nickname={cards[0].nickname}
+            name={cards[0].name}
+            event={cards[0].event}
+            age={cards[0].age}
+            faculty={cards[0].faculty}
+            major={cards[0].major}
+            class={cards[0].batch}
+            isMatch="true"
+            bio={cards[0].bio}
+            interests={cards[0].interests}
+            onRemove={() => removeCard(cards[0].id)}
+          />
+        ) : (
+          <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+            <Image style={styles.popupImage} source={require('../public/success.png')} />
+            <Text style={styles.noMatches}>Out of matches!</Text>
+          </View>
+        )}
       </View>
       <NavigationFooter currentPage="0" style={{position: 'relative'}} />
     </ImageBackground>
@@ -142,4 +158,16 @@ const styles = StyleSheet.create({
     height: 30,
     backgroundColor: '#c3eaeb',
   },
+  noMatches: {
+    color: '#155e6d',
+    fontSize: 20,
+    fontWeight: 700,
+    marginBottom: '2%',
+    textAlign: 'center'
+  },  
+  popupImage: {
+    height: '25%',
+    width: '40%',
+    resizeMode: 'contain',
+  }
 });

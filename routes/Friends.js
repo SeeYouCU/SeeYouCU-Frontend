@@ -11,42 +11,7 @@ import {
 import UserMatch from '../components/UserMatch';
 import Icon from 'react-native-vector-icons/AntDesign';
 
-const data = [{
-    src: 'https://cdn.discordapp.com/attachments/1102280430293618789/1102281844004761731/4877415126921268548.9540010e62a7ceefefcd3d60c7ef651a.23043014.jpg',
-    nickname: 'Tem',
-    name: 'Natchuda Somboonviboon',
-    event: 'Finding a Friend',
-    age: '20',
-    faculty: 'ISE',
-    major: 'ICE',
-    batch: 'Chula 104',
-    bio: 'See you!',
-    interests: ['Debate', 'Cafe', 'Makeup', 'Skincare', 'Music'],
-  },
-  {
-    src: 'https://cdn.discordapp.com/attachments/1102280430293618789/1102284453746843759/image.png',
-    nickname: 'Chaba',
-    name: 'Chaba Jumsai Na Ayudhya',
-    event: 'Finding a Friend',
-    age: '20',
-    faculty: 'ISE',
-    major: 'ICE',
-    batch: 'Chula 104',
-    bio: 'See you!',
-    interests: ['Skincare', 'Exercise', 'Makeup', 'Math', 'Music'],
-  },
-  {
-    src: 'https://cdn.discordapp.com/attachments/1102280430293618789/1102281945234280499/4877415126921268548.3e09fdbb5bdf7601f73464551641cb81.23043015.jpg',
-    nickname: 'Ploy',
-    name: 'Bantarawan Chinchai',
-    event: 'Finding a Friend',
-    age: '20',
-    faculty: 'ISE',
-    major: 'ICE',
-    batch: 'Chula 104',
-    bio: 'See you!',
-    interests: ['Basketball', 'Singing', 'Makeup', 'Skincare', 'Music'],
-  },
+const data = [
   {
     src: 'https://cdn.discordapp.com/attachments/1102280430293618789/1102281644083249162/4877415126921268548.f380451f921a47ddb713700a9952291f.23043022.jpg',
     nickname: 'Tata',

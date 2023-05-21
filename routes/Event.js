@@ -14,19 +14,19 @@ import NavigationFooter from '../components/NavigationFooter';
 
 export default function Event({route, navigation}) {
   const {
-    isOwner,
-    src,
-    title,
-    nickname,
-    fullname,
-    datePosted,
-    currentParticipants,
-    maxParticipants,
+    id,
+    EName,
+    desc,
+    createAt,
+    img,
+    meetUp,
     location,
-    datetime,
-    meetupLocation,
-    interests,
-    description,
+    date,
+    tag,
+    userid,
+    maxP,
+    firstName,
+    LastName,
   } = route.params;
   return (
     <ImageBackground
@@ -40,7 +40,7 @@ export default function Event({route, navigation}) {
             <Icon name="left" size={25} color="#155e6d" />
           </TouchableOpacity>
           <View style={styles.titleHeader}>
-            <Text style={styles.titleHeader}>{title}</Text>
+            <Text style={styles.titleHeader}>{desc}</Text>
           </View>
           {isOwner == true ? (
             <TouchableOpacity
@@ -55,18 +55,18 @@ export default function Event({route, navigation}) {
         <ScrollView contentContainerStyle={{flexGrow: 1, paddingBottom: 440}}>
           <View style={styles.scroll}>
             <EventCard //TODO: detect length of padding needed?
-              src={src}
-              title={title}
-              nickname={nickname}
-              fullname={fullname}
-              datePosted={datePosted}
-              currentParticipants={currentParticipants}
-              maxParticipants={maxParticipants}
+              src={''}
+              title={EName}
+              nickname={firstName}
+              fullname={LastName}
+              datePosted={createAt}
+              currentParticipants={1}
+              maxParticipants={maxP}
               location={location}
-              datetime={datetime}
-              meetupLocation={meetupLocation}
-              interests={interests}
-              description={description}
+              datetime={date}
+              meetupLocation={meetUp}
+              interests={["ar"]}
+              description={desc}
             />
           </View>
         </ScrollView>

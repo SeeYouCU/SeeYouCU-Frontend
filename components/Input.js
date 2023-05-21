@@ -23,6 +23,7 @@ const Input = props => {
         value={number}
         placeholder={props.placeholder}
         placeholderTextColor="#155e6d"
+        onChange={props.onChange}
       />
     </View>
   );

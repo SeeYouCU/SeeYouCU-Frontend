@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   StyleSheet,
@@ -13,77 +13,51 @@ import Input from '../components/Input';
 import Icon from 'react-native-vector-icons/Ionicons';
 import NavigationFooter from '../components/NavigationFooter';
 import TogglePage from '../components/TogglePage';
-
-const data = [
-  {
-    src: 'https://m.media-amazon.com/images/I/513gBS+AT2L._AC_UF1000,1000_QL80_.jpg',
-    title: 'Serway Physics',
-    nickname: 'Vinze',
-    fullname: 'Siriwat J.',
-    datePosted: '23 March 2023',
-    condition: 'New',
-    location: "Chula Book Center",
-    date: "20 August 2020",
-    needReturn: "Not Required",
-    interests: [
-      'Basketball',
-      'Tennis',
-      'Marvel Movies',
-      'Comics',
-      'Music',
-      'Science',
-    ],
-    description: "See you there!"
-  },
-  {
-    src: 'https://inwfile.com/s-fp/r8f2ig.jpg',
-    title: 'M5Stack',
-    nickname: 'Vinze',
-    fullname: 'Siriwat J.',
-    datePosted: '23 March 2023',
-    condition: 'New',
-    location: "Chula Book Center",
-    date: "20 August 2020",
-    needReturn: "Not Required",
-    interests: [
-      'Basketball',
-      'Tennis',
-      'Marvel Movies',
-      'Comics',
-      'Music',
-      'Science',
-    ],
-    description: "See you there!"
-  },
-];
+import axios from 'axios';
 
 const ItemMapCard = ({item}) => {
+  const formatDate = (date) => {
+    const rawDate = new Date(date);
+    return rawDate.toLocaleString([], { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+  };
   return (
     <View style={styles.itemCard}>
       <View style={styles.itemFrame}>
         <Image
           source={{
-            uri: item.src,
+            uri: item.img,
           }}
           style={styles.itemPic}
         />
       </View>
-      <Text style={styles.itemPicTitle}>{item.title}</Text>
+      <Text style={styles.itemPicTitle}>{item.desc}</Text>
       <Text style={styles.itemFont1}>
-        "{item.nickname}"&nbsp;{item.fullname}
+        {item.firstName}&nbsp;{item.LastName}
       </Text>
       <Text style={styles.itemFont1}>
         Condition:&nbsp;
         <Text style={[styles.itemFont1, {fontWeight: '600'}]}>
-          {item.condition}
+          {item.Condition}
         </Text>
       </Text>
-      <Text style={styles.itemFont1}>{item.datePosted}</Text>
+      <Text style={styles.itemFont1}>{formatDate(item.createAt)}</Text>
     </View>
   );
 };
 
 export default function Exchange({navigation}) {
+  const [items, setItems] = useState([]);
+
+  useEffect(() => {
+    axios.get(`http://localhost:8080/api/posts/getItems`)
+      .then(response => {
+        setItems(response.data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }, []);
+
   return (
     <ImageBackground
       source={require('../public/bg.png')} // TODO: vinze - slider button
@@ -97,18 +71,18 @@ export default function Exchange({navigation}) {
             <Icon name="notifications-outline" size={25} color="#155e6d" />
           </TouchableOpacity>
         </View>
-        <View
+        {/* <View
           style={{
             flex: 1,
             marginTop: '4%',
             marginBottom: '8%',
           }}>
           <TogglePage rightTitle="Added You" leftTitle="Discover" />
-        </View>
+        </View> */}
         <View style={{marginTop: '5%'}}>
           <ScrollView contentContainerStyle={{flexGrow: 1, paddingBottom: 180}}>
             <View style={{paddingBottom: 0}}>
-              {data.map(
+              {items.map(
                 (
                   item,
                   index, //TODO: detect length of padding needed?

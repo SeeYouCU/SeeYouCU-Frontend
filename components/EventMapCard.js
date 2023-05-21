@@ -8,14 +8,14 @@ const EventMapCard = ({item, type}) => {
       <View style={styles.eventFrame}>
         <Image
           source={{
-            uri: item.src,
+            uri: 's', //TODO change to img later
           }}
           style={styles.eventPic}
         />
       </View>
-      <Text style={styles.eventPicTitle}>{item.title}</Text>
+      <Text style={styles.eventPicTitle}>{item.EName}</Text>
       <Text style={styles.eventFont1}>
-        "{item.nickname}"&nbsp;{item.fullname}
+        {item.firstName}&nbsp;{item.LastName}
       </Text>
       {type === 'item' ? (
         <View>
@@ -31,7 +31,7 @@ const EventMapCard = ({item, type}) => {
         <View>
           <Text style={styles.eventFont1}>
             <Icon name="account-outline" size={15} />
-            &nbsp;&nbsp;{item.currentParticipants}/{item.maxParticipants}{' '}
+            &nbsp;&nbsp;{item.maxP}{' '}
             Participants
           </Text>
           <Text style={styles.eventFont1}>
@@ -40,7 +40,7 @@ const EventMapCard = ({item, type}) => {
           </Text>
           <Text style={styles.eventFont1}>
             <Icon name="alarm" size={15} />
-            &nbsp;&nbsp;{item.datetime}
+            &nbsp;&nbsp;{item.date}
           </Text>
         </View>
       )}

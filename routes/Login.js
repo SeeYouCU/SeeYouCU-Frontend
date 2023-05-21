@@ -1,4 +1,5 @@
-import * as React from 'react';
+import {React, useEffect, useState} from 'react';
+import axios from 'axios';
 
 import {
   Text,
@@ -14,39 +15,50 @@ import {
   statusCodes,
 } from '@react-native-google-signin/google-signin';
 
-_signIn = async () => {
-  try {
-    await GoogleSignin.hasPlayServices();
-    const {accessToken, idToken} = await GoogleSignin.signIn();
-    setloggedIn(true);
-  } catch (error) {
-    if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-      // user cancelled the login flow
-      alert('Sign in cancelled');
-    } else if (error.code === statusCodes.IN_PROGRESS) {
-      alert('In progress');
-      // operation (f.e. sign in) is in progress already
-    } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-      alert('Play services not available');
-      // play services not available or outdated
-    } else {
-      // some other error happened
-    }
-  }
-};
-
 export default function Login({navigation}) {
-  const [loggedIn, setloggedIn] = React.useState(false);
-  const [userInfo, setuserInfo] = React.useState([]);
+  // const [loggedIn, setloggedIn] = useState(false);
+  const [getUserInfo, setUserInfo] = useState([]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     GoogleSignin.configure({
-      scopes: ['email'], // what API you want to access on behalf of the user, default is email and profile
       webClientId:
-        '418977770929-g9ou7r9eva1u78a3anassxxxxxxx.apps.googleusercontent.com', // client ID of type WEB for your server (needed to verify user ID and offline access)
-      offlineAccess: true, // if you want to access Google API on behalf of the user FROM YOUR SERVER
+        '175282312397-s2jkpdm3rd5qqaieh03q5aq4cgl9phol.apps.googleusercontent.com',
+      offlineAccess: true,
+      forceCodeForRefreshToken: true,
     });
-  }, []);
+  });
+
+  const signIn = async () => {
+    try {
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+      setUserInfo(userInfo.user.email);
+      console.log(userInfo.user.email);
+      axios.post(`http://localhost:8080/api/auth/loginGoogle`,{"email": "6338194021@student.chula.ac.th"}) //"test11@gmail.com"
+        .then(response => {
+          navigation.navigate('Match');
+        })
+        .catch(error => {
+          if (error.response.status === 404) {
+            console.log('User does not exist');
+            navigation.navigate('Setup', {'email': userInfo.user.email});
+          }
+          console.error(error);
+        });
+    } catch (error) {
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        console.log('User cancelled the login flow');
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        console.log('Signing in');
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        console.log('Play services not available');
+      } else {
+        console.log('Some other error happened');
+        console.log(error.message);
+        console.log(error.code);
+      }
+    }
+  };
 
   return (
     <ImageBackground
@@ -67,8 +79,7 @@ export default function Login({navigation}) {
 
         <TouchableOpacity
           style={styles.buttonStyle}
-          // onPress={this._signIn} TODO
-          onPress={() => navigation.navigate('Setup')}
+          onPress={signIn}
           activeOpacity={0.5}>
           <Image
             source={require('../public/google.png')}

@@ -7,63 +7,91 @@ import {
   TouchableOpacity,
   Dimensions,
   Image,
-  Controller,
-  TextInput,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import NavigationFooter from '../components/NavigationFooter';
 import Chip from '../components/Chip';
+import axios from 'axios';
 
 export default function Account({navigation}) {
-  const tags = [
-    {
-      key: 'AerobicDance',
-      src: 'https://www.stylecraze.com/wp-content/uploads/2015/01/04.jpg',
-      title: 'Aerobic Dance',
-      isSelected: false,
-    },
-    {
-      key: 'Acting',
-      src: 'https://theatre.ua.edu/wp-content/uploads/2019/10/17-18-Vinegar-Tom-JH-1024x684.jpg',
-      title: 'Acting',
-      isSelected: false,
-    },
-    {
-      key: 'Anime',
-      src: 'https://assets-prd.ignimgs.com/2022/08/17/top25animecharacters-blogroll-1660777571580.jpg',
-      title: 'Anime',
-      isSelected: false,
-    },
-    {
-      key: 'Badminton',
-      src: 'https://ss-i.thgim.com/public/incoming/wf966c/article66364426.ece/alternates/FREE_1200/GettyImages-1409229566.jpg',
-      title: 'Badminton',
-      isSelected: false,
-    },
-    {
-      key: 'Basketball',
-      src: 'https://cdn.nba.com/manage/2023/04/GettyImages-1239701619-scaled.jpg',
-      title: 'Basketball',
-      isSelected: false,
-    },
-  ];
+  // const tags = [
+  //   {
+  //     key: 'AerobicDance',
+  //     src: 'https://www.stylecraze.com/wp-content/uploads/2015/01/04.jpg',
+  //     title: 'Aerobic Dance',
+  //     isSelected: false,
+  //   },
+  //   {
+  //     key: 'Acting',
+  //     src: 'https://theatre.ua.edu/wp-content/uploads/2019/10/17-18-Vinegar-Tom-JH-1024x684.jpg',
+  //     title: 'Acting',
+  //     isSelected: false,
+  //   },
+  //   {
+  //     key: 'Anime',
+  //     src: 'https://assets-prd.ignimgs.com/2022/08/17/top25animecharacters-blogroll-1660777571580.jpg',
+  //     title: 'Anime',
+  //     isSelected: false,
+  //   },
+  //   {
+  //     key: 'Badminton',
+  //     src: 'https://ss-i.thgim.com/public/incoming/wf966c/article66364426.ece/alternates/FREE_1200/GettyImages-1409229566.jpg',
+  //     title: 'Badminton',
+  //     isSelected: false,
+  //   },
+  //   {
+  //     key: 'Basketball',
+  //     src: 'https://cdn.nba.com/manage/2023/04/GettyImages-1239701619-scaled.jpg',
+  //     title: 'Basketball',
+  //     isSelected: false,
+  //   },
+  // ];
+  const [getTags, setTags] = React.useState([]);
+  var tags = [];
+  const [loadingState, setLoadingState] = React.useState('not_loaded');
+  const [item, setItem] = React.useState([]);
+
+  React.useEffect(() => {
+    setLoadingState('loading');
+    axios
+      .post(`http://localhost:8080/api/users/getUser`, {
+        email: 'test11@gmail.com',
+      })
+      .then(response => {
+        setItem(response.data);
+        tags = response.data[0].tags.slice(1).slice(0, -1).split(',');
+        setTags(tags);
+        setLoadingState('loaded');
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }, []);
 
   const interestList = () => {
-    return tags.map((item, index) => {
+    return getTags.map((i, index) => {
+      console.log(getTags);
       return (
-        <TouchableOpacity key={index} onPress={() => removeTag(item.key)}>
-          <View key={index} style={styles.interestItem}>
-            <View style={styles.itemImgFrame}>
-              <Image
-                source={{
-                  uri: item.src,
-                }}
-                style={styles.itemImg}
-              />
-            </View>
-            <Text style={styles.itemName}>{item.title}</Text>
-          </View>
-        </TouchableOpacity>
+        // <TouchableOpacity key={index} onPress={() => removeTag(i.id)}>
+        //   <View key={index} style={styles.interestItem}>
+        //     <View style={styles.itemImgFrame}>
+        //       <Image
+        //         source={{
+        //           uri: i.src,
+        //         }}
+        //         style={styles.itemImg}
+        //       />
+        //     </View>
+        //     <Text style={styles.itemName}>{i.title}</Text>
+        //   </View>
+        // </TouchableOpacity>
+        <Chip
+          key={index}
+          textColor="#102c3d"
+          borderColor="white"
+          backgroundColor="#ebf5f6"
+          label={i.slice(1).slice(0, -1)}
+        />
       );
     });
   };
@@ -83,46 +111,38 @@ export default function Account({navigation}) {
         </View>
         <View style={{width: 25}} />
       </View>
-      <View style={styles.content}>
-        <View style={{flexDirection: 'row'}}>
-          <View style={styles.profileFrame}>
-          <Image
-          source={{
-            uri: 'https://cdn.discordapp.com/attachments/1102280430293618789/1102281644397826068/4877415126921268548.503FA07FE94C48BDB94D4B10F02379FE.23043021.jpg',
-          }}
-          style={styles.profilePhoto}
-        />
+      {loadingState === 'loaded' && (
+        <View style={styles.content}>
+          <View style={{flexDirection: 'row'}}>
+            <View style={styles.profileFrame}>
+              <Image
+                source={{
+                  uri: 'https://cdn.discordapp.com/attachments/1102280430293618789/1102281644397826068/4877415126921268548.503FA07FE94C48BDB94D4B10F02379FE.23043021.jpg',
+                }}
+                style={styles.profilePhoto}
+              />
+            </View>
+            <View style={styles.textGrid}>
+              <Text style={styles.subheader}>{item[0].FirstName}</Text>
+              <Text style={styles.description}>
+                {item[0].FirstName}&nbsp;{item[0].LastName}
+              </Text>
+              <Text style={styles.description}>{item[0].faculty}</Text>
+              <Text style={styles.description}>{item[0].major}</Text>
+              <Chip
+                textColor="#102c3d"
+                borderColor="#06bac0"
+                backgroundColor="white"
+                label={item[0].Goals}
+              />
+            </View>
           </View>
-          <View style={styles.textGrid}>
-            <Text style={styles.subheader}>Nugget</Text>
-            <Text style={styles.description}>Jirapat Wachirasub</Text>
-            <Text style={styles.description}>ISE</Text>
-            <Text style={styles.description}>ICE</Text>
-            <Chip
-              textColor="#102c3d"
-              borderColor="#06bac0"
-              backgroundColor="white"
-              label="Tech Talk"
-            />
-          </View>
+          <Text style={styles.subheader2}>Bio</Text>
+          <Text style={styles.bio}>Just enjoying the ride.</Text>
+          <Text style={styles.subheader2}>Interests</Text>
+          <View style={styles.tagsMap}>{interestList()}</View>
         </View>
-        <Text style={styles.subheader2}>Bio</Text>
-        <Text style={styles.bio}>Just enjoying the ride.</Text>
-        <Text style={styles.subheader2}>Interests</Text>
-        <View
-          style={[ //TODO: scrollable
-            styles.bio,
-            {
-              height: '20%',
-              borderRadius: 15,
-              paddingHorizontal: 0,
-              overflow: 'hidden',
-              justifyContent: 'center',
-            },
-          ]}>
-          <View style={{flexDirection: 'row'}}>{interestList()}</View>
-        </View>
-      </View>
+      )}
       <NavigationFooter currentPage="3" />
     </ImageBackground>
   );
@@ -169,6 +189,11 @@ const styles = StyleSheet.create({
     height: 150,
     width: 150,
   },
+  tagsMap: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 10,
+  },
   textGrid: {
     alignItems: 'flex-start',
   },
@@ -203,7 +228,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     color: 'black',
     fontSize: 15,
-    marginBottom: '5%'
+    marginBottom: '5%',
   },
   subheader2: {
     color: '#414141',
