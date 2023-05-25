@@ -148,23 +148,6 @@ export default function Setup({navigation, route}) {
       </View>
       <ScrollView contentContainerStyle={{flexGrow: 1, paddingBottom: 200}}>
         <View style={styles.inputContainer}>
-          {/* <Text style={styles.inputTitle}>Nickname</Text>
-          <Controller
-            control={control}
-            rules={{
-              required: true,
-            }}
-            render={({field: {onChange, onBlur, value}}) => (
-              <TextInput
-                style={styles.textInput}
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-              />
-            )}
-            name="nickname"
-          />
-          {errors.nickname && <Text>This is required.</Text>} */}
           <Text style={styles.inputTitle}>First Name</Text>
           <Controller
             control={control}
@@ -298,7 +281,7 @@ export default function Setup({navigation, route}) {
         }}>
         <TouchableOpacity
           onPress={handleSubmit(onSubmit)}
-          style={[styles.button2, {width: '100%', height: '70%'}]} // TODO: reroute later, fix dimensions?
+          style={[styles.button2, {width: '100%', height: '70%'}]}
         >
           <Text style={styles.buttonText}>Next</Text>
         </TouchableOpacity>

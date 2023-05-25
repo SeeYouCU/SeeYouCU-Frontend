@@ -61,7 +61,7 @@ export default function Settings({navigation}) {
             Linking.openURL(
               'https://drive.google.com/file/d/1smMqvGLNFEUS4aWRL8S9a7_EnNYNhU2w/view?usp=sharing',
             );
-          }} //TODO: reroute later
+          }}
         >
           <View style={styles.settingsRow}>
             <Icon name="help-outline" size={25} color="black" />

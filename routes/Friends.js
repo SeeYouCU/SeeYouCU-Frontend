@@ -25,18 +25,6 @@ const data = [
     interests: ['Coffee', 'Movie', 'Makeup', 'Skincare', 'Music'],
   },
   {
-    src: 'https://cdn.discordapp.com/attachments/1102280430293618789/1102285756959043614/4877415126921268548.10b459bb1c82dca52b66ec869088c848.23043014.JPG',
-    nickname: 'Franc',
-    name: 'Franc Witsathon',
-    event: 'Finding a Friend',
-    age: '20',
-    faculty: 'ISE',
-    major: 'ICE',
-    batch: 'Chula 104',
-    bio: 'See you!',
-    interests: ['Football', 'Business', 'Makeup', 'Skincare', 'Music'],
-  },
-  {
     src: 'https://cdn.discordapp.com/attachments/1102280430293618789/1102283966700081234/IMG_6771.jpg',
     nickname: 'Leila',
     name: 'Leila Sagad Iglesias',

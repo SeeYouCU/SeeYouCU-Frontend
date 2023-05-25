@@ -8,18 +8,13 @@ import {
   Image,
   TouchableOpacity,
   ScrollView,
+  TextInput
 } from 'react-native';
 import Input from '../components/Input';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function Tags({route, navigation}) {
   const tags = [
-    {
-      key: 'AerobicDance',
-      src: 'https://www.stylecraze.com/wp-content/uploads/2015/01/04.jpg',
-      title: 'Aerobic Dance',
-      isSelected: false,
-    },
     {
       key: 'Acting',
       src: 'https://theatre.ua.edu/wp-content/uploads/2019/10/17-18-Vinegar-Tom-JH-1024x684.jpg',
@@ -105,15 +100,15 @@ export default function Tags({route, navigation}) {
       isSelected: false,
     },
     {
-      key: 'Esports',
+      key: 'Game',
       src: 'https://cdn.mos.cms.futurecdn.net/3UrmuKyTpK8TavGvEajuGP.jpg',
       title: 'E-Sports',
       isSelected: false,
     },
     {
-      key: 'Eshopping',
+      key: 'Shopping',
       src: 'https://www.hostbooks.com/in/wp-content/uploads/2017/07/eshopping-1.jpg',
-      title: 'E-Shopping',
+      title: 'Shopping',
       isSelected: false,
     },
     {
@@ -122,7 +117,29 @@ export default function Tags({route, navigation}) {
       title: 'Eating',
       isSelected: false,
     },
-  ];
+    {
+      key: 'Sports',
+      src: 'https://tsblogadmin.teamsnap.com/wp-content/uploads/2016/01/Multiple-Sports.jpg',
+      title: 'Sports',
+      isSelected: false,
+    },
+  ];  
+  const [filteredData, setFilteredData] = React.useState(tags);
+  const [searchText, setSearchText] = React.useState('');
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      const filtered = tags.filter(item =>
+        item.key.toLowerCase().includes(searchText.toLowerCase()),
+      );
+      setFilteredData(filtered);
+    }, 1000);
+    return () => clearTimeout(timeoutId);
+  }, [searchText]);
+
+  const handleInputChange = e => {
+    console.log(e);
+    setSearchText(e);
+  };
 
   const { initialTags, page } = route.params;
 
@@ -130,13 +147,7 @@ export default function Tags({route, navigation}) {
     if (initialTags !== []) setSelectedInterest(initialTags);
   },[])
 
-  const [selectedInterest, setSelectedInterest] = useState([
-    'AerobicDance',
-    'Acting',
-    'Anime',
-    'Badminton',
-    'Basketball',
-  ]);
+  const [selectedInterest, setSelectedInterest] = useState([]);
 
   const handleSelectPill = (id, select) => {
     const temp = selectedInterest;
@@ -146,7 +157,7 @@ export default function Tags({route, navigation}) {
         data: temp.filter(item => JSON.stringify(item) != JSON.stringify(id)),
       });
     console.log('Selected', selectedInterest);
-    navigation.navigate({page}, {'currTags': selectedInterest}); //TODO: remove later
+    navigation.navigate(page, {'currTags': selectedInterest}); //TODO: remove later
   };
 
   const toggleSelection = key => {
@@ -163,7 +174,9 @@ export default function Tags({route, navigation}) {
   };
 
   const interestList = () => {
-    return tags.map((item, index) => {
+    const dataToRender = filteredData.length > 0 ? filteredData : tags;
+
+    return dataToRender.map((item, index) => {
       const imageBlur = selectedInterest.includes(item.key) ? 30 : 0;
       return (
         <TouchableOpacity key={index} onPress={() => toggleSelection(item.key)}>
@@ -197,15 +210,25 @@ export default function Tags({route, navigation}) {
       source={require('../public/bg.png')}
       style={styles.container}>
       <Text style={styles.title}>Add Tags</Text>
-      <Input
-        isSearch="true"
-        placeholder="Search"
-        style={{marginTop: '5%', marginBottom: '5%'}}
-      />
+      <View style={styles.inputContainer}>
+        <Icon
+          name="search"
+          size={15}
+          color="#155e6d"
+          style={styles.searchIcon}
+        />
+        <TextInput
+          style={styles.textInput}
+          placeholder="Search"
+          placeholderTextColor="#155e6d"
+          value={searchText}
+          onChangeText={handleInputChange}
+        />
+      </View>
       <ScrollView fadingEdgeLength={180}>
         <View style={styles.interestMap}>{interestList()}</View>
       </ScrollView>
-      {selectedInterest.length == 5 ? (
+      {selectedInterest.length > 1 ? (
         <View
           style={{
             width: 'auto',
@@ -213,7 +236,7 @@ export default function Tags({route, navigation}) {
           }}>
           <TouchableOpacity
             onPress={handleSelectPill}
-            style={[styles.button2, {width: '100%', height: '70%'}]} // TODO: reroute later, fix dimensions?
+            style={[styles.button2, {width: '100%', height: '70%'}]}
           >
             <Text style={styles.buttonText}>Done</Text>
           </TouchableOpacity>
@@ -228,7 +251,7 @@ export default function Tags({route, navigation}) {
             style={[
               styles.button2,
               {width: '100%', height: '70%', display: 'none'},
-            ]} // TODO: reroute later, fix dimensions?
+            ]} 
           >
             <Text style={styles.buttonText}>Done</Text>
           </TouchableOpacity>
@@ -255,6 +278,25 @@ const styles = StyleSheet.create({
     width: 90,
     borderRadius: 70,
     margin: '3%',
+  },
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderColor: '#155e6d',
+    backgroundColor: 'rgba(255, 255, 255, 0.3)',
+    borderWidth: 1,
+    borderRadius: 12,
+    paddingHorizontal: 10,
+    marginVertical: '5%',
+  },
+  searchIcon: {
+    marginLeft: 3,
+    marginRight: 6,
+  },
+  textInput: {
+    height: 'auto',
+    padding: 0,
+    margin: 0,
   },
   itemImg: {
     resizeMode: 'cover',

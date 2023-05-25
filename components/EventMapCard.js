@@ -8,7 +8,7 @@ const EventMapCard = ({item, type}) => {
       <View style={styles.eventFrame}>
         <Image
           source={{
-            uri: 's', //TODO change to img later
+            uri: 'https://business.twitter.com/content/dam/business-twitter/insights/may-2018/event-targeting.png.twimg.1920.png',
           }}
           style={styles.eventPic}
         />

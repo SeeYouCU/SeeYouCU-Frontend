@@ -11,14 +11,66 @@ import {
 import ItemCard from '../components/ItemCard';
 import Icon from 'react-native-vector-icons/AntDesign';
 import NavigationFooter from '../components/NavigationFooter';
-import { create } from 'react-test-renderer';
+import axios from 'axios';
 
 export default function Item({route, navigation}) {
-  const formatDate = (date) => {
+  const formatDate = date => {
     const rawDate = new Date(date);
-    return rawDate.toLocaleString([], { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+    return rawDate.toLocaleString([], {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+    });
   };
-  const {id,userid,desc,tag,img,createAt,PlaceOfPurchase,DateOfPurchase,Condition,userId,firstName,LastName} = route.params;
+  const {
+    id,
+    userid,
+    desc,
+    tag,
+    img,
+    createAt,
+    PlaceOfPurchase,
+    DateOfPurchase,
+    Condition,
+    userId,
+    firstName,
+    LastName,
+  } = route.params;
+  const [isLoaded, setIsLoaded] = React.useState('not_loaded');
+
+  const [tagsList, setTagsList] = React.useState([]);
+
+  React.useEffect(() => {
+    var sampleTag = '["sport","game"]';
+    var tagsTemp = JSON.parse(sampleTag);
+    console.log(tagsTemp);
+    setTagsList(tagsTemp);
+    setIsLoaded('loaded');
+  }, []);
+
+  const handleButtonPress = async () => {
+    console.log(typeof(id.toString()), userid);
+    await axios
+      .post('http://10.0.2.2:8080/api/exchange/exchange', {"itemID": id.toString(), "userID": userId.toString()})
+      .then(async (response) => {
+        console.log('response', response);
+        await axios
+          .post('http://10.0.2.2:8080/api/exchange/approveItem', {"itemID": id.toString()})
+          .then(response => {
+            console.log('response', response);
+            navigation.navigate('Events');
+          })
+          .catch(error => {
+            console.log('error', error);
+          });
+      })
+      .catch(error => {
+        console.log('error', error);
+      });
+  };
+
   return (
     <ImageBackground
       source={require('../public/bg.png')}
@@ -31,11 +83,11 @@ export default function Item({route, navigation}) {
             <Icon name="left" size={25} color="#155e6d" />
           </TouchableOpacity>
           <View style={styles.titleHeader}>
-            <Text style={styles.titleHeader}>{firstName}</Text>
+            <Text style={styles.titleHeader}>{desc}</Text>
           </View>
           {isOwner == true ? (
             <TouchableOpacity
-              onPress={() => navigation.navigate('Home')} // TODO: reroute later
+              onPress={() => navigation.navigate('Home')}
               style={styles.iconButton}>
               <Icon name="edit" size={25} color="#155e6d" />
             </TouchableOpacity>
@@ -45,26 +97,27 @@ export default function Item({route, navigation}) {
         </View>
         <ScrollView contentContainerStyle={{flexGrow: 1, paddingBottom: 440}}>
           <View style={styles.scroll}>
-            <ItemCard //TODO: detect length of padding needed?
-              src={img}
-              title={desc}
-              nickname={firstName}
-              fullname={LastName}
-              datePosted={formatDate(createAt)}
-              condition={Condition}
-              location={PlaceOfPurchase}
-              date={DateOfPurchase}
-              return={Condition}
-              interests={['aerob']}
-              description={desc}
-            />
+            {isLoaded == 'loaded' ? (
+              <ItemCard
+                src={img}
+                title={desc}
+                nickname={firstName}
+                fullname={LastName}
+                datePosted={formatDate(createAt)}
+                condition={Condition}
+                location={PlaceOfPurchase}
+                date={DateOfPurchase}
+                return={Condition}
+                interests={tagsList}
+                description={desc}
+              />
+            ) : null}
           </View>
         </ScrollView>
         <View style={styles.floatingButton}>
           <TouchableOpacity
-            onPress={() => navigation.navigate('Exchange')}
-            style={[styles.button2, {width: '100%', height: '70%'}]} // TODO: reroute later, fix dimensions?
-          >
+            onPress={handleButtonPress}
+            style={[styles.button2, {width: '100%', height: '70%'}]}>
             <Text style={styles.buttonText}>Send Request</Text>
           </TouchableOpacity>
         </View>

@@ -75,18 +75,19 @@ const NavigationFooter = props => {
 
 const styles = StyleSheet.create({
   container: {
-    bottom: 0,
     flexDirection: 'row',
     backgroundColor: 'rgb(250, 253, 252)',
-    width: Dimensions.get('window').width,
     height: '10%',
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-around',
+    paddingHorizontal: '5%'
   },
   icon: {
-    margin: 0.08 * Dimensions.get('window').width,
+    resizeMode: 'contain',
+    height: 27,
+    width: 27,
   },
 });
 

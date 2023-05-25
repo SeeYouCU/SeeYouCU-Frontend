@@ -10,24 +10,13 @@ import {
   ScrollView,
   TextInput,
 } from 'react-native';
-import Input from '../components/Input';
 import Icon from 'react-native-vector-icons/Ionicons';
 import axios from 'axios';
 
 export default function Interests({route, navigation}) {
   const [searchText, setSearchText] = React.useState('');
 
-  // const onSubmit = () => {
-  //   console.log(route.params.caption, getInterests);
-  // };
-
   const interests = [
-    {
-      key: 'AerobicDance',
-      src: 'https://www.stylecraze.com/wp-content/uploads/2015/01/04.jpg',
-      title: 'Aerobic Dance',
-      isSelected: false,
-    },
     {
       key: 'Acting',
       src: 'https://theatre.ua.edu/wp-content/uploads/2019/10/17-18-Vinegar-Tom-JH-1024x684.jpg',
@@ -113,21 +102,27 @@ export default function Interests({route, navigation}) {
       isSelected: false,
     },
     {
-      key: 'Esports',
+      key: 'Game',
       src: 'https://cdn.mos.cms.futurecdn.net/3UrmuKyTpK8TavGvEajuGP.jpg',
       title: 'E-Sports',
       isSelected: false,
     },
     {
-      key: 'Eshopping',
+      key: 'Shopping',
       src: 'https://www.hostbooks.com/in/wp-content/uploads/2017/07/eshopping-1.jpg',
-      title: 'E-Shopping',
+      title: 'Shopping',
       isSelected: false,
     },
     {
       key: 'Eating',
       src: 'https://media-cldnry.s-nbcnews.com/image/upload/rockcms/2022-03/plant-based-food-mc-220323-02-273c7b.jpg',
       title: 'Eating',
+      isSelected: false,
+    },
+    {
+      key: 'Sports',
+      src: 'https://tsblogadmin.teamsnap.com/wp-content/uploads/2016/01/Multiple-Sports.jpg',
+      title: 'Sports',
       isSelected: false,
     },
   ];
@@ -179,7 +174,7 @@ export default function Interests({route, navigation}) {
         tagsStr.replace(/"/g, '\\"') + '"}';
       console.log(res);
       await axios
-        .post('http://localhost:8080/api/auth/registerGoogle', JSON.parse(res))
+        .post('http://10.0.2.2:8080/api/auth/registerGoogle', JSON.parse(res))
         .then(response => {
           console.log('response', response);
           setShowPopup(true);
@@ -261,7 +256,7 @@ export default function Interests({route, navigation}) {
       <ScrollView fadingEdgeLength={100}>
         <View style={styles.interestMap}>{interestList()}</View>
       </ScrollView>
-      {selectedInterest.length == 5 ? (
+      {selectedInterest.length > 1 ? (
         <TouchableOpacity onPress={handleSelectPill}>
           <Text style={styles.nextBtn}>Next {'>'}</Text>
         </TouchableOpacity>

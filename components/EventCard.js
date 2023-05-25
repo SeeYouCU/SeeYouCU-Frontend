@@ -4,11 +4,18 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Chip from './Chip';
 
 const EventCard = props => {
-  const formatDate = (date) => {
+  const formatDate = date => {
     const rawDate = new Date(date);
-    return rawDate.toLocaleString([], { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+    return rawDate.toLocaleString([], {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+    });
   };
 
+  console.log(props.interests)
   return (
     <View>
       <View style={styles.eventFrame}>
@@ -16,7 +23,7 @@ const EventCard = props => {
           source={{
             uri: props.src,
           }}
-          style={styles.eventPic} //TODO: horizontal scrollable
+          style={styles.eventPic}
         />
       </View>
       <View style={styles.eventCard}>
@@ -27,8 +34,7 @@ const EventCard = props => {
         </Text>
         <Text style={styles.eventFont1}>
           <Icon name="account-outline" size={15} />
-          &nbsp;&nbsp;{props.currentParticipants}/{props.maxParticipants}{' '}
-          Participants
+          &nbsp;&nbsp;{props.maxParticipants} Participants
         </Text>
         <Text style={styles.eventFont1}>
           <Icon name="map-marker-radius-outline" size={15} />

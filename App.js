@@ -17,7 +17,6 @@ import Friends from './routes/Friends';
 import Notification from './routes/Notification';
 import Settings from './routes/Settings';
 import Account from './routes/Account';
-import Home from './routes/Home';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 
 const Stack = createNativeStackNavigator();
@@ -40,7 +39,6 @@ function App() {
         screenOptions={{
           headerShown: false,
         }}>
-        <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Setup" component={Setup} />
         <Stack.Screen name="Interests" component={Interests} />

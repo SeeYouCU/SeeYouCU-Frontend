@@ -16,7 +16,6 @@ import {
 } from '@react-native-google-signin/google-signin';
 
 export default function Login({navigation}) {
-  // const [loggedIn, setloggedIn] = useState(false);
   const [getUserInfo, setUserInfo] = useState([]);
 
   useEffect(() => {
@@ -32,13 +31,15 @@ export default function Login({navigation}) {
     try {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
-      setUserInfo(userInfo.user.email);
+      setUserInfo(userInfo);
       console.log(userInfo.user.email);
-      axios.post(`http://localhost:8080/api/auth/loginGoogle`,{"email": "6338194021@student.chula.ac.th"}) //"test11@gmail.com"
+      axios.post(`http://10.0.2.2:8080/api/auth/loginGoogle`,{"email": userInfo.user.email})
         .then(response => {
+          console.log(response);
           navigation.navigate('Match');
         })
         .catch(error => {
+          console.log(error.response);
           if (error.response.status === 404) {
             console.log('User does not exist');
             navigation.navigate('Setup', {'email': userInfo.user.email});
@@ -66,13 +67,13 @@ export default function Login({navigation}) {
       styles={styles.bg}>
       <View style={styles.container}>
         <View style={styles.logoContainer}>
-          <Image source={require('../public/logo.png')} styles={styles.logo} />
+          <Image source={require('../public/logo.png')} style={styles.logo} />
         </View>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <View style={styles.logoHandContainer} />
           <Image
-            source={require('../public/logohand.png')}
-            styles={styles.logoHand}
+            source={require('../public/seeyou.png')}
+            style={styles.logoHand}
           />
           <View style={styles.logoHandContainer} />
         </View>
@@ -99,6 +100,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignContent: 'center',
     padding: '10%',
+  },
+  logo: {
+    height: 50,
+    resizeMode: 'contain',
+  },
+  logoHand: {
+    height: 100,
+    width: 100,
+    resizeMode: 'contain',
   },
   logoContainer: {
     alignSelf: 'center',

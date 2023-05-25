@@ -8,9 +8,9 @@ const ItemCard = props => {
       <View style={styles.itemFrame}>
         <Image
           source={{
-            uri: props.img,
+            uri: 'https://www.smallofficeideas.com/wp-content/uploads/2013/01/stationery-for-small-or-home-office.jpg',
           }}
-          style={styles.itemPic} //TODO: horizontal scrollable
+          style={styles.itemPic}
         />
       </View>
       <View style={styles.itemCard}>

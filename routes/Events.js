@@ -7,8 +7,8 @@ import {
   TouchableOpacity,
   Text,
   ScrollView,
+  TextInput
 } from 'react-native';
-import Input from '../components/Input';
 import Icon from 'react-native-vector-icons/Ionicons';
 import NavigationFooter from '../components/NavigationFooter';
 import EventMapCard from '../components/EventMapCard';
@@ -17,62 +17,106 @@ import axios from 'axios';
 
 export default function Events({navigation}) {
   const [events, setEvents] = useState([]);
+  const [myEvents, setMyEvents] = useState([]);
+  const [active, setActive] = useState(false);
+  const [searchText, setSearchText] = React.useState('');
+
+  const handleInputChange = e => {
+    console.log(e);
+    setSearchText(e);
+  };
 
   useEffect(() => {
-    axios.get(`http://localhost:8080/api/posts/getEvents`)
+    axios
+      .get(`http://10.0.2.2:8080/api/posts/getEvents`)
       .then(response => {
         setEvents(response.data);
       })
       .catch(error => {
         console.error(error);
       });
+    axios
+      .get(`http://10.0.2.2:8080/api/join/getJoinedEvent`)
+      .then(response => {
+        setMyEvents(Array.from(new Set(response.data.map(item => item.Eid))));
+      })
+      .catch(error => {
+        console.error(error);
+      });
   }, []);
-  
+
+
   return (
     <ImageBackground
       source={require('../public/bg.png')}
       style={styles.container}>
       <View style={styles.content}>
-        <View style={styles.header}>
-          <Input isSearch="true" placeholder="Search" style={{flex: 1}} />
+        <View style={styles.header}>      
+        {/* <View style={styles.inputContainer}>
+          <Icon
+            name="search"
+            size={15}
+            color="#155e6d"
+            style={styles.searchIcon}
+          />
+          <TextInput
+            style={styles.textInput}
+            placeholder="Search"
+            placeholderTextColor="#155e6d"
+            value={searchText}
+            onChangeText={handleInputChange}
+          />
+        </View> */}
           <TouchableOpacity
-            onPress={() => navigation.navigate('Home')} // TODO: reroute later
+            onPress={() => navigation.navigate('Notification')}
             style={styles.iconButton}>
             <Icon name="notifications-outline" size={25} color="#155e6d" />
           </TouchableOpacity>
-        </View>
-        {/* <View
+        <View
           style={{
             flex: 1,
-            marginTop: '4%',
-            marginBottom: '8%',
           }}>
-          <TogglePage rightTitle="Your Events" leftTitle="Discover" />
-        </View> */}
+          <TogglePage
+            leftTitle="Discover"
+            rightTitle="Your Events"
+            active={active}
+            setActive={setActive}
+          />
+        </View>
+        <View style={{width: 25}}/>
+        </View>
         <View style={{marginTop: '5%'}}>
           <ScrollView contentContainerStyle={{flexGrow: 1, paddingBottom: 180}}>
-            <View style={{paddingBottom: 0}}>
-              {events.map(
-                (
-                  item,
-                  index,
-                ) => (
+            {active ? (
+              <View style={{paddingBottom: 0}}>
+                {events.map((item, index) => {
+                  if (myEvents.includes(item.id))
+                  return (
+                    <TouchableOpacity
+                      key={index}
+                      onPress={() => navigation.navigate('Event', item)}>
+                      <EventMapCard key={index} item={item} type={'event'} />
+                    </TouchableOpacity>
+                  );
+                })}
+              </View>
+            ) : (
+              <View style={{paddingBottom: 0}}>
+                {events.map((item, index) => (
                   <TouchableOpacity
                     key={index}
-                    onPress={() => navigation.navigate('Event', item)}
-                  >
+                    onPress={() => navigation.navigate('Event', item)}>
                     <EventMapCard key={index} item={item} type={'event'} />
                   </TouchableOpacity>
-                ),
-              )}
-            </View>
+                ))}
+              </View>
+            )}
           </ScrollView>
         </View>
         <View style={styles.floatingButton}>
           <TouchableOpacity
-            onPress={() => navigation.navigate('NewEvent', { 'currTags': '[]' })}
-            style={[styles.button2, {width: '100%', height: '70%'}]} // TODO: reroute later, fix dimensions?
-          >
+            onPress={() => navigation.navigate('NewEvent', {currTags: '[]'})}
+            style={[styles.button2, {width: '100%', height: '70%'}]}>
             <Text style={styles.buttonText}>New Event</Text>
           </TouchableOpacity>
         </View>
@@ -88,6 +132,25 @@ const styles = StyleSheet.create({
     height: Dimensions.get('window').height,
     width: Dimensions.get('window').width,
     flex: 1,
+  },
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderColor: '#155e6d',
+    backgroundColor: 'rgba(255, 255, 255, 0.3)',
+    borderWidth: 1,
+    borderRadius: 12,
+    paddingHorizontal: 10,
+    flex: 1,
+  },
+  searchIcon: {
+    marginLeft: 3,
+    marginRight: 6,
+  },
+  textInput: {
+    height: 'auto',
+    padding: 0,
+    margin: 0,
   },
   content: {
     flex: 1,

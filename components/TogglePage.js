@@ -3,11 +3,10 @@ import {StyleSheet, View, Text, Animated, TouchableOpacity} from 'react-native';
 import {useState, useEffect, useRef} from 'react';
 
 const TogglePage = props => {
-  const [active, setActive] = useState(false);
   let transformX = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
-    if (active) {
+    if (props.active) {
       Animated.timing(transformX, {
         toValue: 1,
         duration: 300,
@@ -20,7 +19,7 @@ const TogglePage = props => {
         useNativeDriver: true,
       }).start();
     }
-  }, [active]);
+  }, [props.active]);
 
   const rotationX = transformX.interpolate({
     inputRange: [0, 1],
@@ -49,12 +48,12 @@ const TogglePage = props => {
         />
         <TouchableOpacity
           style={styles.clickStyle}
-          onPress={() => setActive(false)}>
+          onPress={() => props.setActive(false)}>
           <Text style={styles.text}>{props.leftTitle}</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.clickStyle}
-          onPress={() => setActive(true)}>
+          onPress={() => props.setActive(true)}>
           <Text style={styles.text}>{props.rightTitle}</Text>
         </TouchableOpacity>
       </View>

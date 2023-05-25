@@ -8,24 +8,30 @@ import {
   Image,
   Text,
   ScrollView,
+  TextInput,
 } from 'react-native';
-import Input from '../components/Input';
 import Icon from 'react-native-vector-icons/Ionicons';
 import NavigationFooter from '../components/NavigationFooter';
 import TogglePage from '../components/TogglePage';
 import axios from 'axios';
 
 const ItemMapCard = ({item}) => {
-  const formatDate = (date) => {
+  const formatDate = date => {
     const rawDate = new Date(date);
-    return rawDate.toLocaleString([], { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+    return rawDate.toLocaleString([], {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+    });
   };
   return (
     <View style={styles.itemCard}>
       <View style={styles.itemFrame}>
         <Image
           source={{
-            uri: item.img,
+            uri: 'https://www.smallofficeideas.com/wp-content/uploads/2013/01/stationery-for-small-or-home-office.jpg',
           }}
           style={styles.itemPic}
         />
@@ -47,11 +53,28 @@ const ItemMapCard = ({item}) => {
 
 export default function Exchange({navigation}) {
   const [items, setItems] = useState([]);
+  const [myItems, setMyItems] = useState([]);
+  const [active, setActive] = useState(false);
+  const [searchText, setSearchText] = React.useState('');
+
+  // const handleInputChange = e => {
+  //   console.log(e);
+  //   setSearchText(e);
+  // };
 
   useEffect(() => {
-    axios.get(`http://localhost:8080/api/posts/getItems`)
+    axios
+      .get(`http://10.0.2.2:8080/api/posts/getItems`)
       .then(response => {
         setItems(response.data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+    axios
+      .get(`http://10.0.2.2:8080/api/exchange/getExchangeItem`)
+      .then(response => {
+        setMyItems(Array.from(new Set(response.data.map(item => item.itemID))));
       })
       .catch(error => {
         console.error(error);
@@ -60,47 +83,74 @@ export default function Exchange({navigation}) {
 
   return (
     <ImageBackground
-      source={require('../public/bg.png')} // TODO: vinze - slider button
+      source={require('../public/bg.png')}
       style={styles.container}>
       <View style={styles.content}>
         <View style={styles.header}>
-          <Input isSearch="true" placeholder="Search" style={{flex: 1}} />
+          {/* <View style={styles.inputContainer}>
+            <Icon
+              name="search"
+              size={15}
+              color="#155e6d"
+              style={styles.searchIcon}
+            />
+            <TextInput
+              style={styles.textInput}
+              placeholder="Search"
+              placeholderTextColor="#155e6d"
+              value={searchText}
+              onChangeText={handleInputChange}
+            />
+          </View> */}
           <TouchableOpacity
-            onPress={() => navigation.navigate('Home')} // TODO: reroute later
+            onPress={() => navigation.navigate('Notification')}
             style={styles.iconButton}>
             <Icon name="notifications-outline" size={25} color="#155e6d" />
           </TouchableOpacity>
+          <View
+            style={{
+              flex: 1,
+            }}>
+            <TogglePage
+              rightTitle="My Items"
+              leftTitle="Discover"
+              active={active}
+              setActive={setActive}
+            />
+          </View>
+          <View style={{width: 25}}/>
         </View>
-        {/* <View
-          style={{
-            flex: 1,
-            marginTop: '4%',
-            marginBottom: '8%',
-          }}>
-          <TogglePage rightTitle="Added You" leftTitle="Discover" />
-        </View> */}
         <View style={{marginTop: '5%'}}>
           <ScrollView contentContainerStyle={{flexGrow: 1, paddingBottom: 180}}>
-            <View style={{paddingBottom: 0}}>
-              {items.map(
-                (
-                  item,
-                  index, //TODO: detect length of padding needed?
-                ) => (
+            {active ? (
+              <View style={{paddingBottom: 0}}>
+                {items.map((item, index) => {
+                  if (myItems.includes(item.id))
+                    return (
+                      <TouchableOpacity
+                        key={index}
+                        onPress={() => navigation.navigate('Item', item)}>
+                        <ItemMapCard item={item} />
+                      </TouchableOpacity>
+                    );
+                })}
+              </View>
+            ) : (
+              <View style={{paddingBottom: 0}}>
+                {items.map((item, index) => (
                   <TouchableOpacity
                     key={index}
-                    onPress={() => navigation.navigate('Item', item)} //TODO: reroute later
-                  >
+                    onPress={() => navigation.navigate('Item', item)}>
                     <ItemMapCard item={item} />
                   </TouchableOpacity>
-                ),
-              )}
-            </View>
+                ))}
+              </View>
+            )}
           </ScrollView>
         </View>
         <View style={styles.floatingButton}>
           <TouchableOpacity
-            onPress={() => navigation.navigate('NewItem')}
+            onPress={() => navigation.navigate('NewItem', {currTags: '[]'})}
             style={[styles.button2, {width: '100%', height: '70%'}]} // TODO: fix dimensions?
           >
             <Text style={styles.buttonText}>New Item</Text>
@@ -138,6 +188,25 @@ const styles = StyleSheet.create({
     padding: '5%',
     marginTop: '5%',
     height: Dimensions.get('window').height * 0.35,
+  },
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderColor: '#155e6d',
+    backgroundColor: 'rgba(255, 255, 255, 0.3)',
+    borderWidth: 1,
+    borderRadius: 12,
+    paddingHorizontal: 10,
+    flex: 1,
+  },
+  searchIcon: {
+    marginLeft: 3,
+    marginRight: 6,
+  },
+  textInput: {
+    height: 'auto',
+    padding: 0,
+    margin: 0,
   },
   itemFrame: {
     flex: 1,

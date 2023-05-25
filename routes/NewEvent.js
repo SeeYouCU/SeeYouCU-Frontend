@@ -21,6 +21,7 @@ export default function NewEvent({route, navigation}) {
   const {
     control,
     handleSubmit,
+    setValue,
     formState: {errors},
   } = useForm({
     defaultValues: {
@@ -29,7 +30,7 @@ export default function NewEvent({route, navigation}) {
       date: '',
       location: '',
       meetUp: '',
-      tag: '"["sport","game"]"',
+      tag: '',
       desc: '',
       img: 'null',
       userid: '3',
@@ -38,117 +39,87 @@ export default function NewEvent({route, navigation}) {
 
   const dates = [];
   for (let i = 1; i <= 30; i++) {
-    dates.push(i.toString() + ' April 2023');
+    dates.push(i.toString() + ' June 2023');
   }
   for (let i = 1; i <= 31; i++) {
-    dates.push(i.toString() + ' May 2023');
+    dates.push(i.toString() + ' July 2023');
   }
-
-  const [imageActive1, setImageActive1] = React.useState(false);
-  const [imageActive2, setImageActive2] = React.useState(false);
 
   const participantNo = [];
   for (let i = 2; i <= 20; i++) {
     participantNo.push(i.toString());
   }
 
-  const onSubmit = async(data) => {
-    console.log(data);
-    await axios
-    .post(`http://localhost:8080/api/posts/addPost`, data)
-    .then(response => {
-      console.log(data);
-      navigation.navigate('Events');
-    })
-    .catch(error => {
-      console.error(error);
-    });
-  };
+  const [imageActive1, setImageActive1] = React.useState(false);
+  const [imageActive2, setImageActive2] = React.useState(false);
 
-  // const [tags, setTags] = React.useState([
-  //   {
-  //     key: 'AerobicDance',
-  //     src: 'https://www.stylecraze.com/wp-content/uploads/2015/01/04.jpg',
-  //     title: 'Aerobic Dance',
-  //     isSelected: false,
-  //   },
-  //   {
-  //     key: 'Acting',
-  //     src: 'https://theatre.ua.edu/wp-content/uploads/2019/10/17-18-Vinegar-Tom-JH-1024x684.jpg',
-  //     title: 'Acting',
-  //     isSelected: false,
-  //   },
-  //   {
-  //     key: 'Anime',
-  //     src: 'https://assets-prd.ignimgs.com/2022/08/17/top25animecharacters-blogroll-1660777571580.jpg',
-  //     title: 'Anime',
-  //     isSelected: false,
-  //   },
-  //   {
-  //     key: 'Badminton',
-  //     src: 'https://ss-i.thgim.com/public/incoming/wf966c/article66364426.ece/alternates/FREE_1200/GettyImages-1409229566.jpg',
-  //     title: 'Badminton',
-  //     isSelected: false,
-  //   },
-  //   {
-  //     key: 'Basketball',
-  //     src: 'https://cdn.nba.com/manage/2023/04/GettyImages-1239701619-scaled.jpg',
-  //     title: 'Basketball',
-  //     isSelected: false,
-  //   },
-  // ]);
-
-  const [getTags, setTags] = React.useState([]);
+  const [getTags, setTags] = React.useState(currTags);
   var tags = [];
   var tagsList = [];
   const [loadingState, setLoadingState] = React.useState('not_loaded');
   const {currTags} = route.params;
-  const [item, setItem] = React.useState(currTags);
 
   React.useEffect(() => {
     setLoadingState('loading');
-    axios
-      .post(`http://localhost:8080/api/users/getUser`, {
-        email: 'test11@gmail.com',
-      })
+    if (currTags !== '[]') {
+      setTags(currTags);
+      setLoadingState('loaded');
+    } else {
+      axios
+        .post(`http://10.0.2.2:8080/api/users/getUser`, {
+          email: 'test11@gmail.com',
+        })
+        .then(response => {
+          tags = response.data[0].tags
+            .replace(/'/g, '')
+            .slice(1)
+            .slice(0, -1)
+            .split(',');
+          if (currTags !== []) setTags(tags);
+          setLoadingState('loaded');
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    }
+  }, [currTags]);
+
+  React.useEffect(() => {
+    var tagsRes = '"['+getTags+']"';
+    setValue('tag', tagsRes);
+  },[getTags, currTags]);
+
+  const removeTag = key => {
+    setTags(tags => tags.filter(tag => tag !== key));
+  };
+
+  const interestList = () => {
+    return getTags.map((i, index) => {
+      tagsList.push(i);
+      return (
+        <TouchableOpacity key={index} onPress={() => removeTag(i)}>
+          <Chip
+            key={index}
+            textColor="#102c3d"
+            borderColor="white"
+            backgroundColor="#ebf5f6"
+            label={i}
+          />
+        </TouchableOpacity>
+      );
+    });
+  };
+
+  const onSubmit = async data => {
+    console.log(data);
+    await axios
+      .post(`http://10.0.2.2:8080/api/posts/addPost`, data)
       .then(response => {
-        setItem(response.data);
-        tags = response.data[0].tags.slice(1).slice(0, -1).split(',');
-        if (currTags !== []) setTags(tags);
-        setLoadingState('loaded');
+        navigation.navigate('Events');
       })
       .catch(error => {
         console.error(error);
       });
-  }, []);
-
-  const interestList = () => {
-    return getTags.map((i, index) => {
-      console.log("gettags",getTags);
-      tagsList.push(i.slice(1).slice(0, -1));
-      return (
-        // <TouchableOpacity key={index} onPress={() => removeTag(item.key)}>
-        //   <View key={index} style={styles.interestItem}>
-        //     <View style={styles.itemImgFrame}>
-        //       <Image
-        //         source={{
-        //           uri: item.src,
-        //         }}
-        //         style={styles.itemImg}
-        //       />
-        //     </View>
-        //     <Text style={styles.itemName}>{item.title}</Text>
-        //   </View>
-        // </TouchableOpacity>
-        <Chip
-          key={index}
-          textColor="#102c3d"
-          borderColor="white"
-          backgroundColor="#ebf5f6"
-          label={i.slice(1).slice(0, -1)}
-        />
-      );
-    });
   };
 
   return (
@@ -193,13 +164,8 @@ export default function NewEvent({route, navigation}) {
                 />
               </View>
               {errors.Ename && <Text>This is required.</Text>}
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  marginVertical: '3%',
-                }}>
-                <Text style={styles.inputTitle}>Max Participants</Text>
+              <View style={{flexDirection: 'row', marginVertical: '3%'}}>
+                <Text style={styles.inputTitle}>Maximum Participants</Text>
                 <Controller
                   control={control}
                   rules={{
@@ -226,6 +192,9 @@ export default function NewEvent({route, navigation}) {
                   )}
                   name="MaxP"
                 />
+              </View>
+              {errors.MaxP && <Text>This is required.</Text>}
+              <View style={{flexDirection: 'row', marginBottom: '3%'}}>
                 <Text style={styles.inputTitle}>Date</Text>
                 <Controller
                   control={control}
@@ -254,9 +223,7 @@ export default function NewEvent({route, navigation}) {
                   name="date"
                 />
               </View>
-              {(errors.date || errors.MaxP) && (
-                <Text>This is required.</Text>
-              )}
+              {errors.date && <Text>This is required.</Text>}
               <View style={{flexDirection: 'row'}}>
                 <Text style={styles.inputTitle}>Event Location</Text>
                 <Controller
@@ -303,51 +270,31 @@ export default function NewEvent({route, navigation}) {
                   ]}>
                   Tags
                 </Text>
-                {/* <Text
-                  style={[
-                    styles.exception,
-                    {marginBottom: '1%', marginTop: '3%'},
-                  ]}>
-                  *Tap to remove tag
-                </Text> */}
+                <Text style={styles.exception}>*Tap to remove tag</Text>
               </View>
               {loadingState === 'loaded' && (
-                <View style={styles.tagsMap}>{interestList()}</View>
-                // <View>
-                // <Controller
-                //   control={control}
-                //   rules={{
-                //     required: false,
-                //   }}
-                //   render={({field: {onChange, onBlur, value}}) => (
-                //     // <View
-                //     //   style={[
-                //     //     styles.textInput,
-                //     //     {
-                //     //       height: '15%',
-                //     //       borderRadius: 15,
-                //     //       paddingHorizontal: 0,
-                //     //       overflow: 'hidden',
-                //     //       justifyContent: 'center',
-                //     //     },
-                //     //   ]}
-                //     //   value={value}>
-                    
-
-                //     // </View>
-                //   )}
-                //   name="tags"
-                // />
-                // </View>
-              )}
-              {/* <View style={{alignItems: 'center'}}>
+                <Controller
+                name="tag"
+                control={control}
+                defaultValue={getTags}
+                render={() => (
+                  <View style={styles.tagsMap}>{interestList()}</View>
+                  )}
+                  />
+                  )}
+              <View style={{alignItems: 'center'}}>
                 <TouchableOpacity
-                  onPress={() => navigation.navigate('Tags', {'initialTags': tagsList, 'page': 'NewEvent'})}
-                  style={styles.button1} // TODO: reroute later, fix dimensions?
+                  onPress={() =>
+                    navigation.navigate('Tags', {
+                      initialTags: tagsList,
+                      page: 'NewEvent',
+                    })
+                  }
+                  style={styles.button1}
                 >
                   <Text style={styles.buttonText2}>Edit Tags</Text>
                 </TouchableOpacity>
-              </View> */}
+              </View>
               <Text
                 style={[
                   styles.inputTitle,
@@ -396,7 +343,7 @@ export default function NewEvent({route, navigation}) {
                       borderRadius: 15,
                       justifyContent: 'center',
                       alignItems: 'center',
-                    }} //TODO: can upload pic
+                    }}
                   >
                     {imageActive1 == false ? (
                       <Icon
@@ -429,7 +376,7 @@ export default function NewEvent({route, navigation}) {
                       borderRadius: 15,
                       justifyContent: 'center',
                       alignItems: 'center',
-                    }} //TODO: can upload pic
+                    }}
                   >
                     {imageActive2 == false ? (
                       <Icon
@@ -460,7 +407,7 @@ export default function NewEvent({route, navigation}) {
         <View style={styles.floatingButton}>
           <TouchableOpacity
             onPress={handleSubmit(onSubmit)}
-            style={[styles.button2, {width: '100%', height: '70%'}]} // TODO: reroute later, fix dimensions?
+            style={[styles.button2, {width: '100%', height: '70%'}]}
           >
             <Text style={styles.buttonText}>Done</Text>
           </TouchableOpacity>
@@ -545,15 +492,15 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: 500,
     textAlign: 'left',
-    paddingVertical: 0,
     marginRight: '2%',
+    marginTop: '2%',
   },
   exception: {
     color: '#ff3d00',
     fontSize: 10,
     fontWeight: 300,
     textAlign: 'left',
-    paddingVertical: 5,
+    paddingBottom: 5,
   },
   textInput: {
     borderColor: 'black',
@@ -570,7 +517,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     justifyContent: 'center',
     alignItems: 'center',
-    width: '25%',
+    flex: 1,
   },
   picker: {
     color: '#155E6D',

@@ -7,8 +7,10 @@ import {
   ImageBackground,
   Image,
   ScrollView,
+  TouchableOpacity
 } from 'react-native';
 import NavigationFooter from '../components/NavigationFooter';
+import Icon from 'react-native-vector-icons/AntDesign';
 
 const notiInfo = [
   {
@@ -66,12 +68,12 @@ function iconReturn(type) {
 
   if (type === 'item') {
     icon = (
-      <Image source={require('../public/gift.png')} style={styles.notiIcon} />
+      <Image source={require('../public/item1.png')} style={styles.notiIcon} />
     );
-  } else if (type === 'event') {
+  } else if (type === 'event' || type === 'participant') {
     icon = (
       <Image
-        source={require('../public/calendar.png')}
+        source={require('../public/event1.png')}
         style={styles.notiIcon}
       />
     );
@@ -79,13 +81,6 @@ function iconReturn(type) {
     icon = (
       <Image
         source={require('../public/add-friend.png')}
-        style={styles.notiIcon}
-      />
-    );
-  } else if (type === 'participant') {
-    icon = (
-      <Image
-        source={require('../public/calendar.png')}
         style={styles.notiIcon}
       />
     );
@@ -101,8 +96,18 @@ export default function Notification({navigation}) {
     <ImageBackground
       source={require('../public/bg.png')}
       style={styles.container}>
-      <View style={styles.content}>
-        <Text style={styles.header}>Notifications</Text>
+      <View style={styles.content}>        
+        <View style={[styles.header, {paddingHorizontal: '5%'}]}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('Match')}
+            style={styles.iconButton}>
+            <Icon name="left" size={25} color="#155e6d" />
+          </TouchableOpacity>
+          <View style={[styles.titleHeader]}>
+            <Text style={styles.titleHeader}>Notifications</Text>
+          </View>
+          <View style={{width: 25}} />
+        </View>
         <ScrollView contentContainerStyle={{flexGrow: 1, paddingBottom: 0}}>
         <View style={styles.scroll}>
           {notiInfo.map((item, index) => {
@@ -145,6 +150,13 @@ const styles = StyleSheet.create({
     paddingVertical: '5%',
     paddingBottom: 0,
   },
+  titleHeader: {
+    color: '#155E6D',
+    fontWeight: 700,
+    fontSize: 20,
+    flex: 1,
+    textAlign: 'center',
+  },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -154,15 +166,6 @@ const styles = StyleSheet.create({
   scroll: {
     flex: 1,
     flexDirection: 'column',
-  },
-  header: {
-    color: '#155E6D',
-    paddingLeft: '5%',
-    paddingRight: '5%',
-    paddingBottom: '2%',
-    fontWeight: 700,
-    fontSize: 24,
-    lineHeight: 28,
   },
   notiContainer: {
     backgroundColor: 'rgba(255, 255, 255, 0.4)',

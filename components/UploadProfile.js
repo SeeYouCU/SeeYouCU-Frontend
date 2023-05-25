@@ -4,7 +4,6 @@ import Icon from 'react-native-vector-icons/Feather';
 import LinearGradient from 'react-native-linear-gradient';
 
 const UploadProfile = props => {
-  //TODO: take image, upload image
   return (
     <LinearGradient
       colors={['#2ba0ad', '#f0f7f8', '#2ba0ad']}

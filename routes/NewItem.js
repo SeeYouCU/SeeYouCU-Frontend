@@ -15,11 +15,13 @@ import {Picker} from '@react-native-picker/picker';
 import NavigationFooter from '../components/NavigationFooter';
 import Icon from 'react-native-vector-icons/AntDesign';
 import axios from 'axios';
+import Chip from '../components/Chip';
 
-export default function NewItem({navigation}) {
+export default function NewItem({route, navigation}) {
   const {
     control,
     handleSubmit,
+    setValue,
     formState: {errors},
   } = useForm({
     defaultValues: {
@@ -28,84 +30,89 @@ export default function NewItem({navigation}) {
       PlaceOfPurchase: '',
       DateOfPurchase: '',
       desc: '',
-      tag: '"["sport","game"]"',
+      tag: '',
     },
   });
 
   const returnOptions = ['Yes', 'No'];
 
-  const [tags, setTags] = React.useState([
-    {
-      key: 'AerobicDance',
-      src: 'https://www.stylecraze.com/wp-content/uploads/2015/01/04.jpg',
-      title: 'Aerobic Dance',
-      isSelected: false,
-    },
-    {
-      key: 'Acting',
-      src: 'https://theatre.ua.edu/wp-content/uploads/2019/10/17-18-Vinegar-Tom-JH-1024x684.jpg',
-      title: 'Acting',
-      isSelected: false,
-    },
-    {
-      key: 'Anime',
-      src: 'https://assets-prd.ignimgs.com/2022/08/17/top25animecharacters-blogroll-1660777571580.jpg',
-      title: 'Anime',
-      isSelected: false,
-    },
-    {
-      key: 'Badminton',
-      src: 'https://ss-i.thgim.com/public/incoming/wf966c/article66364426.ece/alternates/FREE_1200/GettyImages-1409229566.jpg',
-      title: 'Badminton',
-      isSelected: false,
-    },
-    {
-      key: 'Basketball',
-      src: 'https://cdn.nba.com/manage/2023/04/GettyImages-1239701619-scaled.jpg',
-      title: 'Basketball',
-      isSelected: false,
-    },
-  ]);
+  const conditionOptions = [
+    'Brand New',
+    'Like New',
+    'Lightly Used',
+    'Well Used',
+  ];
+
+  const [imageActive1, setImageActive1] = React.useState(false);
+  const [imageActive2, setImageActive2] = React.useState(false);
+
+  const [getTags, setTags] = React.useState(currTags);
+  var tags = [];
+  var tagsList = [];
+  const [loadingState, setLoadingState] = React.useState('not_loaded');
+  const {currTags} = route.params;
+
+  React.useEffect(() => {
+    setLoadingState('loading');
+    if (currTags !== '[]') {
+      setTags(currTags);
+      setLoadingState('loaded');
+    } else {
+      axios
+        .post(`http://10.0.2.2:8080/api/users/getUser`, {
+          email: 'test11@gmail.com',
+        })
+        .then(response => {
+          tags = response.data[0].tags
+            .replace(/'/g, '')
+            .slice(1)
+            .slice(0, -1)
+            .split(',');
+          if (currTags !== []) setTags(tags);
+          setLoadingState('loaded');
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    }
+  }, [currTags]);
+
+  React.useEffect(() => {
+    var tagsRes = '"['+getTags+']"';
+    setValue('tag', tagsRes);
+  },[getTags, currTags]);
+
+  const removeTag = key => {
+    setTags(tags => tags.filter(tag => tag !== key));
+  };
 
   const interestList = () => {
-    return tags.map((item, index) => {
+    return getTags.map((i, index) => {
+      tagsList.push(i);
       return (
-        <TouchableOpacity key={index} onPress={() => removeTag(item.key)}>
-          <View key={index} style={styles.interestItem}>
-            <View style={styles.itemImgFrame}>
-              <Image
-                source={{
-                  uri: item.src,
-                }}
-                style={styles.itemImg}
-              />
-            </View>
-            <Text style={styles.itemName}>{item.title}</Text>
-          </View>
+        <TouchableOpacity key={index} onPress={() => removeTag(i)}>
+          <Chip
+            key={index}
+            textColor="#102c3d"
+            borderColor="white"
+            backgroundColor="#ebf5f6"
+            label={i}
+          />
         </TouchableOpacity>
       );
     });
   };
 
-  const removeTag = key => {
-    setTags(tags => tags.filter(tag => tag.key !== key));
-  };
-
-  const [imageActive1, setImageActive1] = React.useState(false);
-  const [imageActive2, setImageActive2] = React.useState(false);
-
-  const conditionOptions = ['Brand New', 'Like New', 'Lightly Used', 'Well Used'];
-
-  const onSubmit = async(data) => {
+  const onSubmit = async data => {
     console.log(data);
     await axios
-    .post(`http://localhost:8080/api/posts/addItem`, data)
-    .then(response => {
-      navigation.navigate('Exchange');
-    })
-    .catch(error => {
-      console.error(error);
-    });
+      .post(`http://10.0.2.2:8080/api/posts/addItem`, data)
+      .then(response => {
+        navigation.navigate('Exchange');
+      })
+      .catch(error => {
+        console.error(error);
+      });
   };
 
   return (
@@ -115,7 +122,7 @@ export default function NewItem({navigation}) {
       <View style={styles.content}>
         <View style={styles.header}>
           <TouchableOpacity
-            onPress={() => navigation.navigate('Exchange')} // TODO: reroute later
+            onPress={() => navigation.navigate('Exchange')}
             style={styles.iconButton}>
             <Icon name="left" size={25} color="#155e6d" />
           </TouchableOpacity>
@@ -146,18 +153,17 @@ export default function NewItem({navigation}) {
                       value={value}
                     />
                   )}
-                  name="name"
+                  name="desc"
                 />
               </View>
-              {errors.name && <Text>This is required.</Text>}
+              {errors.desc && <Text>This is required.</Text>}
               <View
                 style={{
                   flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  marginVertical: '3%',
+                  marginTop: '3%',
                 }}>
                 <Text style={styles.inputTitle}>Condition</Text>
-                <Controller //TODO swap later
+                <Controller
                   control={control}
                   rules={{
                     required: true,
@@ -183,6 +189,12 @@ export default function NewItem({navigation}) {
                   )}
                   name="condition"
                 />
+              </View>
+              {errors.condition && <Text>This is required.</Text>}
+              <View
+                style={{
+                  flexDirection: 'row',
+                }}>
                 <Text style={styles.inputTitle}>Return</Text>
                 <Controller
                   control={control}
@@ -211,7 +223,7 @@ export default function NewItem({navigation}) {
                   name="return"
                 />
               </View>
-              {(errors.condition || errors.return) && <Text>This is required.</Text>}
+              {errors.return && <Text>This is required.</Text>}
               <View style={{flexDirection: 'row'}}>
                 <Text style={styles.inputTitle}>Place of Purchase</Text>
                 <Controller
@@ -258,66 +270,30 @@ export default function NewItem({navigation}) {
                   ]}>
                   Tags
                 </Text>
-                <Text
-                  style={[
-                    styles.exception,
-                    {marginBottom: '1%', marginTop: '3%'},
-                  ]}>
-                  *Tap to remove tag
-                </Text>
+                <Text style={styles.exception}>*Tap to remove tag</Text>
               </View>
-              <Controller //component later
-                control={control}
-                rules={{
-                  required: false,
-                }}
-                render={({field: {onChange, onBlur, value}}) => (
-                  <View
-                    style={[
-                      styles.textInput,
-                      {height: '15%', borderRadius: 15, paddingHorizontal: 0, overflow: 'hidden', justifyContent: 'center'},
-                    ]}
-                    value={value}
-                  >
-                    <View style={styles.interestMap}>{interestList()}</View>
-                  </View>
-                )}
-                name="tag"
-              />
+              {loadingState === 'loaded' && (
+                <Controller
+                  name="tag"
+                  control={control}
+                  defaultValue={getTags}
+                  render={() => (
+                    <View style={styles.tagsMap}>{interestList()}</View>
+                  )}
+                />
+              )}
               <View style={{alignItems: 'center'}}>
                 <TouchableOpacity
-                  onPress={() => navigation.navigate('Tags')}
-                  style={styles.button1} // TODO: reroute later, fix dimensions?
-                >
-                  <Text style={styles.buttonText2}>Add Tags</Text>
+                  onPress={() =>
+                    navigation.navigate('Tags', {
+                      initialTags: tagsList,
+                      page: 'NewItem',
+                    })
+                  }
+                  style={styles.button1}>
+                  <Text style={styles.buttonText2}>Edit Tags</Text>
                 </TouchableOpacity>
               </View>
-              <Text
-                style={[
-                  styles.inputTitle,
-                  {marginBottom: '1%', marginTop: '3%'},
-                ]}>
-                Description
-              </Text>
-              <Controller
-                control={control}
-                rules={{
-                  required: true,
-                }}
-                render={({field: {onChange, onBlur, value}}) => (
-                  <TextInput
-                    style={[
-                      styles.textInput,
-                      {height: '20%', borderRadius: 15},
-                    ]}
-                    onBlur={onBlur}
-                    onChangeText={onChange}
-                    value={value}
-                  />
-                )}
-                name="desc"
-              />
-              {errors.desc && <Text>This is required.</Text>}
               <Text
                 style={[
                   styles.inputTitle,
@@ -340,7 +316,7 @@ export default function NewItem({navigation}) {
                       borderRadius: 15,
                       justifyContent: 'center',
                       alignItems: 'center',
-                    }} //TODO: can upload pic
+                    }}
                   >
                     {imageActive1 == false ? (
                       <Icon
@@ -373,7 +349,7 @@ export default function NewItem({navigation}) {
                       borderRadius: 15,
                       justifyContent: 'center',
                       alignItems: 'center',
-                    }} //TODO: can upload pic
+                    }}
                   >
                     {imageActive2 == false ? (
                       <Icon
@@ -404,8 +380,7 @@ export default function NewItem({navigation}) {
         <View style={styles.floatingButton}>
           <TouchableOpacity
             onPress={handleSubmit(onSubmit)}
-            style={[styles.button2, {width: '100%', height: '70%'}]} // TODO: reroute later, fix dimensions?
-          >
+            style={[styles.button2, {width: '100%', height: '70%'}]}>
             <Text style={styles.buttonText}>Done</Text>
           </TouchableOpacity>
         </View>
@@ -454,6 +429,11 @@ const styles = StyleSheet.create({
   interestMap: {
     flexDirection: 'row',
   },
+  tagsMap: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 10,
+  },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -495,8 +475,6 @@ const styles = StyleSheet.create({
     fontSize: 10,
     fontWeight: 300,
     textAlign: 'left',
-    paddingVertical: 5,
-    marginRight: '2%',
   },
   textInput: {
     borderColor: 'black',
@@ -514,6 +492,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     width: '25%',
+    flex: 1,
+    marginBottom: '3%',
   },
   picker: {
     color: '#155E6D',

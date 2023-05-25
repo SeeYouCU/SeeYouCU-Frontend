@@ -11,6 +11,7 @@ import {
 import EventCard from '../components/EventCard';
 import Icon from 'react-native-vector-icons/AntDesign';
 import NavigationFooter from '../components/NavigationFooter';
+import axios from 'axios';
 
 export default function Event({route, navigation}) {
   const {
@@ -28,6 +29,39 @@ export default function Event({route, navigation}) {
     firstName,
     LastName,
   } = route.params;
+  const [isLoaded, setIsLoaded] = React.useState('not_loaded');
+
+  const [tagsList, setTagsList] = React.useState([]);
+
+  React.useEffect(() => {
+    var sampleTag = '["sport","game"]';
+    var tagsTemp = JSON.parse(sampleTag);
+    console.log(tagsTemp);
+    setTagsList(tagsTemp);
+    setIsLoaded('loaded');
+  }, []);
+
+  const handleButtonPress = async () => {
+    console.log(typeof(id.toString()), userid);
+    await axios
+      .post('http://10.0.2.2:8080/api/join/joinEvent', {"Eid": id.toString(), "userID": userid.toString()})
+      .then(async (response) => {
+        console.log('response', response);
+        await axios
+          .post('http://10.0.2.2:8080/api/join/approveJoin', {"Eid": id.toString()})
+          .then(response => {
+            console.log('response', response);
+            navigation.navigate('Events');
+          })
+          .catch(error => {
+            console.log('error', error);
+          });
+      })
+      .catch(error => {
+        console.log('error', error);
+      });
+  };
+
   return (
     <ImageBackground
       source={require('../public/bg.png')}
@@ -35,16 +69,16 @@ export default function Event({route, navigation}) {
       <View style={styles.content}>
         <View style={styles.header}>
           <TouchableOpacity
-            onPress={() => navigation.goBack()} // TODO: reroute later
+            onPress={() => navigation.goBack()}
             style={styles.iconButton}>
             <Icon name="left" size={25} color="#155e6d" />
           </TouchableOpacity>
           <View style={styles.titleHeader}>
-            <Text style={styles.titleHeader}>{desc}</Text>
+            <Text style={styles.titleHeader}>{EName}</Text>
           </View>
           {isOwner == true ? (
             <TouchableOpacity
-              onPress={() => navigation.navigate('Home')} // TODO: reroute later
+              onPress={() => navigation.navigate('Home')}
               style={styles.iconButton}>
               <Icon name="edit" size={25} color="#155e6d" />
             </TouchableOpacity>
@@ -54,27 +88,27 @@ export default function Event({route, navigation}) {
         </View>
         <ScrollView contentContainerStyle={{flexGrow: 1, paddingBottom: 440}}>
           <View style={styles.scroll}>
-            <EventCard //TODO: detect length of padding needed?
-              src={''}
-              title={EName}
-              nickname={firstName}
-              fullname={LastName}
-              datePosted={createAt}
-              currentParticipants={1}
-              maxParticipants={maxP}
-              location={location}
-              datetime={date}
-              meetupLocation={meetUp}
-              interests={["ar"]}
-              description={desc}
-            />
+            {isLoaded == 'loaded' ? (
+              <EventCard
+                src={'https://business.twitter.com/content/dam/business-twitter/insights/may-2018/event-targeting.png.twimg.1920.png'}
+                title={EName}
+                nickname={firstName}
+                fullname={LastName}
+                datePosted={createAt}
+                maxParticipants={maxP}
+                location={location}
+                datetime={date}
+                meetupLocation={meetUp}
+                interests={tagsList}
+                description={desc}
+              />
+            ) : null}
           </View>
         </ScrollView>
         <View style={styles.floatingButton}>
           <TouchableOpacity
-            onPress={() => navigation.navigate('Events')}
-            style={[styles.button2, {width: '100%', height: '70%'}]} // TODO: reroute later, fix dimensions?
-          >
+            onPress={handleButtonPress}
+            style={[styles.button2, {width: '100%', height: '70%'}]}>
             <Text style={styles.buttonText}>Join Event</Text>
           </TouchableOpacity>
         </View>
